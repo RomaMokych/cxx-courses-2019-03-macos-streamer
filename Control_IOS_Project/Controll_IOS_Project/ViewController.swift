@@ -12,7 +12,18 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var videoView: UIView!
     
+    @IBAction func disconnect(_ sender: UIButton) {
+        //disconnect
+        print("disconnect")
+    }
     @IBOutlet weak var keyboardTest: UITextField!
+    
+    
+    var buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: 18)
+    
+    var receiver = MessageReceiver()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.isMultipleTouchEnabled = true
@@ -36,14 +47,74 @@ class ViewController: UIViewController {
         videoView.addGestureRecognizer(panThreeTouchesGestureRecognizer)
         videoView.addGestureRecognizer(leftTapGestureRecognizer)
         videoView.addGestureRecognizer(rightTapGestureRecognizer)
+        
+        
+        receiver.controller = self
+        print("call metod")
+        receiver.setupNetworkCommunication();
+        
+        videoView.isOpaque = true
+        videoView.layer.rasterizationScale = UIScreen.main.scale;
+        videoView.layer.shouldRasterize = false
     }
+    
+    func toByteArray<T>(value: T) -> [UInt8]
+    {
+        var val = value
+        return withUnsafeBytes(of: &val) {Array($0)}
+    
+    }
+    
+    func fromByteArray<T>(value: [UInt8], _: T.Type) -> T
+    {
+        return value.withUnsafeBytes { $0.baseAddress!.load(as: T.self) }
+    }
+    
     @objc func mouseMove(recognizer: UIPanGestureRecognizer){
         
         if recognizer.state == .began{
             
         } else if recognizer.state == .changed {
             let point = recognizer.translation(in: videoView)
+            
+            
+            let x : CGFloat = point.x;
+            let y : CGFloat = point.y;
+            
+            var bytesX = toByteArray(value : x)
+            var bytesY = toByteArray(value : y)
+            
+            
+            buffer[0] = 1; // Start
+            
+            buffer[1] = bytesX[0];
+            buffer[2] = bytesX[1];
+            buffer[3] = bytesX[2];
+            buffer[4] = bytesX[3];
+            
+            buffer[5] = bytesX[4];
+            buffer[6] = bytesX[5];
+            buffer[7] = bytesX[6];
+            buffer[8] = bytesX[7];
+            
+            buffer[9] =  bytesY[0];
+            buffer[10] = bytesY[1];
+            buffer[11] = bytesY[2];
+            buffer[12] = bytesY[3];
+            
+            buffer[13] = bytesY[4];
+            buffer[14] = bytesY[5];
+            buffer[15] = bytesY[6];
+            buffer[16] = bytesY[7];
+            
+            buffer[17] = 1; // End
+            
+            
+            receiver.outputStream.write(buffer, maxLength: 18)
+            
             print("Moving", point)
+            
+            
             recognizer.setTranslation(CGPoint.zero, in: videoView)
             
         } else if recognizer.state == .ended {
