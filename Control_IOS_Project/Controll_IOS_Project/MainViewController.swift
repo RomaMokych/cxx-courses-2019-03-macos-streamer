@@ -13,8 +13,14 @@ class MainViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var ipTextField: UITextField!
     @IBAction func connect(_ sender: UIButton) {
-        MessageReceiver.ip = ipTextField.text!
-        print("connect")
+        if checkIp(ip: ipTextField.text!){
+            let vc = storyboard?.instantiateViewController(withIdentifier: "viewStream")
+            self.present(vc!, animated: false, completion: nil)
+            MessageReceiver.ip = ipTextField.text!
+            print("connect")
+        } else {
+            print("connect failed, error ip")
+        }
     }
     
     override func viewDidLoad() {
@@ -30,6 +36,12 @@ class MainViewController: UIViewController, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         print(ipTextField.text)
         return true
+    }
+    func checkIp(ip : String) -> Bool{
+        let pattern = "(25[0-5]|2[0-4]\\d|1\\d{2}|\\d{1,2})\\.(25[0-5]|2[0-4]\\d|1\\d{2}|\\d{1,2})\\.(25[0-5]|2[0-4]\\d|1\\d{2}|\\d{1,2})\\.(25[0-5]|2[0-4]\\d|1\\d{2}|\\d{1,2})"
+        let regexText = NSPredicate(format: "SELF MATCHES %@", pattern)
+        let result = regexText.evaluate(with: ip)
+        return result
     }
     /*
     // MARK: - Navigation

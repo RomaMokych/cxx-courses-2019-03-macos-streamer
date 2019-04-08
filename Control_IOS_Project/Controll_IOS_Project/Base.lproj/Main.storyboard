@@ -13,7 +13,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Controll_IOS_Project" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="viewStream" id="BYZ-38-t0r" customClass="ViewController" customModule="Controll_IOS_Project" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -68,7 +68,6 @@
                                 <state key="normal" title="Connect"/>
                                 <connections>
                                     <action selector="connect:" destination="RG4-4q-vzq" eventType="touchUpInside" id="bxJ-it-Xes"/>
-                                    <segue destination="BYZ-38-t0r" kind="presentation" modalTransitionStyle="crossDissolve" id="4sn-y8-4T2"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter MacOS ip" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bvg-Jx-FHY">
@@ -87,7 +86,7 @@
                         <viewLayoutGuide key="safeArea" id="W4a-tu-PgT"/>
                     </view>
                     <connections>
-                        <outlet property="ipTextField" destination="bvg-Jx-FHY" id="92N-O5-uX9"/>
+                        <outlet property="ipTextField" destination="bvg-Jx-FHY" id="k2I-9W-nbg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Byr-Mi-8JC" userLabel="First Responder" sceneMemberID="firstResponder"/>
