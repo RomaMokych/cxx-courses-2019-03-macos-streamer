@@ -8,7 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		22ED7F79224F89DA0002A38A /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 22ED7F78224F89DA0002A38A /* main.cpp */; };
-		22ED7F81224F8A050002A38A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22ED7F80224F8A050002A38A /* CoreGraphics.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+		22EF4816225C0163009AC0D5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22ED7F80224F8A050002A38A /* CoreGraphics.framework */; };
+		22EF4818225C0181009AC0D5 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22EF4817225C0181009AC0D5 /* CoreFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -27,6 +28,7 @@
 		22ED7F75224F89DA0002A38A /* MacOSControllOnC++ */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "MacOSControllOnC++"; sourceTree = BUILT_PRODUCTS_DIR; };
 		22ED7F78224F89DA0002A38A /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		22ED7F80224F8A050002A38A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		22EF4817225C0181009AC0D5 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,7 +36,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				22ED7F81224F8A050002A38A /* CoreGraphics.framework in Frameworks */,
+				22EF4818225C0181009AC0D5 /* CoreFoundation.framework in Frameworks */,
+				22EF4816225C0163009AC0D5 /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -69,6 +72,7 @@
 		22ED7F7F224F8A040002A38A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				22EF4817225C0181009AC0D5 /* CoreFoundation.framework */,
 				22ED7F80224F8A050002A38A /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
