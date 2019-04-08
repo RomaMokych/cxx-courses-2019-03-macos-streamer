@@ -8,15 +8,17 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
 
+    @IBOutlet weak var keyboardStreamTextField: UITextField!
+    
     @IBOutlet weak var videoView: UIView!
     
     @IBAction func disconnect(_ sender: UIButton) {
         //disconnect
         print("disconnect")
     }
-    @IBOutlet weak var keyboardTest: UITextField!
+    
     
     
     var buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: 18)
@@ -26,8 +28,10 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.isMultipleTouchEnabled = true
+        keyboardStreamTextField.delegate = self
         
+        self.view.isMultipleTouchEnabled = true
+        //Gesture Recognizer
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(mouseMove))
         let panTwoTouchesGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(mouseDownMove))
         panTwoTouchesGestureRecognizer.minimumNumberOfTouches = 2
@@ -39,9 +43,6 @@ class ViewController: UIViewController {
         let rightTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(rightTap))
         rightTapGestureRecognizer.numberOfTouchesRequired = 2
         
-        
-        
-        
         videoView.addGestureRecognizer(panGestureRecognizer)
         videoView.addGestureRecognizer(panTwoTouchesGestureRecognizer)
         videoView.addGestureRecognizer(panThreeTouchesGestureRecognizer)
@@ -50,7 +51,6 @@ class ViewController: UIViewController {
         
         
         receiver.controller = self
-        print("call metod")
         receiver.setupNetworkCommunication();
         
         videoView.isOpaque = true
@@ -125,15 +125,15 @@ class ViewController: UIViewController {
     @objc func mouseDownMove(recognizer: UIPanGestureRecognizer){
         
         if recognizer.state == .began{
-            print("mouse down")
+            print("mouse down")//transfer to server
             
         } else if recognizer.state == .changed {
-            let point = recognizer.translation(in: videoView)
+            let point = recognizer.translation(in: videoView)//transfer to server
             print("Moving and mouse down", point)
             recognizer.setTranslation(CGPoint.zero, in: videoView)
             
         } else if recognizer.state == .ended {
-           print("Mouse up")
+           print("Mouse up")//transfer to server
         }
         
     }
@@ -153,7 +153,7 @@ class ViewController: UIViewController {
         if recognizer.state == .began{
             
         } else if recognizer.state == .changed {
-            let point = recognizer.translation(in: videoView)
+            let point = recognizer.translation(in: videoView) //transfer to server
             if point.y > 0{
                 print("scrollDown", point.y)
             } else if point.y < 0 {
@@ -165,6 +165,11 @@ class ViewController: UIViewController {
             
         }
         
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        print(keyboardStreamTextField.text!)    //transfer to server
+        keyboardStreamTextField.text = ""       //clear text
+        return true
     }
 }
 
