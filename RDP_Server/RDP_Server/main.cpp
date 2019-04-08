@@ -4,16 +4,13 @@
 #include "ClientHandler.hpp"
 #include "ClientManager.hpp"
 
-// This example is full of bugs because of multitheading that I'm handling, but this example clearly shows
-// that using SocketAcceptor with SocketReactor allows to connect many clients as well as only one client!
 int main()
 {
-    do {
+   do {
+
+        // Client manager accepts only one client by default, but you can pass max number of the clients to the constructor
         SocketAddress serverAddress("localhost", 9999);
-        ClientManager manager(serverAddress);
-        
-        // 'ClientManger' accepts more that one client by default,
-        // but just change one line of code in the 'ClientHandler' to allow to only one client to be accepted
+        ClientManager manager(serverAddress, 100);
         
         StreamSocket client, client2, client3;
         
@@ -21,25 +18,21 @@ int main()
         client2.connect(serverAddress);
         client3.connect(serverAddress);
         
-        for(int i =0;i<5;++i){
-            usleep(1'000'000); // Without sleep server receives 8 bytes, which is so strange... Need to be fixed
+        for(int i = 0; i < 2; ++i){
+            sleep(1); // Without sleep server receives 8 bytes, which is so strange... Need to be fixed
             
-            // Poco's sendBytes(...) guarantees that we'll send as many bytes as we want to be sent
-            int s = client.sendBytes("Yay!", 5);
-            assert(s == 5);
+            client.sendBytes("First!", 7);
             
-            // They won't send anything if server accepts only one client.
-            // Otherwise, everyone will be served
+            // They won't send anything if server accepts only one client. Otherwise, everyone will be served
             try {
-                client2.sendBytes("Hello!", 7);
-                client3.sendBytes("LOL!", 5);
+                client2.sendBytes("Second!", 8);
+                client3.sendBytes("Third!", 7);
             }
             catch (...) { }
         }
-        
-        sleep(2);
-        cout << "[Main program] Cycle is done\n\n\n";
-        
+        cout << "[Main program] Cycle is done\n";
+       
+        sleep(1);
     } while (true);
     
     return 0;

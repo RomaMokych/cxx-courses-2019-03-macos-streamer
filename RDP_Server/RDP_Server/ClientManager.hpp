@@ -13,19 +13,21 @@
 #include "NetworkHeaders.h"
 
 #include "ClientHandler.hpp"
+#include "ClientAcceptor.hpp"
 
 class ClientManager
 {
 public:
     
-    ClientManager(const SocketAddress& serverAddress);
+    ClientManager(const SocketAddress& serverAddress, size_t maxConnections);
     ~ClientManager();
     
 private :
     ServerSocket server;
     SocketReactor reactor;
-    SocketAcceptor<ClientHandler>* acceptor;
+    ClientAcceptor* acceptor;
     
     Thread serverThread;
+
 };
 #endif /* ClientManager_hpp */

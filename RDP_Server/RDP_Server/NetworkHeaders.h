@@ -1,11 +1,3 @@
-//
-//  NetworkHeaders.h
-//  RDP_Server
-//
-//  Created by Nikita on 4/7/19.
-//  Copyright © 2019 Nikita_Dik. All rights reserved.
-//
-
 #ifndef NetworkHeaders_h
 #define NetworkHeaders_h
 

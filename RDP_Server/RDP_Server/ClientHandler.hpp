@@ -1,15 +1,15 @@
-#include "RegularHeaders.h"
-#include "NetworkHeaders.h"
-
-
 #ifndef ClientHandler_hpp
 #define ClientHandler_hpp
+
+#include "RegularHeaders.h"
+#include "NetworkHeaders.h"
+#include "Poco/NotificationCenter.h"
 
 // Server-side handler
 class ClientHandler {
     
 public:
-    ClientHandler(StreamSocket& ClientSocket, SocketReactor& Reactor);
+    ClientHandler(StreamSocket& ClientSocket, SocketReactor& Reactor, std::atomic<size_t>* clientsCount = nullptr);
     ~ClientHandler();
     
     // Stop receiving anything
@@ -24,8 +24,9 @@ private:
     StreamSocket    socket;
     SocketReactor&  reactor;
     
-    bool done, destroyed;
-    static bool hasConnection;
+    std::atomic<size_t>* clients_count;
+    bool onReadableDone;
+    atomic<bool> destructing;
 };
 
 #endif /* ClientHandler_hpp */

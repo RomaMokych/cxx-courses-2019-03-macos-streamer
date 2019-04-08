@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1181DB4C225AA183003A08DD /* ClientAcceptor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1181DB4A225AA183003A08DD /* ClientAcceptor.cpp */; };
 		11A077B022595F3F000AE910 /* ClientManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 11A077AE22595F3F000AE910 /* ClientManager.cpp */; };
 		4E8C40BD2257763A00F96138 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E8C40BC2257763A00F96138 /* main.cpp */; };
 		4E8C40C5225777FA00F96138 /* ClientHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E8C40C3225777FA00F96138 /* ClientHandler.cpp */; };
@@ -26,6 +27,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1181DB4A225AA183003A08DD /* ClientAcceptor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ClientAcceptor.cpp; sourceTree = "<group>"; };
+		1181DB4B225AA183003A08DD /* ClientAcceptor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ClientAcceptor.hpp; sourceTree = "<group>"; };
 		11A077AC22595DA0000AE910 /* NetworkHeaders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkHeaders.h; sourceTree = "<group>"; };
 		11A077AD22595E10000AE910 /* RegularHeaders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RegularHeaders.h; sourceTree = "<group>"; };
 		11A077AE22595F3F000AE910 /* ClientManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ClientManager.cpp; sourceTree = "<group>"; };
@@ -77,6 +80,8 @@
 				11A077AD22595E10000AE910 /* RegularHeaders.h */,
 				11A077AE22595F3F000AE910 /* ClientManager.cpp */,
 				11A077AF22595F3F000AE910 /* ClientManager.hpp */,
+				1181DB4A225AA183003A08DD /* ClientAcceptor.cpp */,
+				1181DB4B225AA183003A08DD /* ClientAcceptor.hpp */,
 			);
 			path = RDP_Server;
 			sourceTree = "<group>";
@@ -139,6 +144,7 @@
 			files = (
 				11A077B022595F3F000AE910 /* ClientManager.cpp in Sources */,
 				4E8C40BD2257763A00F96138 /* main.cpp in Sources */,
+				1181DB4C225AA183003A08DD /* ClientAcceptor.cpp in Sources */,
 				4E8C40C5225777FA00F96138 /* ClientHandler.cpp in Sources */,
 				4E8C40C82257797000F96138 /* InputManager.cpp in Sources */,
 			);

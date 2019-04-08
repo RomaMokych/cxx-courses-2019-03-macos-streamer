@@ -1,41 +1,31 @@
 #include "ClientHandler.hpp"
+#include <atomic>
 
-// Temporary issue : it's static var, so we can't run more than one server at the same time
-bool ClientHandler::hasConnection = false;
+ClientHandler::ClientHandler(StreamSocket& ClientSocket, SocketReactor& Reactor,  std::atomic<size_t>* clientsCount) :
+                                                                                    socket(ClientSocket),
+                                                                                    reactor(Reactor),
 
-ClientHandler::ClientHandler(StreamSocket& ClientSocket, SocketReactor& Reactor) :
-                                                            socket(ClientSocket),
-                                                            reactor(Reactor),
-                                                            done(true), destroyed(false)
+                                                                                    clients_count(clientsCount),
+                                                                                    onReadableDone(true),
+                                                                                    destructing(false)
 {
-    if (hasConnection) {
-        cout << "[ClientHandler] There is only 1 connection's possible. Server's in development. Client has been kicked!\n";
-        
-        if (destroyed)    // NOTE: TEMPORARY!
-            return;
-        
-        destroyed = true; // NOTE: TEMPORARY!
-        delete this;
-        return;
-    }
+    
     cout << "[ClientHandler] The client has been accepted successfully!\n";
     
-    //------ UNCOMMENT THIS TO BE ABLE TO ACCEPT ONLY ONE CLIENT ------
-    //hasConnection = true;
-    //-------------------------------------------------------------------
-    
     reactor.addEventHandler(socket, Observer<ClientHandler, ReadableNotification>(*this, &ClientHandler::onReadable));
-    
-    // When SocketReactor finishes. Not implemented well yet, hangs.
-    // reactor.addEventHandler(socket, Observer<ClientHandler, ShutdownNotification>(*this, &ClientHandler::onShutdown));
+    reactor.addEventHandler(socket, Observer<ClientHandler, ShutdownNotification>(*this, &ClientHandler::onShutdown));
 }
 
 void ClientHandler::onReadable(ReadableNotification* pNf) {
     
     pNf->release();
-    done = false;
     
-    cout << "\n[ClientHandler] Reading client's data...\n";
+    if(destructing.load())
+        return;
+    
+    onReadableDone = false;
+    
+    cout << "[ClientHandler] Reading client's data...\n";
     
     char buffer[8];
     
@@ -47,49 +37,36 @@ void ClientHandler::onReadable(ReadableNotification* pNf) {
     }
     else
     {
-        done = true;
+        onReadableDone = true;
         cout << "[ClientHandler] Client isn't connected anymore. Drop the connection\n";
         Destruct();
         
-        if (destroyed) // NOTE: TEMPORARY!
-            return;
-        
-        // else
-        destroyed = true; // NOTE: TEMPORARY!
-        delete this;
-        return;
-        
     }
     
-    done = true;
+    onReadableDone = true;
 }
 
-// Possible hang somewhere
 void ClientHandler::onShutdown(ShutdownNotification* pNf)
 {
-    if (destroyed) // NOTE: TEMPORARY!
-        return;
-    
-    destroyed = true;
+    pNf->release();
     Destruct();
-    cout << "onShutdown()\n";
-    delete this;
 }
 
 void ClientHandler::Destruct()
 {
-    if(destroyed) // NOTE: TEMPORARY!
+    if(destructing.exchange(true)) // Attempt to enter more than once will be denied
         return;
-
-    reactor.removeEventHandler( socket, Observer<ClientHandler, ReadableNotification>(*this, &ClientHandler::onReadable));
     
-    while (!done); // Waiting for onReadable to be done
+    reactor.removeEventHandler(socket, Observer<ClientHandler, ReadableNotification>(*this, &ClientHandler::onReadable));
+    reactor.removeEventHandler(socket, Observer<ClientHandler, ShutdownNotification>(*this, &ClientHandler::onShutdown));
     
-    hasConnection = false;
-    cout << "[ClientHandler] Connection has been closed\n";
+    while (!onReadableDone); // Waiting for onReadable to be onReadableDone
+    
+    delete this;
 }
 
-ClientHandler::~ClientHandler() {
-    while (!done); // Waiting for onReadable to be done
-    cout << "[ClientHandler] Handler is deleted!\n";
+ClientHandler::~ClientHandler()
+{
+    --*clients_count;
+    cout << "[ClientHandler] Handler has been deleted! Left :" << *clients_count << "\n";
 }

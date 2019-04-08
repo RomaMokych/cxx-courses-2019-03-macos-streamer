@@ -8,15 +8,16 @@
 
 #include "ClientManager.hpp"
 
-ClientManager::ClientManager(const SocketAddress& serverAddress)
+
+ClientManager::ClientManager(const SocketAddress& serverAddress, size_t maxConnections = 1)
 {
     server.bind(serverAddress);
     server.listen(1); // Seems like a socket ignores my option and accepts more than one client
     
-    acceptor = new SocketAcceptor<ClientHandler>(server, reactor);
+    acceptor = new ClientAcceptor(server, reactor, maxConnections);
     
     // Start the SocketReactor in another thread.
-    // Reactor will notify SocketAcceptor when ServerSocket is ready to accept a new client
+    // Reactor will notify ClientAcceptor when ServerSocket is ready to accept a new client
     serverThread.start(reactor);
 }
 
