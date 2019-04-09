@@ -13,13 +13,12 @@
 #include <CoreFoundation/CoreFoundation.h>
 
 
-void keyTab (int key, bool shift = false){
+void keyTab (int key, CGEventFlags flag = 0){
     //Create event
     CGEventRef keyDown = CGEventCreateKeyboardEvent(NULL, CGKeyCode(key), true);
     CGEventRef keyUp = CGEventCreateKeyboardEvent(NULL, CGKeyCode(key), false);
     //Event modification
-    if(shift)
-        CGEventSetFlags(keyDown, kCGEventFlagMaskShift);
+    CGEventSetFlags(keyDown, flag);
     //Release event
     CGEventPost(kCGHIDEventTap, keyDown);
     CGEventPost(kCGHIDEventTap, keyUp);
@@ -64,34 +63,51 @@ void mouseTab (CGMouseButton mouseEvent){
     CFRelease(mouseDown);
 }
 void keyboardString(std::string str){
-    //map(letter,(vireual key, shift modification))
-    const std::map<char,std::pair<int,bool>> convertData =
+    //map(letter,(vireual key, modification))
+    const std::map<char,std::pair<int, CGEventFlags>> convertData =
     {
-        {'q',{12,false}}, {'w',{13,false}}, {'e',{14,false}}, {'r',{15,false}}, {'t',{17,false}},
-        {'y',{16,false}}, {'u',{32,false}}, {'i',{34,false}}, {'o',{31,false}}, {'p',{35,false}},
-        {'a',{0,false}}, {'s',{1,false}}, {'d',{2,false}}, {'f',{3,false}}, {'g',{5,false}},
-        {'h',{4,false}}, {'j',{38,false}}, {'k',{40,false}}, {'l',{37,false}},{'z',{6,false}},
-        {'x',{7,false}}, {'c',{8,false}}, {'v',{9,false}}, {'b',{11,false}}, {'n',{45,false}},{'m',{46,false}},
-        {'Q',{12,true}}, {'W',{13,true}}, {'E',{14,true}}, {'R',{15,true}}, {'T',{17,true}},
-        {'Y',{16,true}}, {'U',{32,true}}, {'I',{34,true}}, {'O',{31,true}}, {'P',{35,true}},
-        {'A',{0,true}}, {'S',{1,true}}, {'D',{2,true}}, {'F',{3,true}}, {'G',{5,true}},
-        {'H',{4,true}}, {'J',{38,true}}, {'K',{40,true}}, {'L',{37,true}},{'Z',{6,true}},
-        {'X',{7,true}}, {'C',{8,true}}, {'V',{9,true}}, {'B',{11,true}}, {'N',{45,true}},{'M',{46,true}},
-         {'1',{18,false}}, {'2',{19,false}}, {'3',{20,false}}, {'4',{21,false}}, {'5',{23,false}},
-        {'6',{22,false}}, {'7',{26,false}}, {'8',{28,false}}, {'9',{25,false}}, {'0',{29,false}},
-        {'-',{27,false}}, {'/',{44,false}}, {':',{41,true}}, {';',{41,false}}, {'(',{25,true}},
-        {')',{29,true}}, {'$',{21,true}}, {' ',{49,false}}, {'&',{26,true}}, {'@',{19,true}},
-        {'"',{39,true}}, {'.',{47,false}}, {',',{43,false}}, {'?',{44,true}}, {'!',{18,true}},
-        {'\'',{39,false}}, {'[',{33,false}}, {']',{30,false}}, {'{',{33,true}}, {'}',{30,true}},
-        {'#',{20,true}}, {'%',{23,true}}, {'^',{22,true}}, {'*',{28,true}}, {'+',{24,true}},
-        {'=',{24,false}}, {'_',{27,true}}, {'\\',{42,false}}, {'~',{50,true}}, {'<',{43,true}},
-        {'>',{47,true}},
+        {'q',{12,0}}, {'w',{13,0}}, {'e',{14,0}}, {'r',{15,0}}, {'t',{17,0}},
+        {'y',{16,0}}, {'u',{32,0}}, {'i',{34,0}}, {'o',{31,0}}, {'p',{35,0}},
+        {'a',{0,0}},  {'s',{1,0}},  {'d',{2,0}},  {'f',{3,0}},  {'g',{5,0}},
+        {'h',{4,0}},  {'j',{38,0}}, {'k',{40,0}}, {'l',{37,0}}, {'z',{6,0}},
+        {'x',{7,0}},  {'c',{8,0}},  {'v',{9,0}},  {'b',{11,0}}, {'n',{45,0}},
+        {'m',{46,0}}, {'1',{18,0}}, {'2',{19,0}}, {'3',{20,0}}, {'4',{21,0}},
+        {'5',{23,0}}, {'6',{22,0}}, {'7',{26,0}}, {'8',{28,0}}, {'9',{25,0}},
+        {'0',{29,0}}, {'-',{27,0}}, {'/',{44,0}}, {';',{41,0}}, {' ',{49,0}},
+        {'.',{47,0}}, {',',{43,0}}, {'\'',{39,0}},{'[',{33,0}}, {']',{30,0}},
+        {'=',{24,0}}, {'\\',{42,0}},
+        {'Q',{12,kCGEventFlagMaskShift}}, {'W',{13,kCGEventFlagMaskShift}},
+        {'E',{14,kCGEventFlagMaskShift}}, {'R',{15,kCGEventFlagMaskShift}},
+        {'T',{17,kCGEventFlagMaskShift}}, {'Y',{16,kCGEventFlagMaskShift}},
+        {'U',{32,kCGEventFlagMaskShift}}, {'I',{34,kCGEventFlagMaskShift}},
+        {'O',{31,kCGEventFlagMaskShift}}, {'P',{35,kCGEventFlagMaskShift}},
+        {'A',{0,kCGEventFlagMaskShift}},  {'S',{1,kCGEventFlagMaskShift}},
+        {'D',{2,kCGEventFlagMaskShift}},  {'F',{3,kCGEventFlagMaskShift}},
+        {'G',{5,kCGEventFlagMaskShift}},  {'H',{4,kCGEventFlagMaskShift}},
+        {'J',{38,kCGEventFlagMaskShift}}, {'K',{40,kCGEventFlagMaskShift}},
+        {'L',{37,kCGEventFlagMaskShift}}, {'Z',{6,kCGEventFlagMaskShift}},
+        {'X',{7,kCGEventFlagMaskShift}},  {'C',{8,kCGEventFlagMaskShift}},
+        {'V',{9,kCGEventFlagMaskShift}},  {'B',{11,kCGEventFlagMaskShift}},
+        {'N',{45,kCGEventFlagMaskShift}}, {'M',{46,kCGEventFlagMaskShift}},
+        {':',{41,kCGEventFlagMaskShift}}, {'(',{25,kCGEventFlagMaskShift}},
+        {')',{29,kCGEventFlagMaskShift}}, {'$',{21,kCGEventFlagMaskShift}},
+        {'&',{26,kCGEventFlagMaskShift}}, {'@',{19,kCGEventFlagMaskShift}},
+        {'"',{39,kCGEventFlagMaskShift}}, {'?',{44,kCGEventFlagMaskShift}},
+        {'!',{18,kCGEventFlagMaskShift}}, {'{',{33,kCGEventFlagMaskShift}},
+        {'}',{30,kCGEventFlagMaskShift}}, {'#',{20,kCGEventFlagMaskShift}},
+        {'%',{23,kCGEventFlagMaskShift}}, {'^',{22,kCGEventFlagMaskShift}},
+        {'*',{28,kCGEventFlagMaskShift}}, {'+',{24,kCGEventFlagMaskShift}},
+        {'_',{27,kCGEventFlagMaskShift}}, {'~',{50,kCGEventFlagMaskShift}},
+        {'<',{43,kCGEventFlagMaskShift}}, {'>',{47,kCGEventFlagMaskShift}},
+        {'\¥',{16,kCGEventFlagMaskAlternate}}, {'\£',{20,kCGEventFlagMaskAlternate}},
+        {'\€',{19,(kCGEventFlagMaskAlternate | kCGEventFlagMaskShift)}}
     };
     
     for(auto i : str){
         auto iter = convertData.find(i);
         keyTab(iter->second.first, iter->second.second);
     }
+    keyTab(36);
 }
 void scrollMove(int wheel){
     //Create event
@@ -112,6 +128,7 @@ void scrollMove(int wheel){
 }
 
 int main(int argc, const char * argv[]) {
+
     bool work(true);
     std::cout << "Hello\n";
     while(work){
@@ -144,12 +161,10 @@ int main(int argc, const char * argv[]) {
                 }
                 break;
             case 2:{
-                const int google[6] = {5,31,31,5,37,14};
+                const std::string str = "Hello @$€";
                 sleep(4);
             
-                for(int i : google){
-                    keyTab(i);
-                }
+                keyboardString(str);
                 break;
             }
             case 3:{
