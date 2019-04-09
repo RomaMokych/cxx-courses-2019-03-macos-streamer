@@ -23,7 +23,9 @@ void keyTab (int key, bool shift = false){
     //Release event
     CGEventPost(kCGHIDEventTap, keyDown);
     CGEventPost(kCGHIDEventTap, keyUp);
-    
+    //Free event
+    CFRelease(keyDown);
+    CFRelease(keyUp);
 }
 void mouseTab (CGMouseButton mouseEvent){
     //Create type event
@@ -50,11 +52,16 @@ void mouseTab (CGMouseButton mouseEvent){
     //get mouse location
     CGEventRef event = CGEventCreate(NULL);
     CGPoint point = CGEventGetLocation(event);
+    //Free event
+    CFRelease(event);
     //Create mouse event
     auto mouseDown = CGEventCreateMouseEvent(NULL, mouseTypeDown, point, mouseEvent);
     auto mouseUp = CGEventCreateMouseEvent(NULL, mouseTypeUp, point, mouseEvent);
     CGEventPost(kCGHIDEventTap, mouseDown);
     CGEventPost(kCGHIDEventTap, mouseUp);
+    //Free event
+    CFRelease(mouseUp);
+    CFRelease(mouseDown);
 }
 void keyboardString(std::string str){
     //map(letter,(vireual key, shift modification))
@@ -86,6 +93,23 @@ void keyboardString(std::string str){
         keyTab(iter->second.first, iter->second.second);
     }
 }
+void scrollMove(int wheel){
+    //Create event
+    CGEventRef scrollEvent;
+    if(wheel < -5 || 5 < wheel){
+        int quantity = abs(wheel / 5);
+        scrollEvent = CGEventCreateScrollWheelEvent(NULL, kCGScrollEventUnitPixel, 1, 5);
+        for(int i(0); i < quantity; ++i)
+            //Release event
+            CGEventPost(kCGHIDEventTap, scrollEvent);
+    } else {
+        scrollEvent = CGEventCreateScrollWheelEvent(NULL, kCGScrollEventUnitPixel, 1, wheel);
+        //Release event
+        CGEventPost(kCGHIDEventTap, scrollEvent);
+    }
+    //Free event
+    CFRelease(scrollEvent);
+}
 
 int main(int argc, const char * argv[]) {
     bool work(true);
@@ -93,10 +117,11 @@ int main(int argc, const char * argv[]) {
     while(work){
         std::cout << "Enter 1 for test mouse\n" <<
         "Enter 2 for test keyboard (need open text field)\n" <<
-        "Enter 3 for test exit\n";
-        unsigned short testId;
+        "Enter 3 for test exit\n" <<
+        "Enter 4 for test scroll\n";
+        short testId;
         std::cin >> testId;
-        if(testId > 3){
+        if(testId > 4 || testId < 1){
             std::cout << "error input";
             continue;
         }
@@ -130,6 +155,10 @@ int main(int argc, const char * argv[]) {
             case 3:{
                 work = false;
                 break;
+            }
+            case 4:{
+                mouseTab(kCGMouseButtonLeft);
+                scrollMove(100);
             }
                 
             default:
