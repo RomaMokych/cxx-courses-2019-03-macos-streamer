@@ -9,10 +9,19 @@
 import UIKit
 
 class ViewController: UIViewController, UITextFieldDelegate {
-
-    @IBOutlet weak var keyboardStreamTextField: UITextField!
-    @IBOutlet weak var videoView: UIView!
     
+    @IBOutlet weak var videoView: UIView!
+    //hide textField
+    @IBOutlet weak var keyboardStreamTextField: UITextField!
+    
+    //off and on keyboard
+    @IBAction func keyboardUpDown(_ sender: UIButton) {
+        if keyboardStreamTextField.isFirstResponder{
+            keyboardStreamTextField.resignFirstResponder()
+        } else {
+            keyboardStreamTextField.becomeFirstResponder()
+        }
+    }
     @IBAction func disconnect(_ sender: UIButton) {
         //disconnect
         print("disconnect")
@@ -27,13 +36,15 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //delegate
         keyboardStreamTextField.delegate = self
+        keyboardStreamTextField.addTarget(self,action:#selector(textFieldChangeStream(_ :)), for: .allEditingEvents)
+        
         self.view.isMultipleTouchEnabled = true
         
         //Listen keyboards events
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardChange(notification:)), name: UIResponder.keyboardWillShowNotification , object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardChange(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardChange(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         
         //Create Gesture Recognizer
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(mouseMove))
@@ -60,6 +71,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
         videoView.isOpaque = true
         videoView.layer.rasterizationScale = UIScreen.main.scale;
         videoView.layer.shouldRasterize = false
+        
+    
     }
     
     func toByteArray<T>(value: T) -> [UInt8]
@@ -73,7 +86,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     {
         return value.withUnsafeBytes { $0.baseAddress!.load(as: T.self) }
     }
-    
+    //Mark: - Gesture Recognizer
     @objc func mouseMove(recognizer: UIPanGestureRecognizer){
         
         if recognizer.state == .began{
@@ -170,25 +183,39 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
         
     }
+    //Mark: - Text Field
+    @objc func textFieldChangeStream(_ textField: UITextField){
+        if !(textField.text!.isEmpty){
+            print(textField.text!)              //transfer to server
+            textField.text = ""                 //clear text
+        }
+    }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        print(keyboardStreamTextField.text!)    //transfer to server
-        keyboardStreamTextField.text = ""       //clear text
+        print(textField.text!)                  //code command 36 transfer to server
+        textField.text = ""                     //clear text
         textField.resignFirstResponder()        //remove focus keyboard
+        return false
+    }
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        print("transfer to server code code 51") //code command 51 transfer to server
         return true
     }
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true) //remove focus keyboard
-    }
+    
+    //Mark: - Notification
     //Change frame view when call keyboard
     @objc func keyboardChange(notification: Notification){
-        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue
+        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
         else { return }
-        if notification.name == UIResponder.keyboardWillShowNotification ||
-            notification.name == UIResponder.keyboardWillChangeFrameNotification{
+        if notification.name == UIResponder.keyboardWillShowNotification{
             view.frame.origin.y = -keyboardSize.height
-        } else {
+        } else if notification.name == UIResponder.keyboardWillHideNotification{
             view.frame.origin.y = 0
         }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(UIResponder.keyboardWillShowNotification)
+        NotificationCenter.default.removeObserver(UIResponder.keyboardWillHideNotification)
     }
 }
 
