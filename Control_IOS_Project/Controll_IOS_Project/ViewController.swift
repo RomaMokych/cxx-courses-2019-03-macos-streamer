@@ -11,7 +11,6 @@ import UIKit
 class ViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var keyboardStreamTextField: UITextField!
-    
     @IBOutlet weak var videoView: UIView!
     
     @IBAction func disconnect(_ sender: UIButton) {
@@ -31,7 +30,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         keyboardStreamTextField.delegate = self
         
         self.view.isMultipleTouchEnabled = true
-        //Gesture Recognizer
+        //Create Gesture Recognizer
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(mouseMove))
         let panTwoTouchesGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(mouseDownMove))
         panTwoTouchesGestureRecognizer.minimumNumberOfTouches = 2
@@ -42,7 +41,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let leftTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(leftTap))
         let rightTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(rightTap))
         rightTapGestureRecognizer.numberOfTouchesRequired = 2
-        
+        //add Gesture Recognizer
         videoView.addGestureRecognizer(panGestureRecognizer)
         videoView.addGestureRecognizer(panTwoTouchesGestureRecognizer)
         videoView.addGestureRecognizer(panThreeTouchesGestureRecognizer)
@@ -139,7 +138,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
     }
     @objc func leftTap(recognizer: UITapGestureRecognizer){
- 
         if recognizer.state == .ended {
         print("just left tap",recognizer.location(in: videoView))
         }
@@ -170,7 +168,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         print(keyboardStreamTextField.text!)    //transfer to server
         keyboardStreamTextField.text = ""       //clear text
+        textField.resignFirstResponder()        //remove focus keyboard
         return true
+    }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true) //remove focus keyboard
     }
 }
 

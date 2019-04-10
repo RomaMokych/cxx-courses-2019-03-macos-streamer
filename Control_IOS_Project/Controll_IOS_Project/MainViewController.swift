@@ -37,8 +37,11 @@ class MainViewController: UIViewController, UITextFieldDelegate {
         
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        print(ipTextField.text)
+        self.view.endEditing(true)   //remove focus keyboard
         return true
+    }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)   //remove focus keyboard
     }
     func checkIp(ip : String) -> Bool{
         let pattern = "(25[0-5]|2[0-4]\\d|1\\d{2}|\\d{1,2})\\.(25[0-5]|2[0-4]\\d|1\\d{2}|\\d{1,2})\\.(25[0-5]|2[0-4]\\d|1\\d{2}|\\d{1,2})\\.(25[0-5]|2[0-4]\\d|1\\d{2}|\\d{1,2})"
