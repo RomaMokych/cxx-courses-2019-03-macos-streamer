@@ -11,6 +11,7 @@ import UIKit
 class MainViewController: UIViewController, UITextFieldDelegate {
 
     
+    @IBOutlet weak var systemAlert: UITextView!
     @IBOutlet weak var ipTextField: UITextField!
     @IBAction func connect(_ sender: UIButton) {
         if checkIp(ip: ipTextField.text!){
@@ -19,6 +20,8 @@ class MainViewController: UIViewController, UITextFieldDelegate {
             MessageReceiver.ip = ipTextField.text!
             print("connect")
         } else {
+            systemAlert.textColor = UIColor.red
+            systemAlert.text = "Wrong ip"
             print("connect failed, error ip")
         }
     }

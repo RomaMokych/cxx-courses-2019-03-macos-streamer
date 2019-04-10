@@ -75,7 +75,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         if recognizer.state == .began{
             
         } else if recognizer.state == .changed {
-            let point = recognizer.translation(in: videoView)
+            var point = recognizer.translation(in: videoView)
             
             
             let x : CGFloat = point.x;
@@ -111,7 +111,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
             
             
             receiver.outputStream.write(buffer, maxLength: 18)
-            
+            point.x = pow(point.x, 2)*0.25
+            point.y = pow(point.y, 2)*0.25
             print("Moving", point)
             
             
