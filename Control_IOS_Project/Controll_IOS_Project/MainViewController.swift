@@ -30,7 +30,9 @@ class MainViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         ipTextField.delegate = self
         
-        // Do any additional setup after loading the view.
+        //Listen keyboards events
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardChange(notification:)), name: UIResponder.keyboardWillShowNotification , object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardChange(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     @objc func textFieldMy(nc : NSNotification){
@@ -49,14 +51,22 @@ class MainViewController: UIViewController, UITextFieldDelegate {
         let result = regexText.evaluate(with: ip)
         return result
     }
-    /*
-    // MARK: - Navigation
     
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    //Mark: - Notification
+    //Change frame view when call keyboard
+    @objc func keyboardChange(notification: Notification){
+        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+            else { return }
+        if notification.name == UIResponder.keyboardWillShowNotification{
+            view.frame.origin.y = -keyboardSize.height
+        } else if notification.name == UIResponder.keyboardWillHideNotification{
+            view.frame.origin.y = 0
+        }
     }
-    */
+ 
+    deinit {
+        NotificationCenter.default.removeObserver(UIResponder.keyboardWillShowNotification)
+        NotificationCenter.default.removeObserver(UIResponder.keyboardWillHideNotification)
+    }
 
 }
