@@ -35,9 +35,6 @@ class MainViewController: UIViewController, UITextFieldDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardChange(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    @objc func textFieldMy(nc : NSNotification){
-        
-    }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)   //remove focus keyboard
         return true

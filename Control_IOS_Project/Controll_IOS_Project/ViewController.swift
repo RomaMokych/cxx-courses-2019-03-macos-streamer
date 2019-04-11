@@ -13,7 +13,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var videoView: UIView!
     //hide textField
     @IBOutlet weak var keyboardStreamTextField: UITextField!
-    
     //off and on keyboard
     @IBAction func keyboardUpDown(_ sender: UIButton) {
         if keyboardStreamTextField.isFirstResponder{
@@ -185,20 +184,18 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     //Mark: - Text Field
     @objc func textFieldChangeStream(_ textField: UITextField){
-        if !(textField.text!.isEmpty){
-            print(textField.text!)              //transfer to server
-            textField.text = ""                 //clear text
+        if (textField.text!.count > 1){
+            print(textField.text!.popLast()!)        //transfer to server
+            textField.text = "/"                     //clear text
+        } else
+        if textField.text!.isEmpty {
+            print("transfer to server code code 51")    //code command 51 transfer to server
         }
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        print(textField.text!)                  //code command 36 transfer to server
-        textField.text = ""                     //clear text
-        textField.resignFirstResponder()        //remove focus keyboard
+        print("transfer to server code code 36")    //code command 36 transfer to server
+        textField.text = "/"                        //clear text
         return false
-    }
-    func textFieldShouldClear(_ textField: UITextField) -> Bool {
-        print("transfer to server code code 51") //code command 51 transfer to server
-        return true
     }
     
     //Mark: - Notification
