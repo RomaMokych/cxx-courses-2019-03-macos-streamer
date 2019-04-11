@@ -100,6 +100,7 @@ void keyboardString(std::string str){
         {'_',{27,kCGEventFlagMaskShift}}, {'~',{50,kCGEventFlagMaskShift}},
         {'<',{43,kCGEventFlagMaskShift}}, {'>',{47,kCGEventFlagMaskShift}},
         {'\¥',{16,kCGEventFlagMaskAlternate}}, {'\£',{20,kCGEventFlagMaskAlternate}},
+        {'\•',{28,kCGEventFlagMaskAlternate}},
         {'\€',{19,(kCGEventFlagMaskAlternate | kCGEventFlagMaskShift)}}
     };
     

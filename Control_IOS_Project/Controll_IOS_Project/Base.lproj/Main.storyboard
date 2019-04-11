@@ -18,14 +18,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wHn-PF-J8l">
-                                <rect key="frame" x="20" y="20" width="586" height="335"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wHn-PF-J8l">
+                                <rect key="frame" x="20" y="20" width="589" height="335"/>
                                 <color key="backgroundColor" red="0.024369048139494143" green="0.048973080742740316" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qoR-Ky-1vC">
-                                <rect key="frame" x="614" y="20" width="53" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qoR-Ky-1vC">
+                                <rect key="frame" x="617" y="20" width="30" height="30"/>
                                 <state key="normal" title="Disc"/>
                                 <connections>
                                     <action selector="disconnect:" destination="BYZ-38-t0r" eventType="touchUpInside" id="scM-ca-cYs"/>
@@ -33,15 +31,14 @@
                                 </connections>
                             </button>
                             <textField hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="/" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="b2x-mp-MNq">
-                                <rect key="frame" x="614" y="163" width="53" height="30"/>
+                                <rect key="frame" x="617" y="172.5" width="26" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HDU-FP-zrz">
-                                <rect key="frame" x="614" y="325" width="53" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HDU-FP-zrz">
+                                <rect key="frame" x="617" y="334.5" width="27" height="18"/>
                                 <inset key="contentEdgeInsets" minX="1" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <state key="normal" title="Key"/>
                                 <connections>
@@ -50,6 +47,18 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="qoR-Ky-1vC" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="55G-bl-1fE"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="wHn-PF-J8l" secondAttribute="bottom" constant="20" id="8Gw-sa-HEi"/>
+                            <constraint firstItem="wHn-PF-J8l" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="8t0-ju-GoP"/>
+                            <constraint firstItem="wHn-PF-J8l" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="BNp-5O-dDv"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="qoR-Ky-1vC" secondAttribute="trailing" constant="20" id="Byu-gD-95a"/>
+                            <constraint firstItem="HDU-FP-zrz" firstAttribute="leading" secondItem="wHn-PF-J8l" secondAttribute="trailing" constant="8" id="DIL-RX-yYU"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="HDU-FP-zrz" secondAttribute="trailing" constant="23" id="LHm-MI-Ech"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="HDU-FP-zrz" secondAttribute="bottom" constant="22.5" id="ezA-FK-WUH"/>
+                            <constraint firstItem="wHn-PF-J8l" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="pTE-uB-lIp"/>
+                            <constraint firstItem="qoR-Ky-1vC" firstAttribute="leading" secondItem="wHn-PF-J8l" secondAttribute="trailing" constant="8" id="ySP-Iy-PMa"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
@@ -69,30 +78,42 @@
                         <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="16J-EE-mPf">
-                                <rect key="frame" x="376" y="171" width="59" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter MacOS ip" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bvg-Jx-FHY">
+                                <rect key="frame" x="273" y="172.5" width="121.5" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                            </textField>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="mSp-xp-bBH">
+                                <rect key="frame" x="273" y="203" width="122" height="25"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="122" id="MAT-Gw-JtF"/>
+                                    <constraint firstAttribute="height" constant="25" id="hhQ-2p-qgg"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="16J-EE-mPf">
+                                <rect key="frame" x="304" y="236" width="59" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="SZ4-N0-pdM"/>
+                                </constraints>
                                 <state key="normal" title="Connect"/>
                                 <connections>
                                     <action selector="connect:" destination="RG4-4q-vzq" eventType="touchUpInside" id="bxJ-it-Xes"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter MacOS ip" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bvg-Jx-FHY">
-                                <rect key="frame" x="233" y="172" width="135" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
-                            </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="mSp-xp-bBH">
-                                <rect key="frame" x="233" y="210" width="135" height="26"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="bvg-Jx-FHY" firstAttribute="centerX" secondItem="W4a-tu-PgT" secondAttribute="centerX" id="CPm-nn-CrK"/>
+                            <constraint firstItem="mSp-xp-bBH" firstAttribute="leading" secondItem="bvg-Jx-FHY" secondAttribute="trailing" constant="-121.5" id="E5a-g6-AfW"/>
+                            <constraint firstItem="mSp-xp-bBH" firstAttribute="top" secondItem="bvg-Jx-FHY" secondAttribute="bottom" constant="0.5" id="MQu-TT-8CF"/>
+                            <constraint firstItem="16J-EE-mPf" firstAttribute="top" secondItem="bvg-Jx-FHY" secondAttribute="bottom" constant="33.5" id="Q1u-gH-ffu"/>
+                            <constraint firstItem="bvg-Jx-FHY" firstAttribute="centerY" secondItem="W4a-tu-PgT" secondAttribute="centerY" id="ijN-py-hG2"/>
+                            <constraint firstItem="16J-EE-mPf" firstAttribute="centerX" secondItem="W4a-tu-PgT" secondAttribute="centerX" id="k7E-Tg-bPO"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="W4a-tu-PgT"/>
                     </view>
                     <connections>

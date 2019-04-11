@@ -56,7 +56,7 @@ import UIKit
         inputStream.delegate = self
         
         BaseBytesCount = self.BaseWidth * self.BaseHeight * 4;
-        print("base byte count = ", BaseBytesCount)
+        print("base byte count = ", BaseBytesCount!)
         
         buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: BaseBytesCount!)
         

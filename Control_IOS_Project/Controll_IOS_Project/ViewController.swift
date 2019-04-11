@@ -186,10 +186,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @objc func textFieldChangeStream(_ textField: UITextField){
         if (textField.text!.count > 1){
             print(textField.text!.popLast()!)        //transfer to server
-            textField.text = "/"                     //clear text
         } else
         if textField.text!.isEmpty {
             print("transfer to server code code 51")    //code command 51 transfer to server
+            textField.text = "/"
         }
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
