@@ -9,7 +9,7 @@
 
 int main(int argc, const char * argv[]) {
 
-    SocketAddress serverAddress("localhost", 9999);
+    SocketAddress serverAddress("localhost", 2220);
     SRD_Server remoteDesktopServer(serverAddress);
 
     remoteDesktopServer.start();

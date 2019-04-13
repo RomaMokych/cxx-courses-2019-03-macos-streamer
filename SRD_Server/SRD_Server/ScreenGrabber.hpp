@@ -1,16 +1,10 @@
-//
-//  ScreenGrabber.hpp
-//  SRD_Server
-//
-//  Created by Nikita on 4/9/19.
-//  Copyright © 2019 Nikita. All rights reserved.
-//
-
 #ifndef ScreenGrabber_hpp
 #define ScreenGrabber_hpp
 
+#include <IOSurface/IOSurfaceRef.h>
+#include <CoreGraphics/CGDisplayStream.h>
+
 #include "RegularHeaders.h"
-#include "NetworkHeaders.h"
 
 class SRD_Server;
 
@@ -21,10 +15,25 @@ public :
     bool start();
     bool stop();
     
+    void beginScreenCapturing();
+    
 private :
     SRD_Server& server;
     
     bool working;
+    
+    __block int prev_time = 0;
+    
+    CGDisplayStreamRef streamScreen;
+    CGDirectDisplayID display;
+    
+    // Should be set via settings
+    size_t output_width = 1920;
+    size_t output_height = 1080;
+    
+    uint32_t pixel_format = 'BGRA';
+    
+    dispatch_queue_t dispatchQueue;
 };
 
 

@@ -9,11 +9,11 @@
 /* Begin PBXBuildFile section */
 		114C1710225BE28C00E808F2 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 114C170F225BE28C00E808F2 /* main.cpp */; };
 		114C171A225BE4D400E808F2 /* SRD_Server.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 114C1718225BE4D400E808F2 /* SRD_Server.cpp */; };
-		1184CDCD225C046A0000B685 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1184CDCC225C046A0000B685 /* CoreFoundation.framework */; };
-		1184CDCF225C046F0000B685 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1184CDCE225C046F0000B685 /* CoreGraphics.framework */; };
-		1184CDD1225C04730000B685 /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1184CDD0225C04730000B685 /* IOSurface.framework */; };
 		1184CDD4225C04EC0000B685 /* ScreenGrabber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1184CDD2225C04EC0000B685 /* ScreenGrabber.cpp */; };
 		1184CDD7225C12A40000B685 /* ServerWorker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1184CDD5225C12A40000B685 /* ServerWorker.cpp */; };
+		1184CDEC225C3C4A0000B685 /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1184CDD0225C04730000B685 /* IOSurface.framework */; };
+		1184CDED225C3C4E0000B685 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1184CDCC225C046A0000B685 /* CoreFoundation.framework */; };
+		1184CDEE225C3C560000B685 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1184CDCE225C046F0000B685 /* CoreGraphics.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -49,9 +49,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1184CDD1225C04730000B685 /* IOSurface.framework in Frameworks */,
-				1184CDCF225C046F0000B685 /* CoreGraphics.framework in Frameworks */,
-				1184CDCD225C046A0000B685 /* CoreFoundation.framework in Frameworks */,
+				1184CDEE225C3C560000B685 /* CoreGraphics.framework in Frameworks */,
+				1184CDED225C3C4E0000B685 /* CoreFoundation.framework in Frameworks */,
+				1184CDEC225C3C4A0000B685 /* IOSurface.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

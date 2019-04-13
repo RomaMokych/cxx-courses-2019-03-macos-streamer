@@ -1,11 +1,3 @@
-//
-//  SRD_Server.hpp
-//  SRD_Server
-//
-//  Created by Nikita on 4/8/19.
-//  Copyright © 2019 Nikita. All rights reserved.
-//
-
 #ifndef SRD_Server_hpp
 #define SRD_Server_hpp
 
@@ -24,7 +16,7 @@ public :
     bool start();
     bool stop();
     
-    void sendFrame();
+    void sendFrame(UInt8* frame, int width, int height);
     
     ~SRD_Server();
     
@@ -38,6 +30,9 @@ private :
     Thread* workerThread;
     
     bool working;
+    
+    const unsigned int max_screenFrameMessage_size, header_size;
+    UInt8* screenFrameMessage;
     
 };
 
