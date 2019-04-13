@@ -26,7 +26,7 @@ void keyTab (const unsigned short &key,const CGEventFlags &flag = 0){
     CFRelease(keyDown);
     CFRelease(keyUp);
 }
-void mouseTab (const CGMouseButton &mouseButton){
+void mouseTab (const CGMouseButton &mouseButton, const bool &doubleClick = false){
     //Create type event
     CGEventType mouseTypeUp;
     CGEventType mouseTypeDown;
@@ -55,8 +55,15 @@ void mouseTab (const CGMouseButton &mouseButton){
     //Create mouse event
     auto mouseDown = CGEventCreateMouseEvent(NULL, mouseTypeDown, point, mouseButton);
     auto mouseUp = CGEventCreateMouseEvent(NULL, mouseTypeUp, point, mouseButton);
+    //Post event
     CGEventPost(kCGHIDEventTap, mouseDown);
     CGEventPost(kCGHIDEventTap, mouseUp);
+    if(doubleClick){
+        CGEventSetIntegerValueField(mouseDown, kCGMouseEventClickState, 2);
+        CGEventSetIntegerValueField(mouseUp, kCGMouseEventClickState, 2);
+        CGEventPost(kCGHIDEventTap, mouseDown);
+        CGEventPost(kCGHIDEventTap, mouseUp);
+    }
     //Free event
     CFRelease(mouseUp);
     CFRelease(mouseDown);
@@ -169,10 +176,11 @@ int main(int argc, const char * argv[]) {
         "Enter 2 for test keyboard (need open text field)\n" <<
         "Enter 3 for test exit\n" <<
         "Enter 4 for test scroll\n" <<
-        "Enter 5 for test mouse move dragging\n";
+        "Enter 5 for test mouse move dragging\n"<<
+        "Enter 6 for test double click\n";
         short testId;
         std::cin >> testId;
-        if(testId > 5 || testId < 1){
+        if(testId > 6 || testId < 1){
             std::cout << "error input";
             continue;
         }
@@ -214,6 +222,9 @@ int main(int argc, const char * argv[]) {
                     mouseMove(kCGEventLeftMouseDragged, 2, 2);
                 }
                 leftMouseDownUP(kCGEventLeftMouseUp);
+                break;}
+            case 6:{
+                mouseTab(kCGMouseButtonLeft,true);
                 break;}
     
             default:{
