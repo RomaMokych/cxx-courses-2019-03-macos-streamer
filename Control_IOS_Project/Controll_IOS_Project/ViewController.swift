@@ -53,7 +53,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let panThreeTouchesGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(scroll))
         panThreeTouchesGestureRecognizer.minimumNumberOfTouches = 3
         panThreeTouchesGestureRecognizer.maximumNumberOfTouches = 3
+        let leftDoubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(leftDoubleTap))
+        leftDoubleTapGestureRecognizer.numberOfTapsRequired = 2
         let leftTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(leftTap))
+        leftTapGestureRecognizer.require(toFail: leftDoubleTapGestureRecognizer)
         let rightTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(rightTap))
         rightTapGestureRecognizer.numberOfTouchesRequired = 2
         //add Gesture Recognizer
@@ -61,6 +64,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         videoView.addGestureRecognizer(panTwoTouchesGestureRecognizer)
         videoView.addGestureRecognizer(panThreeTouchesGestureRecognizer)
         videoView.addGestureRecognizer(leftTapGestureRecognizer)
+        videoView.addGestureRecognizer(leftDoubleTapGestureRecognizer)
         videoView.addGestureRecognizer(rightTapGestureRecognizer)
         
         
@@ -156,7 +160,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     @objc func leftTap(recognizer: UITapGestureRecognizer){
         if recognizer.state == .ended {
-        print("just left tap",recognizer.location(in: videoView))
+        print("just left tap",recognizer.numberOfTapsRequired)
+        }
+    }
+    @objc func leftDoubleTap(recognizer: UITapGestureRecognizer){
+        if recognizer.state == .ended {
+            print("just left tap",recognizer.numberOfTapsRequired)
         }
     }
     @objc func rightTap(recognize: UITapGestureRecognizer){
@@ -169,11 +178,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
         if recognizer.state == .began{
             
         } else if recognizer.state == .changed {
-            let point = recognizer.translation(in: videoView) //transfer to server
-            if point.y > 0{
-                print("scrollDown", point.y)
-            } else if point.y < 0 {
-                print("scrollUp",point.y)
+            let point = recognizer.translation(in: videoView).y //transfer to server
+            if point > 0{
+                print("scrollDown", point)
+            } else if point < 0 {
+                print("scrollUp",point)
             }
             recognizer.setTranslation(CGPoint.zero, in: videoView)
             
