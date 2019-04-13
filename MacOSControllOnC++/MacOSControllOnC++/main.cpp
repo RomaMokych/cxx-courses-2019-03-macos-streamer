@@ -13,7 +13,7 @@
 #include <CoreFoundation/CoreFoundation.h>
 
 
-void keyTab (int key, CGEventFlags flag = 0){
+void keyTab (const unsigned short &key,const CGEventFlags &flag = 0){
     //Create event
     CGEventRef keyDown = CGEventCreateKeyboardEvent(NULL, CGKeyCode(key), true);
     CGEventRef keyUp = CGEventCreateKeyboardEvent(NULL, CGKeyCode(key), false);
@@ -26,45 +26,72 @@ void keyTab (int key, CGEventFlags flag = 0){
     CFRelease(keyDown);
     CFRelease(keyUp);
 }
-void mouseTab (CGMouseButton mouseEvent){
+void mouseTab (const CGMouseButton &mouseButton){
     //Create type event
     CGEventType mouseTypeUp;
     CGEventType mouseTypeDown;
     
-    switch (mouseEvent){
-        case kCGMouseButtonLeft:
-            {
-                mouseTypeUp = kCGEventLeftMouseUp;
-                mouseTypeDown = kCGEventLeftMouseDown;
-                break;
-            }
-        case kCGMouseButtonRight:
-        {
+    switch (mouseButton){
+        case kCGMouseButtonLeft:{
+            mouseTypeUp = kCGEventLeftMouseUp;
+            mouseTypeDown = kCGEventLeftMouseDown;
+            break;}
+        case kCGMouseButtonRight:{
             mouseTypeUp = kCGEventRightMouseUp;
             mouseTypeDown = kCGEventRightMouseDown;
-            std::cout << "Right\n";
-            break;
+            break;}
+        case kCGMouseButtonCenter:{
+            mouseTypeUp = kCGEventOtherMouseUp;
+            mouseTypeDown = kCGEventOtherMouseDown;
         }
         default:
             return;
     }
-    //get mouse location
-    CGEventRef event = CGEventCreate(NULL);
-    CGPoint point = CGEventGetLocation(event);
+    //Get mouse location
+    CGEventRef eventLocation = CGEventCreate(NULL);
+    CGPoint point = CGEventGetLocation(eventLocation);
     //Free event
-    CFRelease(event);
+    CFRelease(eventLocation);
     //Create mouse event
-    auto mouseDown = CGEventCreateMouseEvent(NULL, mouseTypeDown, point, mouseEvent);
-    auto mouseUp = CGEventCreateMouseEvent(NULL, mouseTypeUp, point, mouseEvent);
+    auto mouseDown = CGEventCreateMouseEvent(NULL, mouseTypeDown, point, mouseButton);
+    auto mouseUp = CGEventCreateMouseEvent(NULL, mouseTypeUp, point, mouseButton);
     CGEventPost(kCGHIDEventTap, mouseDown);
     CGEventPost(kCGHIDEventTap, mouseUp);
     //Free event
     CFRelease(mouseUp);
     CFRelease(mouseDown);
 }
-void keyboardString(std::string str){
+void leftMouseDownUP (const CGEventType &mouseEvent){
+    //Get mouse location
+    CGEventRef event = CGEventCreate(NULL);
+    CGPoint point = CGEventGetLocation(event);
+    //Free event
+    CFRelease(event);
+    //Create mouse event
+    auto mouseDownUp = CGEventCreateMouseEvent(NULL, mouseEvent, point, kCGMouseButtonLeft);
+    //Create mouse event
+    CGEventPost(kCGHIDEventTap, mouseDownUp);
+    //Free event
+    CFRelease(mouseDownUp);
+}
+void mouseMove(CGEventType event,const double &x,const double &y){
+    //Get mouse location
+    CGEventRef eventLocation = CGEventCreate(NULL);
+    CGPoint mouseLocation = CGEventGetLocation(eventLocation);
+    mouseLocation.x += x;
+    mouseLocation.y += y;
+    //Free event
+    CFRelease(eventLocation);
+    //Mouse move
+    CGEventRef move = CGEventCreateMouseEvent(NULL, event, mouseLocation, kCGMouseButtonLeft);
+    CGEventPost(kCGHIDEventTap, move);
+    //Free event
+    CFRelease(move);
+}
+void keyboardChar(const char &s){
+    //this is dictionary translation character to keyboard code
     //map(letter,(vireual key, modification))
-    const std::map<char,std::pair<int, CGEventFlags>> convertData =
+    const std::map<char,std::pair<unsigned short, CGEventFlags>> convertData =
     {
         {'q',{12,0}}, {'w',{13,0}}, {'e',{14,0}}, {'r',{15,0}}, {'t',{17,0}},
         {'y',{16,0}}, {'u',{32,0}}, {'i',{34,0}}, {'o',{31,0}}, {'p',{35,0}},
@@ -103,24 +130,30 @@ void keyboardString(std::string str){
         {'\•',{28,kCGEventFlagMaskAlternate}},
         {'\€',{19,(kCGEventFlagMaskAlternate | kCGEventFlagMaskShift)}}
     };
-    
-    for(auto i : str){
-        auto iter = convertData.find(i);
-        keyTab(iter->second.first, iter->second.second);
-    }
-    keyTab(36);
+    //find virtual code and tab
+    auto iterPair = convertData.find(s);
+    if(iterPair != convertData.end())
+        keyTab(iterPair->second.first,iterPair->second.second);
 }
-void scrollMove(int wheel){
+void scrollMove(const int wheel){
     //Create event
     CGEventRef scrollEvent;
     if(wheel < -5 || 5 < wheel){
-        int quantity = abs(wheel / 5);
-        scrollEvent = CGEventCreateScrollWheelEvent(NULL, kCGScrollEventUnitPixel, 1, 5);
-        for(int i(0); i < quantity; ++i)
+        //Apple recomends values up to |10|
+        short pixel;
+        size_t quantity;
+        if(wheel > 0){
+            pixel = 5;
+        } else {
+            pixel = -5;
+        }
+        quantity = wheel/pixel;
+        scrollEvent = CGEventCreateScrollWheelEvent(NULL, kCGScrollEventUnitPixel, 1/*magic number*/, pixel);
+        for(size_t i(0); i < quantity; ++i)
             //Release event
             CGEventPost(kCGHIDEventTap, scrollEvent);
     } else {
-        scrollEvent = CGEventCreateScrollWheelEvent(NULL, kCGScrollEventUnitPixel, 1, wheel);
+        scrollEvent = CGEventCreateScrollWheelEvent(NULL, kCGScrollEventUnitPixel, 1/*magic number*/, wheel);
         //Release event
         CGEventPost(kCGHIDEventTap, scrollEvent);
     }
@@ -129,22 +162,22 @@ void scrollMove(int wheel){
 }
 
 int main(int argc, const char * argv[]) {
-
     bool work(true);
     std::cout << "Hello\n";
     while(work){
         std::cout << "Enter 1 for test mouse\n" <<
         "Enter 2 for test keyboard (need open text field)\n" <<
         "Enter 3 for test exit\n" <<
-        "Enter 4 for test scroll\n";
+        "Enter 4 for test scroll\n" <<
+        "Enter 5 for test mouse move dragging\n";
         short testId;
         std::cin >> testId;
-        if(testId > 4 || testId < 1){
+        if(testId > 5 || testId < 1){
             std::cout << "error input";
             continue;
         }
         switch (testId) {
-            case 1:
+            case 1:{
                 std::cout << "Input center of the circle posiseon x:\n";
                 unsigned short x;
                 std::cin >> x;
@@ -160,26 +193,31 @@ int main(int argc, const char * argv[]) {
                     CGWarpMouseCursorPosition(point);
                     usleep(10000);
                 }
-                break;
+                break;}
             case 2:{
                 const std::string str = "Hello @$€";
                 sleep(4);
-            
-                keyboardString(str);
-                break;
-            }
+                for(size_t i(0); i < str.size(); ++i)
+                    keyboardChar(str[i]);
+                break;}
             case 3:{
                 work = false;
-                break;
-            }
+                break;}
             case 4:{
                 mouseTab(kCGMouseButtonLeft);
                 scrollMove(100);
-            }
-                
-            default:
-                std::cout << "Error input";
-                break;
+                break;}
+            case 5:{
+                leftMouseDownUP(kCGEventLeftMouseDown);
+                for(size_t i(100); i > 0; --i){
+                    usleep(10000);
+                    mouseMove(kCGEventLeftMouseDragged, 2, 2);
+                }
+                leftMouseDownUP(kCGEventLeftMouseUp);
+                break;}
+    
+            default:{
+                std::cout << "Error input";}
         }
     
     }
