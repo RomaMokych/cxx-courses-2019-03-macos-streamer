@@ -91,7 +91,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     //Mark: - Gesture Recognizer
     @objc func mouseMove(recognizer: UIPanGestureRecognizer){
-        
+        // code 7 and x and y
         if recognizer.state == .began{
             
         } else if recognizer.state == .changed {
@@ -146,37 +146,43 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @objc func mouseDownMove(recognizer: UIPanGestureRecognizer){
         
         if recognizer.state == .began{
+            //code 4
             print("mouse down")//transfer to server
             
         } else if recognizer.state == .changed {
+            //code 5 and x and y
             let point = recognizer.translation(in: videoView)//transfer to server
-            print("Moving and mouse down", point)
+            print("Moving and mouse down", point.x,point.y)
             recognizer.setTranslation(CGPoint.zero, in: videoView)
             
         } else if recognizer.state == .ended {
+            //code 6
            print("Mouse up")//transfer to server
         }
         
     }
     @objc func leftTap(recognizer: UITapGestureRecognizer){
         if recognizer.state == .ended {
-        print("just left tap",recognizer.numberOfTapsRequired)
+            //code 1
+            print("just left tap",recognizer.numberOfTapsRequired)
         }
     }
     @objc func leftDoubleTap(recognizer: UITapGestureRecognizer){
         if recognizer.state == .ended {
-            print("just left tap",recognizer.numberOfTapsRequired)
+            //code 2
+            print("just double left tap",recognizer.numberOfTapsRequired)
         }
     }
     @objc func rightTap(recognize: UITapGestureRecognizer){
         if recognize.state == .ended{
+            //code 3
             print("jusr right tap", recognize.location(in: videoView))
         }
     }
     @objc func scroll(recognizer: UIPanGestureRecognizer){
         
         if recognizer.state == .began{
-            
+            //code 11 and y
         } else if recognizer.state == .changed {
             let point = recognizer.translation(in: videoView).y //transfer to server
             if point > 0{
@@ -194,15 +200,18 @@ class ViewController: UIViewController, UITextFieldDelegate {
     //Mark: - Text Field
     @objc func textFieldChangeStream(_ textField: UITextField){
         if (textField.text!.count > 1){
+            //code 8 and popLast
             print(textField.text!.popLast()!)        //transfer to server
         } else
         if textField.text!.isEmpty {
-            print("transfer to server code code 51")    //code command 51 transfer to server
+            //code 10
+            print("transfer to server code code 51")
             textField.text = "/"
         }
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        print("transfer to server code code 36")    //code command 36 transfer to server
+        //code 9
+        print("transfer to server code code 36")
         textField.text = "/"                        //clear text
         return false
     }

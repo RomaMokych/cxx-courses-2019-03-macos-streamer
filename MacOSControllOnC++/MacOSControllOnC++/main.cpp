@@ -169,7 +169,50 @@ void scrollMove(const int wheel){
 }
 
 int main(int argc, const char * argv[]) {
-    bool work(true);
+    int command = 0;
+    int x = 0,y = 0;
+    char c;
+    switch (command){
+        case 1:{
+            mouseTab(kCGMouseButtonLeft);
+            break;}
+        case 2:{
+            mouseTab(kCGMouseButtonLeft, true);
+            break;}
+        case 3:{
+            mouseTab(kCGMouseButtonRight);
+            break;}
+        case 4:{
+            leftMouseDownUP(kCGEventLeftMouseDown);
+            break;}
+        case 5:{
+            mouseMove(kCGEventLeftMouseDragged, x, y);
+            break;}
+        case 6:{
+            leftMouseDownUP(kCGEventLeftMouseUp);
+            break;}
+        case 7:{
+            mouseMove(kCGEventMouseMoved, x, y);
+            break;}
+        case 8:{
+            keyboardChar(c);
+            break;}
+        case 9:{
+            keyTab(36);
+            break;}
+        case 10:{
+            keyTab(51);
+            break;}
+        case 11:{
+            scrollMove(y);
+            break;}
+        default:{
+            
+        }
+    }
+    
+    
+    /*bool work(true);
     std::cout << "Hello\n";
     while(work){
         std::cout << "Enter 1 for test mouse\n" <<
@@ -231,6 +274,6 @@ int main(int argc, const char * argv[]) {
                 std::cout << "Error input";}
         }
     
-    }
+    }*/
 }
 
