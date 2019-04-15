@@ -2,11 +2,13 @@
 #define SRD_Server_hpp
 #include <memory>
 
+#include "InputManager.hpp"
+
 #include "RegularHeaders.h"
 #include "NetworkHeaders.h"
 
 #include "ServerWorker.hpp"
-#include "InputManager.hpp"
+
 
 class ServerWorker;
 

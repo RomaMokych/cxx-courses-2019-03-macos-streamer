@@ -2,10 +2,12 @@
 #include <chrono>
 #include <memory>
 
+#include "InputManager.hpp"
+
 #include "RegularHeaders.h"
 #include "NetworkHeaders.h"
 
-#include "InputManager.hpp"
+
 #include "ServerWorker.hpp"
 #include "ScreenGrabber.hpp"
 #include "SRD_Server.hpp"

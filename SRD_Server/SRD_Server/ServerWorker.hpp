@@ -50,7 +50,7 @@ private :
     UInt8* screenFrameMessage;
     
     // Main functions
-    void AcceptClient();
+    bool AcceptClient();
     void ReceiveData();
     
     // Utils

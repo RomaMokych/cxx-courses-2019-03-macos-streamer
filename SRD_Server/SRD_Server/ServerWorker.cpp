@@ -1,6 +1,7 @@
+#include "InputManager.hpp"
 #include "ServerWorker.hpp"
 #include "ScreenGrabber.hpp"
-#include "InputManager.hpp"
+
 
 ServerWorker:: ServerWorker(SocketAddress& address, shared_ptr<InputManager> inputManager) :
                                                         max_messageBuffer_size(1024*128), // 128 Kbytes
@@ -35,11 +36,14 @@ void ServerWorker::run()
     
     while(!finish)
     {
-        AcceptClient();
-        //grabber.start();
-        
-        ReceiveData();
-        //grabber.stop();
+        if(AcceptClient()){
+
+            //grabber.start();
+            
+            ReceiveData();
+            //grabber.stop();
+        }
+        else return;
     }
 }
 
@@ -60,7 +64,7 @@ ServerWorker::~ServerWorker()
     delete[] screenFrameMessage;
 }
 
-void ServerWorker::AcceptClient()
+bool ServerWorker::AcceptClient()
 {
     cout << "ServerWorker started accepting the client\n";
     
@@ -72,9 +76,10 @@ void ServerWorker::AcceptClient()
             client = new StreamSocket(serverSocket.acceptConnection());
             
             cout << "Client has been accepted by the server\n";
-            return;
+            return true;
         }
     }
+    return false;
 }
 
 void ServerWorker::DestroyClient()
@@ -116,36 +121,95 @@ bool ServerWorker::getPackageData(u_long& package_size, int& messageID, const u_
     return true;
 }
 
-void ServerWorker::processPayload(const u_long& msgID, const u_long& offset, const u_long& header_size, const u_long& current_packet_size)
+void ServerWorker::processPayload(const u_long& msgID,
+                                  const u_long& offset,
+                                  const u_long& header_size,
+                                  const u_long& current_packet_size)
 {
-    switch(msgID) // Process payload of message
-    {
-        case MoveMouse :
-        {
-            double x = 0, y = 0;
+    double x = 0, y = 0;
+    char c;
+    
+    switch (msgID){
+        case 1:
+            inManager->press_LeftMouseButton(false);
+            break;
+        
+        case 2:
+            inManager->press_LeftMouseButton(true);
+            break;
             
+        case 3:
+            inManager->press_RightMouseButton();
+            break;
+            
+        case 4:
+            inManager->hold_LeftMouseButton();
+            break;
+            
+        case 5:
             memcpy(&x, &messageBuffer[offset + header_size], 8);
             memcpy(&y, &messageBuffer[offset + header_size + 8], 8);
             
-            inManager->moveMouseTo(x,y);
+            inManager->move_MouseDraggedTo(x, y);
+            break;
+            
+        case 6:
+            inManager->free_LeftMouseButton();
+            break;
+            
+        case 7:
+            memcpy(&x, &messageBuffer[offset + header_size], 8);
+            memcpy(&y, &messageBuffer[offset + header_size + 8], 8);
+            
+            inManager->move_MouseTo(x, y);
+            break;
+            
+        case 8:
+            c = messageBuffer[offset + header_size];
+            
+            inManager->press_KeyboardChar(c);
+            break;
+        
+        case 9:
+            inManager->press_KeyTab(36);
+            break;
+            
+        case 10:
+            inManager->press_KeyTab(51);
+            break;
+            
+        case 11:
+            memcpy(&y, &messageBuffer[offset + header_size], 8);
+            inManager->scroll(y);
             
             break;
-        }
-            
-        case TextMessage :
-        {
-            char* data = new char[current_packet_size];
-            memcpy(data, &messageBuffer[offset + header_size], current_packet_size);
-            
-            cout << "Arrived text message, size == " << current_packet_size << "\n";
-            
-            cout << data << "\n";
-            delete[] data;
-            break;
-        }
-            
-        default : break;
+
+        default: break;
     }
+//        case MoveMouse :
+//        {
+//            double x = 0, y = 0;
+//
+//            memcpy(&x, &messageBuffer[offset + header_size], 8);
+//            memcpy(&y, &messageBuffer[offset + header_size + 8], 8);
+//
+//            inManager->move_MouseTo(x,y);
+//
+//            break;
+//        }
+//
+//        case TextMessage :
+//        {
+//            char* data = new char[current_packet_size];
+//            memcpy(data, &messageBuffer[offset + header_size], current_packet_size);
+//
+//            cout << "Arrived text message, size == " << current_packet_size << "\n";
+//
+//            cout << data << "\n";
+//            delete[] data;
+//            break;
+//        }
+
 }
 
 void ServerWorker::ReceiveData()
