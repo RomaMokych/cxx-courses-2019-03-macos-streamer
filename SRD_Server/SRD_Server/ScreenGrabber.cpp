@@ -1,7 +1,9 @@
 #include "ScreenGrabber.hpp"
 #include "SRD_Server.hpp"
 
-ScreenGrabber::ScreenGrabber(SRD_Server& Server) : server(Server), working(false)
+ScreenGrabber:: ScreenGrabber(shared_ptr<ServerWorker> serverWorker) :
+                                                output(serverWorker),
+                                                working(false)
 {
 }
 
@@ -17,42 +19,33 @@ void ScreenGrabber::beginScreenCapturing()
                                                             uint64_t time,                        /* Mach absolute time when the event occurred. */
                                                             IOSurfaceRef frame,                   /* opaque pixel buffer, can be backed by GL, CL, etc.. This may be NULL in some cases. See the docs if you want to keep access to this. */
                                                             CGDisplayStreamUpdateRef ref)
-                                                          {
+  {
 
-                                                              uint64_t tid;
-                                                              pthread_threadid_np(NULL, &tid);
-                                                             // printf("HELLO from thread GRABBER with id : %ld\n", tid);
-                                                              
-                                                              uint64_t d = 0;
+      uint64_t difference = 0;
 
-                                                              if (0 != prev_time) {
-                                                                  d = time - prev_time;
-                                                              //    printf("[Grabber]Time to capture the frame : %llu ms.\n", (d / 1'000'000ull));
-                                                              }
+      if (0 != prev_time) {
+          difference = time - prev_time;
+      //  printf("[Grabber]Time to capture the frame : %llu ms.\n", (d / 1'000'000ull));
+      }
+      if (kCGDisplayStreamFrameStatusFrameComplete == status && NULL != frame)
+      {
+          IOSurfaceLock(frame, kIOSurfaceLockReadOnly, NULL);
 
+          uint8_t* rawFrameBuffer = (uint8_t*)IOSurfaceGetBaseAddress(frame);
 
-                                                              if (kCGDisplayStreamFrameStatusFrameComplete == status
-                                                                  && NULL != frame)
-                                                              {
+          if (NULL != rawFrameBuffer) {
 
-                                                                  IOSurfaceLock(frame, kIOSurfaceLockReadOnly, NULL);
+              output->sendFrame(rawFrameBuffer, output_width, output_height);
 
-                                                                  uint8_t* pix = (uint8_t*)IOSurfaceGetBaseAddress(frame);
+          }else{
+              cout << "Pixel data is null!\n";
+          }
 
-                                                                  if (NULL != pix) {
-
-                                                                      server.sendFrame(pix, output_width, output_height);
-
-                                                                  }else{
-                                                                      cout << "Pixel data is null!\n";
-                                                                  }
-
-                                                                  IOSurfaceUnlock(frame, kIOSurfaceLockReadOnly, NULL);
-                                                              }
-                                                              prev_time = time;
-
-                                                          }
-                                                          );
+          IOSurfaceUnlock(frame, kIOSurfaceLockReadOnly, NULL);
+      }
+      prev_time = time;
+  }
+);
 }
 
 bool ScreenGrabber::start()

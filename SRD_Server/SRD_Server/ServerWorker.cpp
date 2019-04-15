@@ -1,23 +1,37 @@
 #include "ServerWorker.hpp"
 #include "ScreenGrabber.hpp"
+#include "InputManager.hpp"
 
-ServerWorker::ServerWorker(ServerSocket& Server, ScreenGrabber& Grabber) :
+ServerWorker:: ServerWorker(SocketAddress& address, shared_ptr<InputManager> inputManager) :
                                                         max_messageBuffer_size(1024*128), // 128 Kbytes
                                                         header_size(5),
-                                                        server(Server),
-                                                        grabber(Grabber),
+                                                        serverSocket(address),
+                                                        inManager(inputManager),
                                                         client(nullptr),
                                                         hasBytesToServe(false),
-                                                        max_data_len(1024*64) // 64 Kbytes
+                                                        max_data_len(1024*64), // 64 Kbytes
+                                                        max_screenFrameMessage_size(1920*1080*4)
 
 {
     timeout = 10'000;
-    finish = false;
+    finish = true;
+    
+    screenFrameMessage = new UInt8[max_screenFrameMessage_size];
+}
+
+
+void ServerWorker::setGrabber(shared_ptr<ScreenGrabber> grabber)
+{
+    if(!finish) // If already working
+        return;
+    
+    this->grabber = grabber;
 }
 
 void ServerWorker::run()
 {
     cout << "ServerWorker has been started\n";
+    finish = false;
     
     while(!finish)
     {
@@ -37,13 +51,13 @@ void ServerWorker::stop()
     cout << "ServerWorker has been stopped\n";
     
     finish = true;
-    grabber.stop();
 }
 
 ServerWorker::~ServerWorker()
 {
     cout << "ServerWorker has been destroyed\n";
     DestroyClient();
+    delete[] screenFrameMessage;
 }
 
 void ServerWorker::AcceptClient()
@@ -52,10 +66,10 @@ void ServerWorker::AcceptClient()
     
     while(!finish)
     {
-        if(server.poll(timeout, Socket::SELECT_READ)) // Server is able to accept
+        if(serverSocket.poll(timeout, Socket::SELECT_READ)) // Server is able to accept
         {
             // Using pointer to future socket reusing
-            client = new StreamSocket(server.acceptConnection());
+            client = new StreamSocket(serverSocket.acceptConnection());
             
             cout << "Client has been accepted by the server\n";
             return;
@@ -100,6 +114,38 @@ bool ServerWorker::getPackageData(u_long& package_size, int& messageID, const u_
     cout << "Package size == " << package_size << " , message ID == " << messageID << "\n";
     
     return true;
+}
+
+void ServerWorker::processPayload(const u_long& msgID, const u_long& offset, const u_long& header_size, const u_long& current_packet_size)
+{
+    switch(msgID) // Process payload of message
+    {
+        case MoveMouse :
+        {
+            double x = 0, y = 0;
+            
+            memcpy(&x, &messageBuffer[offset + header_size], 8);
+            memcpy(&y, &messageBuffer[offset + header_size + 8], 8);
+            
+            inManager->moveMouseTo(x,y);
+            
+            break;
+        }
+            
+        case TextMessage :
+        {
+            char* data = new char[current_packet_size];
+            memcpy(data, &messageBuffer[offset + header_size], current_packet_size);
+            
+            cout << "Arrived text message, size == " << current_packet_size << "\n";
+            
+            cout << data << "\n";
+            delete[] data;
+            break;
+        }
+            
+        default : break;
+    }
 }
 
 void ServerWorker::ReceiveData()
@@ -207,34 +253,7 @@ void ServerWorker::ReceiveData()
                 
                     if(amout_of_read_data >= current_packet_size) // Now we have enough bytes
                     {
-                        double x = 0, y = 0;
-                        char* data;
-                        
-                        switch(messageID) // Process message
-                        {
-                            case MoveMouse :
-                            {
-                                memcpy(&x, &messageBuffer[offset + header_size], 8);
-                                memcpy(&y, &messageBuffer[offset + header_size + 8], 8);
-                                
-                                // InputManager::MoveMouse(x,y);
-                                cout << "InputManager::MoveMouse(" << x << "," << y << ")\n";
-                                
-                                break;
-                            }
-                                
-                            case 1 :
-                                //data = new char[current_packet_size];
-                                //memcpy(data, &messageBuffer[offset + header_size], current_packet_size);
-                                
-                                cout << "Arrived text message, size == " << current_packet_size << "\n";
-                                
-                                //cout << data << "\n";
-                                //delete[] data;
-                                break;
-                          
-                            default : break;
-                        }
+                        this->processPayload(messageID, offset, header_size, current_packet_size);
                         
                         if(amout_of_read_data == current_packet_size)
                         {
@@ -277,3 +296,28 @@ void ServerWorker::ReceiveData()
     return;
 }
 
+// Work in progress. Now sends raw image data, but it's extemely inefficient for even local wireless network
+void ServerWorker::sendFrame(UInt8* frame, int width, int height)
+{
+    if(!frame)
+        return;
+    
+    int totalSize = width*height;
+    UInt8 type = 2;
+    
+    // Allows to send raw images
+    memcpy(screenFrameMessage, &totalSize, 4); // Lenght of message
+    memcpy(screenFrameMessage + 4, &type, 1);  // Type of message
+    memcpy(screenFrameMessage + 4 + 1, &width, 4);
+    memcpy(screenFrameMessage + 4 + 1 + 4, &height, 4);
+    
+    memcpy(screenFrameMessage + header_size, frame, width*height);
+    
+    for(int i =0;i<width*height*4;i+=4)
+    {
+        std::swap(frame[i] , frame[i+3]);   // blue = alpha
+        std::swap(frame[i+1] , frame[i+2]); // green = red
+    }
+    
+    //client->sendBytes(frame, width*height*4);
+}

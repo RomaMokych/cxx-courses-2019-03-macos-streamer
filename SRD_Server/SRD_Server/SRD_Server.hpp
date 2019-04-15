@@ -1,17 +1,19 @@
 #ifndef SRD_Server_hpp
 #define SRD_Server_hpp
+#include <memory>
 
 #include "RegularHeaders.h"
 #include "NetworkHeaders.h"
-#include "ServerWorker.hpp"
 
-class ScreenGrabber;
+#include "ServerWorker.hpp"
+#include "InputManager.hpp"
+
 class ServerWorker;
 
 class SRD_Server
 {
 public :
-    SRD_Server(const SocketAddress&);
+    SRD_Server(shared_ptr<ServerWorker>);
     
     bool start();
     bool stop();
@@ -22,17 +24,12 @@ public :
     
 private :
     SocketAddress address;
-    ServerSocket* serverSocket;
-    
-    ScreenGrabber* screenGrabber;
-    ServerWorker* serverWorker;
+    shared_ptr<InputManager> inManager;
+    shared_ptr<ServerWorker> serverWorker;
     
     Thread* workerThread;
     
     bool working;
-    
-    const unsigned int max_screenFrameMessage_size, header_size;
-    UInt8* screenFrameMessage;
     
 };
 

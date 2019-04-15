@@ -6,23 +6,24 @@
 
 #include "RegularHeaders.h"
 
-class SRD_Server;
+class ServerWorker;
 
 class ScreenGrabber
 {
 public :
-    ScreenGrabber(SRD_Server& server);
+    ScreenGrabber(shared_ptr<ServerWorker>);
     bool start();
     bool stop();
     
     void beginScreenCapturing();
     
 private :
-    SRD_Server& server;
     
     bool working;
-    
     __block int prev_time = 0;
+    
+    // Temporary only ServerWorker can be the output class
+    shared_ptr<ServerWorker> output;
     
     CGDisplayStreamRef streamScreen;
     CGDirectDisplayID display;
