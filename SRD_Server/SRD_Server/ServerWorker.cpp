@@ -18,6 +18,7 @@ ServerWorker:: ServerWorker(SocketAddress& address, shared_ptr<InputManager> inp
     finish = true;
     
     screenFrameMessage = new UInt8[max_screenFrameMessage_size];
+    serverSocket.setNoDelay(true);
 }
 
 
@@ -67,7 +68,7 @@ ServerWorker::~ServerWorker()
 bool ServerWorker::AcceptClient()
 {
     cout << "ServerWorker started accepting the client\n";
-    
+     serverSocket.setNoDelay(true);
     while(!finish)
     {
         if(serverSocket.poll(timeout, Socket::SELECT_READ)) // Server is able to accept
@@ -116,7 +117,7 @@ bool ServerWorker::getPackageData(u_long& package_size, int& messageID, const u_
     if(package_size <= 0 || messageID < 0)
         return false;
     
-    cout << "Package size == " << package_size << " , message ID == " << messageID << "\n";
+    //cout << "Package size == " << package_size << " , message ID == " << messageID << "\n";
     
     return true;
 }
@@ -131,6 +132,7 @@ void ServerWorker::processPayload(const u_long& msgID,
     
     switch (msgID){
         case 1:
+            //cout << "Just left tap\n";
             inManager->press_LeftMouseButton(false);
             break;
         
@@ -231,7 +233,8 @@ void ServerWorker::ReceiveData()
          
             // Read as big piece of data as possible
             u_long start_pos = received_total + offset;
-            u_long max_piece_size = messageBuffer.size() - received_total - offset;
+           // u_long max_piece_size = messageBuffer.size() - received_total - offset;
+            u_long max_piece_size = (header_size + 16)*2;
             
             received_once = client->receiveBytes(&messageBuffer[0] + start_pos, max_piece_size);
             
@@ -262,6 +265,7 @@ void ServerWorker::ReceiveData()
                 {
                     cout << "Haven't got package's data's length yet\n";
                     
+                    // Fail when sending scroll
                     if(!getPackageData(current_packet_size, messageID, offset))
                         return;
                 }

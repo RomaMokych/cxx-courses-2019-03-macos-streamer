@@ -25,22 +25,25 @@ void launchConsoleLoop()
 
 int main(int argc, const char * argv[]) {
 
-    SocketAddress serverAddress("localhost", 2220);
-    
+    SocketAddress serverAddress("10.100.26.130", 2220);
+
     shared_ptr<InputManager>  input;
     shared_ptr<ServerWorker>  worker;
     shared_ptr<ScreenGrabber> grabber;
-    
+
     input.reset(new InputManager);
+    input->press_LeftMouseButton(true);
     worker.reset(new ServerWorker(serverAddress, input));
     grabber.reset(new ScreenGrabber(worker));
-    
+
     worker->setGrabber(grabber);
+
+    input->press_LeftMouseButton(false);
     
     SRD_Server remoteDesktopServer(worker);
     remoteDesktopServer.start();
-    
+
     launchConsoleLoop();
-    
+ 
     return 0;
 }

@@ -81,9 +81,15 @@ void InputManager::leftMouseDownUP (const CGEventType &mouseEvent){
 void InputManager::mouseMove(CGEventType event,const double &x,const double &y){
     //Get mouse location
     CGEventRef eventLocation = CGEventCreate(NULL);
+    
     CGPoint mouseLocation = CGEventGetLocation(eventLocation);
+    
     mouseLocation.x += x;
     mouseLocation.y += y;
+    //cout << "Modified" << mouseLocation.x << " ; " << mouseLocation.y << "\n";
+    
+     CGWarpMouseCursorPosition(CGPointMake(mouseLocation.x, mouseLocation.y));
+    
     //Free event
     CFRelease(eventLocation);
     //Mouse move
@@ -168,38 +174,47 @@ void InputManager::scrollMove(const int& wheel){
 }
 
 void InputManager::press_LeftMouseButton(bool doubleClick) {
+    cout << "Press left\n";
     mouseTab(kCGMouseButtonLeft, doubleClick);
 }
 
 void InputManager::press_RightMouseButton() {
+     cout << "Press right\n";
     mouseTab(kCGMouseButtonRight);
 }
 
 void InputManager::hold_LeftMouseButton() {
+     cout << "Hold left\n";
     leftMouseDownUP(kCGEventLeftMouseDown);
 }
 
-void InputManager::move_MouseDraggedTo(const double &x, const double &y) { 
+void InputManager::move_MouseDraggedTo(const double &x, const double &y) {
+     cout << " move_MouseDraggedTo\n";
    mouseMove(kCGEventLeftMouseDragged, x, y);
 }
 
-void InputManager::free_LeftMouseButton() { 
+void InputManager::free_LeftMouseButton() {
+    cout << " free_LeftMouseButton\n";
     leftMouseDownUP(kCGEventLeftMouseUp);
 }
 
-void InputManager::move_MouseTo(const double &x, const double &y) { 
+void InputManager::move_MouseTo(const double &x, const double &y) {
+      cout << " move_MouseTo\n";
     mouseMove(kCGEventMouseMoved, x, y);
 }
 
-void InputManager::press_KeyboardChar(const char &c) { 
+void InputManager::press_KeyboardChar(const char &c) {
+       cout << " press_KeyboardChar\n";
     keyboardChar(c);
 }
 
-void InputManager::press_KeyTab(const char &c) { 
+void InputManager::press_KeyTab(const char &c) {
+           cout << " press_KeyTab\n";
    keyTab(c);
 }
 
-void InputManager::scroll(const int &y) { 
+void InputManager::scroll(const int &y) {
+    cout << " scroll\n";
     scrollMove(y);
 }
 
