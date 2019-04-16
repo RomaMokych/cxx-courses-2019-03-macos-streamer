@@ -27,9 +27,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     
-    
-    var buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: 18)
-    
     var receiver = MessageReceiver()
     
     
@@ -89,6 +86,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     {
         return value.withUnsafeBytes { $0.baseAddress!.load(as: T.self) }
     }
+    
     //Mark: - Gesture Recognizer
     @objc func mouseMove(recognizer: UIPanGestureRecognizer){
         // code 7 and x and y
@@ -98,43 +96,41 @@ class ViewController: UIViewController, UITextFieldDelegate {
             var point = recognizer.translation(in: videoView)
             
             
+            
+            //point.x = pow(point.x, 2)*0.25
+            //point.y = pow(point.y, 2)*0.25
+            
+            print("Moving", point)
+            
             let x : CGFloat = point.x;
             let y : CGFloat = point.y;
             
             var bytesX = toByteArray(value : x)
             var bytesY = toByteArray(value : y)
+            let type = UInt8(7)
+            let len = UInt(16)
             
+            var size_in_bytes = toByteArray(value : len)
             
-            buffer[0] = 1; // Start
+            let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: 16+4+1)
             
-            buffer[1] = bytesX[0];
-            buffer[2] = bytesX[1];
-            buffer[3] = bytesX[2];
-            buffer[4] = bytesX[3];
+            for i in 0..<4 {
+                buffer[i] = size_in_bytes[i]
+            }
+            buffer[4] = type;
             
-            buffer[5] = bytesX[4];
-            buffer[6] = bytesX[5];
-            buffer[7] = bytesX[6];
-            buffer[8] = bytesX[7];
+            var j = 0;
+            for i in 5..<13 {
+                buffer[i] = bytesX[j];
+                j+=1;
+            }
+            j = 0;
+            for i in 13..<21 {
+                buffer[i] = bytesY[j];
+                j+=1;
+            }
             
-            buffer[9] =  bytesY[0];
-            buffer[10] = bytesY[1];
-            buffer[11] = bytesY[2];
-            buffer[12] = bytesY[3];
-            
-            buffer[13] = bytesY[4];
-            buffer[14] = bytesY[5];
-            buffer[15] = bytesY[6];
-            buffer[16] = bytesY[7];
-            
-            buffer[17] = 1; // End
-            
-            
-            receiver.outputStream.write(buffer, maxLength: 18)
-            point.x = pow(point.x, 2)*0.25
-            point.y = pow(point.y, 2)*0.25
-            print("Moving", point)
-            
+            receiver.outputStream.write(buffer, maxLength: 16 + 4 + 1)
             
             recognizer.setTranslation(CGPoint.zero, in: videoView)
             
@@ -149,15 +145,78 @@ class ViewController: UIViewController, UITextFieldDelegate {
             //code 4
             print("mouse down")//transfer to server
             
+            let type = UInt8(4)
+            let len = UInt(1)
+            
+            var size_in_bytes = toByteArray(value : len)
+            
+            let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: 1 + 4 + 1)
+            
+            for i in 0..<4 {
+                buffer[i] = size_in_bytes[i]
+            }
+            buffer[4] = type;
+            buffer[5] = 1
+            
+            receiver.outputStream.write(buffer, maxLength: 6)
+            
+            
         } else if recognizer.state == .changed {
             //code 5 and x and y
             let point = recognizer.translation(in: videoView)//transfer to server
             print("Moving and mouse down", point.x,point.y)
+            
+            let x : CGFloat = point.x;
+            let y : CGFloat = point.y;
+            
+            var bytesX = toByteArray(value : x)
+            var bytesY = toByteArray(value : y)
+            let type = UInt8(5)
+            let len = UInt(16)
+            
+            var size_in_bytes = toByteArray(value : len)
+            
+            let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: 16+4+1)
+            
+            for i in 0..<4 {
+                buffer[i] = size_in_bytes[i]
+            }
+            buffer[4] = type;
+            
+            var j = 0;
+            for i in 5..<13 {
+                buffer[i] = bytesX[j];
+                j+=1;
+            }
+            j = 0;
+            for i in 13..<21 {
+                buffer[i] = bytesY[j];
+                j+=1;
+            }
+            
+            receiver.outputStream.write(buffer, maxLength: 16 + 4 + 1)
+            
             recognizer.setTranslation(CGPoint.zero, in: videoView)
             
         } else if recognizer.state == .ended {
             //code 6
            print("Mouse up")//transfer to server
+            
+            let type = UInt8(6)
+            let len = UInt(1)
+            
+            var size_in_bytes = toByteArray(value : len)
+            
+            let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: 1 + 4 + 1)
+            
+            for i in 0..<4 {
+                buffer[i] = size_in_bytes[i]
+            }
+            buffer[4] = type;
+            buffer[5] = 1
+            
+            receiver.outputStream.write(buffer, maxLength: 6)
+            
         }
         
     }
@@ -165,18 +224,66 @@ class ViewController: UIViewController, UITextFieldDelegate {
         if recognizer.state == .ended {
             //code 1
             print("just left tap",recognizer.numberOfTapsRequired)
+            
+            let type = UInt8(1)
+            let len = UInt(1)
+            
+            var size_in_bytes = toByteArray(value : len)
+            
+            let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: 1 + 4 + 1)
+            
+            for i in 0..<4 {
+                buffer[i] = size_in_bytes[i]
+            }
+            buffer[4] = type;
+            buffer[5] = 1
+            
+            receiver.outputStream.write(buffer, maxLength: 6)
+            
         }
     }
     @objc func leftDoubleTap(recognizer: UITapGestureRecognizer){
         if recognizer.state == .ended {
             //code 2
             print("just double left tap",recognizer.numberOfTapsRequired)
+            
+            let type = UInt8(2)
+            let len = UInt(1)
+            
+            var size_in_bytes = toByteArray(value : len)
+            
+            let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: 1 + 4 + 1)
+            
+            for i in 0..<4 {
+                buffer[i] = size_in_bytes[i]
+            }
+            buffer[4] = type;
+            buffer[5] = 1
+            
+            receiver.outputStream.write(buffer, maxLength: 6)
+            
         }
     }
     @objc func rightTap(recognize: UITapGestureRecognizer){
         if recognize.state == .ended{
             //code 3
             print("jusr right tap", recognize.location(in: videoView))
+            
+            let type = UInt8(3)
+            let len = UInt(1)
+            
+            var size_in_bytes = toByteArray(value : len)
+            
+            let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: 1 + 4 + 1)
+            
+            for i in 0..<4 {
+                buffer[i] = size_in_bytes[i]
+            }
+            buffer[4] = type;
+            buffer[5] = 1
+            
+            receiver.outputStream.write(buffer, maxLength: 6)
+            
         }
     }
     @objc func scroll(recognizer: UIPanGestureRecognizer){
@@ -184,10 +291,36 @@ class ViewController: UIViewController, UITextFieldDelegate {
         if recognizer.state == .began{
             //code 11 and y
         } else if recognizer.state == .changed {
-            let point = recognizer.translation(in: videoView).y //transfer to server
-            if point > 0{
+            
+            let point = recognizer.translation(in: videoView) //transfer to server
+            
+            let y : CGFloat = point.y;
+            
+            var bytesY = toByteArray(value : y)
+            let type = UInt8(11)
+            let len = UInt(8)
+            
+            var size_in_bytes = toByteArray(value : len)
+            
+            let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: 8+4+1)
+            
+            for i in 0..<4 {
+                buffer[i] = size_in_bytes[i]
+            }
+            buffer[4] = type;
+            
+            var j = 0;
+            for i in 5..<13 {
+                buffer[i] = bytesY[j];
+                j+=1;
+            }
+            
+            receiver.outputStream.write(buffer, maxLength: 8 + 4 + 1)
+            
+            
+            if point.y > 0{
                 print("scrollDown", point)
-            } else if point < 0 {
+            } else if point.y < 0 {
                 print("scrollUp",point)
             }
             recognizer.setTranslation(CGPoint.zero, in: videoView)
@@ -201,17 +334,78 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @objc func textFieldChangeStream(_ textField: UITextField){
         if (textField.text!.count > 1){
             //code 8 and popLast
-            print(textField.text!.popLast()!)        //transfer to server
+            
+            let symbol = textField.text!.popLast()!
+            
+            print(symbol)        //transfer to server
+            
+            let type = UInt8(8)
+            let len = UInt(1)
+            
+            var size_in_bytes = toByteArray(value : len)
+            
+            let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: 1 + 4 + 1)
+            
+            for i in 0..<4 {
+                buffer[i] = size_in_bytes[i]
+            }
+            buffer[4] = type;
+            
+            let s = String(symbol).utf8.map{UInt8($0)}[0]
+            buffer[5] = s
+            
+            receiver.outputStream.write(buffer, maxLength: 6)
+            
         } else
         if textField.text!.isEmpty {
             //code 10
             print("transfer to server code code 51")
+            
+            let type = UInt8(10)
+            let len = UInt(1)
+            
+            var size_in_bytes = toByteArray(value : len)
+            
+            let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: 1 + 4 + 1)
+            
+            for i in 0..<4 {
+                buffer[i] = size_in_bytes[i]
+            }
+            buffer[4] = type;
+            
+            let sID : UInt8 = 51;
+            buffer[5] = sID
+            
+            receiver.outputStream.write(buffer, maxLength: 6)
+            
             textField.text = "/"
         }
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         //code 9
         print("transfer to server code code 36")
+        
+        let symbol = textField.text!.popLast()!
+        
+        print(symbol)        //transfer to server
+        
+        let type = UInt8(10)
+        let len = UInt(1)
+        
+        var size_in_bytes = toByteArray(value : len)
+        
+        let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: 1 + 4 + 1)
+        
+        for i in 0..<4 {
+            buffer[i] = size_in_bytes[i]
+        }
+        buffer[4] = type;
+        
+        let s = String(symbol).utf8.map{UInt8($0)}[0]
+        buffer[5] = s
+        
+        receiver.outputStream.write(buffer, maxLength: 6)
+        
         textField.text = "/"                        //clear text
         return false
     }

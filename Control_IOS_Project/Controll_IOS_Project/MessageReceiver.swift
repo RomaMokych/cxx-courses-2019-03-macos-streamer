@@ -8,7 +8,8 @@
 
 import Foundation
 import UIKit
-
+import CoreFoundation
+import CFNetwork
 
 @objcMembers class MessageReceiver : NSObject
 {
@@ -32,6 +33,10 @@ import UIKit
     let converter = Converter();
     var buffer: UnsafeMutablePointer<UInt8>?
     
+    func fromByteArray<T>(value: [UInt8], _: T.Type) -> T
+    {
+        return value.withUnsafeBytes { $0.baseAddress!.load(as: T.self) }
+    }
     
     func setupNetworkCommunication() {
         
@@ -44,14 +49,28 @@ import UIKit
         print(ipAddress)
         // ------------------------------------
         
+        
+        
+        
         CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault,
-                                           ipAddress as CFString,
-                                           9999,
+                                           "10.100.26.130" as CFString,
+                                           2220,
                                            &readStream,
                                            &writeStream);
         
         inputStream = readStream!.takeRetainedValue()
         outputStream = writeStream!.takeRetainedValue()
+
+        //var socketStream = CFSocketCreate(kCFAllocatorDefault, AF_INET, SOCK_STREAM, 0, 2, nil, nil)
+        
+        
+        
+       // let socketData = CFWriteStreamCopyProperty(self.outputStream!, CFStreamPropertyKey.socketNativeHandle) as! CFData
+        //let handle = CFSocketNativeHandle(CFDataGetBytePtr(socketData)?.pointee)
+        
+       
+        
+       
         
         inputStream.delegate = self
         
@@ -65,6 +84,28 @@ import UIKit
         
         inputStream.open()
         outputStream.open()
+//
+//        var socketData = CFWriteStreamCopyProperty(self.outputStream!, CFStreamPropertyKey.socketNativeHandle) as! NSData
+//        var socket: CFSocketNativeHandle = 0
+//
+//        let x = MemoryLayout<CFSocketNativeHandle>.size
+//        var one: UInt32 = 1;
+//
+//        socketData.getBytes(&socket, length: x)
+//
+//        setsockopt(socket, IPPROTO_TCP, TCP_NODELAY, &one, socklen_t(x))
+        
+//        var socketData = CFWriteStreamCopyProperty(outputStream, CFStreamPropertyKey.socketNativeHandle) as! NSData
+//        var socket: CFSocketNativeHandle = 0
+//        let x = MemoryLayout<CFSocketNativeHandle>.size
+//
+//        socketData.getBytes(&socket, length: x)
+//
+//        var on: UInt32 = 1;
+//        if setsockopt(socket, IPPROTO_TCP, TCP_NODELAY, &on, socklen_t(x)) == -1 {
+//            print("Oh...")
+//        }
+        
     }
     
     

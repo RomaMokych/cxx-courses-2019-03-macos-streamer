@@ -15,6 +15,7 @@
 		224D2DC0224CEDB400DE4194 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 224D2DBE224CEDB400DE4194 /* Main.storyboard */; };
 		224D2DC2224CEDC000DE4194 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 224D2DC1224CEDC000DE4194 /* Assets.xcassets */; };
 		224D2DC5224CEDC000DE4194 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 224D2DC3224CEDC000DE4194 /* LaunchScreen.storyboard */; };
+		4E1F1BA12264B50C00B9198B /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E1F1BA02264B50B00B9198B /* CoreFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -41,6 +42,7 @@
 		224D2DC1224CEDC000DE4194 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		224D2DC4224CEDC000DE4194 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		224D2DC6224CEDC000DE4194 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4E1F1BA02264B50B00B9198B /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +50,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4E1F1BA12264B50C00B9198B /* CoreFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,6 +62,7 @@
 			children = (
 				224D2DB9224CEDB400DE4194 /* Controll_IOS_Project */,
 				224D2DB8224CEDB400DE4194 /* Products */,
+				4E1F1B9F2264B50A00B9198B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -84,6 +88,14 @@
 				224D2DC6224CEDC000DE4194 /* Info.plist */,
 			);
 			path = Controll_IOS_Project;
+			sourceTree = "<group>";
+		};
+		4E1F1B9F2264B50A00B9198B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4E1F1BA02264B50B00B9198B /* CoreFoundation.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
