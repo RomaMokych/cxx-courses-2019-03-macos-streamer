@@ -16,7 +16,7 @@ class MainViewController: UIViewController, UITextFieldDelegate {
     @IBAction func connect(_ sender: UIButton) {
         if checkIp(ip: ipTextField.text!){
             let vc = storyboard?.instantiateViewController(withIdentifier: "viewStream")
-            self.present(vc!, animated: false, completion: nil)
+            self.present(vc!, animated: true, completion: nil)
             MessageReceiver.ip = ipTextField.text!
             print("connect")
         } else {

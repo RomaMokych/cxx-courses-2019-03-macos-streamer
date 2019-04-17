@@ -35,10 +35,10 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="alphabet"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HDU-FP-zrz">
-                                <rect key="frame" x="617" y="334.5" width="27" height="18"/>
+                                <rect key="frame" x="617" y="334.5" width="30" height="18"/>
                                 <inset key="contentEdgeInsets" minX="1" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <state key="normal" title="Key"/>
                                 <connections>
@@ -54,7 +54,7 @@
                             <constraint firstItem="wHn-PF-J8l" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="BNp-5O-dDv"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="qoR-Ky-1vC" secondAttribute="trailing" constant="20" id="Byu-gD-95a"/>
                             <constraint firstItem="HDU-FP-zrz" firstAttribute="leading" secondItem="wHn-PF-J8l" secondAttribute="trailing" constant="8" id="DIL-RX-yYU"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="HDU-FP-zrz" secondAttribute="trailing" constant="23" id="LHm-MI-Ech"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="HDU-FP-zrz" secondAttribute="trailing" constant="20" id="LHm-MI-Ech"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="HDU-FP-zrz" secondAttribute="bottom" constant="22.5" id="ezA-FK-WUH"/>
                             <constraint firstItem="wHn-PF-J8l" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="pTE-uB-lIp"/>
                             <constraint firstItem="qoR-Ky-1vC" firstAttribute="leading" secondItem="wHn-PF-J8l" secondAttribute="trailing" constant="8" id="ySP-Iy-PMa"/>

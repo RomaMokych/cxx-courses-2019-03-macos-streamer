@@ -93,12 +93,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         if recognizer.state == .began{
             
         } else if recognizer.state == .changed {
-            var point = recognizer.translation(in: videoView)
-            
-            
-            
-            //point.x = pow(point.x, 2)*0.25
-            //point.y = pow(point.y, 2)*0.25
+            let point = recognizer.translation(in: videoView)
             
             print("Moving", point)
             
@@ -130,7 +125,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 j+=1;
             }
             
-            receiver.outputStream.write(buffer, maxLength: 16 + 4 + 1)
+            //receiver.outputStream.write(buffer, maxLength: 16 + 4 + 1)
             
             recognizer.setTranslation(CGPoint.zero, in: videoView)
             
@@ -158,7 +153,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             buffer[4] = type;
             buffer[5] = 1
             
-            receiver.outputStream.write(buffer, maxLength: 6)
+            //receiver.outputStream.write(buffer, maxLength: 6)
             
             
         } else if recognizer.state == .changed {
@@ -194,7 +189,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 j+=1;
             }
             
-            receiver.outputStream.write(buffer, maxLength: 16 + 4 + 1)
+            //receiver.outputStream.write(buffer, maxLength: 16 + 4 + 1)
             
             recognizer.setTranslation(CGPoint.zero, in: videoView)
             
@@ -215,7 +210,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             buffer[4] = type;
             buffer[5] = 1
             
-            receiver.outputStream.write(buffer, maxLength: 6)
+            //receiver.outputStream.write(buffer, maxLength: 6)
             
         }
         
@@ -238,7 +233,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             buffer[4] = type;
             buffer[5] = 1
             
-            receiver.outputStream.write(buffer, maxLength: 6)
+            //receiver.outputStream.write(buffer, maxLength: 6)
             
         }
     }
@@ -260,7 +255,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             buffer[4] = type;
             buffer[5] = 1
             
-            receiver.outputStream.write(buffer, maxLength: 6)
+            //receiver.outputStream.write(buffer, maxLength: 6)
             
         }
     }
@@ -282,7 +277,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             buffer[4] = type;
             buffer[5] = 1
             
-            receiver.outputStream.write(buffer, maxLength: 6)
+            //receiver.outputStream.write(buffer, maxLength: 6)
             
         }
     }
@@ -315,7 +310,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 j+=1;
             }
             
-            receiver.outputStream.write(buffer, maxLength: 8 + 4 + 1)
+            //receiver.outputStream.write(buffer, maxLength: 8 + 4 + 1)
             
             
             if point.y > 0{
@@ -354,7 +349,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             let s = String(symbol).utf8.map{UInt8($0)}[0]
             buffer[5] = s
             
-            receiver.outputStream.write(buffer, maxLength: 6)
+            //receiver.outputStream.write(buffer, maxLength: 6)
             
         } else
         if textField.text!.isEmpty {
@@ -376,7 +371,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             let sID : UInt8 = 51;
             buffer[5] = sID
             
-            receiver.outputStream.write(buffer, maxLength: 6)
+            //receiver.outputStream.write(buffer, maxLength: 6)
             
             textField.text = "/"
         }
@@ -384,10 +379,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         //code 9
         print("transfer to server code code 36")
-        
-        let symbol = textField.text!.popLast()!
-        
-        print(symbol)        //transfer to server
         
         let type = UInt8(10)
         let len = UInt(1)
@@ -401,10 +392,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
         buffer[4] = type;
         
-        let s = String(symbol).utf8.map{UInt8($0)}[0]
+        let s = String(36).utf8.map{UInt8($0)}[0]
         buffer[5] = s
         
-        receiver.outputStream.write(buffer, maxLength: 6)
+        //receiver.outputStream.write(buffer, maxLength: 6)
         
         textField.text = "/"                        //clear text
         return false
