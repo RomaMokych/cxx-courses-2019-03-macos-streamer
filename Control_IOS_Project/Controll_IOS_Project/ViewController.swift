@@ -5,7 +5,7 @@
 //  Created by MacOS on 28.03.2019.
 //  Copyright © 2019 MacOS. All rights reserved.
 //
-
+import CoreGraphics
 import UIKit
 
 class ViewController: UIViewController, UITextFieldDelegate {
@@ -25,7 +25,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         //disconnect
         print("disconnect")
     }
-    
+    var send = true
     
     var receiver = MessageReceiver()
     
@@ -92,7 +92,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
         // code 7 and x and y
         if recognizer.state == .began{
             
-        } else if recognizer.state == .changed {
+        } else if recognizer.state == .changed{
+            //message reduction
+            if send{
+                send = false
+            } else {
+                send = true
+                return
+            }
             let point = recognizer.translation(in: videoView)
             
             print("Moving", point)
@@ -157,6 +164,13 @@ class ViewController: UIViewController, UITextFieldDelegate {
             
             
         } else if recognizer.state == .changed {
+            //message reduction
+            if send{
+                send = false
+            } else {
+                send = true
+                return
+            }
             //code 5 and x and y
             let point = recognizer.translation(in: videoView)//transfer to server
             print("Moving and mouse down", point.x,point.y)
@@ -286,6 +300,13 @@ class ViewController: UIViewController, UITextFieldDelegate {
         if recognizer.state == .began{
             //code 11 and y
         } else if recognizer.state == .changed {
+            //message reduction
+            if send{
+                send = false
+            } else {
+                send = true
+                return
+            }
             
             let point = recognizer.translation(in: videoView) //transfer to server
             
@@ -392,8 +413,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
         buffer[4] = type;
         
-        let s = String(36).utf8.map{UInt8($0)}[0]
-        buffer[5] = s
+        let sID : UInt8 = 36
+        buffer[5] = sID
         
         //receiver.outputStream.write(buffer, maxLength: 6)
         
@@ -411,6 +432,34 @@ class ViewController: UIViewController, UITextFieldDelegate {
         } else if notification.name == UIResponder.keyboardWillHideNotification{
             view.frame.origin.y = 0
         }
+    }
+    func keyboardChar(s: Character) -> (Int?, Int?){
+        //this is dictionary translation character to keyboard code
+        //map(letter,(vireual key, modification))
+        let convertData  = [
+            "q":[12,0], "w":[13,0], "e":[14,0], "r":[15,0], "t":[17,0],
+            "y":[16,0], "u":[32,0], "i":[34,0], "o":[31,0], "p":[35,0],
+            "a":[0,0],  "s":[1,0],  "d":[2,0],  "f":[3,0],  "g":[5,0],
+            "h":[4,0],  "j":[38,0], "k":[40,0], "l":[37,0], "z":[6,0],
+            "x":[7,0],  "c":[8,0],  "v":[9,0],  "b":[11,0], "n":[45,0],
+            "m":[46,0], "1":[18,0], "2":[19,0], "3":[20,0], "4":[21,0],
+            "5":[23,0], "6":[22,0], "7":[26,0], "8":[28,0], "9":[25,0],
+            "0":[29,0], "-":[27,0], "/":[44,0], ";":[41,0], " ":[49,0],
+            ".":[47,0], ",":[43,0], "\'":[39,0],"[":[33,0], "]":[30,0],
+            "=":[24,0], "\\":[42,0],
+            "Q":[12, 1],"W":[13,1], "E":[14,1], "R":[15,1], "T":[17,1],
+            "Y":[16,1], "U":[32,1], "I":[34,1], "O":[31,1], "P":[35,1],
+            "A":[0,1],  "S":[1,1],  "D":[2,1],  "F":[3,1],  "G":[5,1],
+            "H":[4,1],  "J":[38,1], "K":[40,1], "L":[37,1], "Z":[6,1],
+            "X":[7,1],  "C":[8,1],  "V":[9,1],  "B":[11,1], "N":[45,1],
+            "M":[46,1], ":":[41,1], "(":[25,1], ")":[29,1], "$":[21,1],
+            "&":[26,1], "@":[19,1], "\"":[39,1],"?":[44,1], "!":[18,1],
+            "{":[33,1], "}":[30,1], "#":[20,1], "%":[23,1], "^":[22,1],
+            "*":[28,1], "+":[24,1], "_":[27,1], "~":[50,1], "<":[43,1],
+            ">":[47,1], "¥":[16,2], "£":[20,2], "•":[28,2], "€":[19,3]]
+        //convert
+        let res = convertData[String(s)]
+        return (res?[0],res?[1])
     }
     
     deinit {

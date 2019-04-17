@@ -53,7 +53,7 @@ import CFNetwork
         
         
         CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault,
-                                           "10.100.26.130" as CFString,
+                                           ipAddress as CFString,
                                            2220,
                                            &readStream,
                                            &writeStream);

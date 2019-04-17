@@ -19,12 +19,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wHn-PF-J8l">
-                                <rect key="frame" x="20" y="20" width="589" height="335"/>
+                                <rect key="frame" x="20" y="20" width="577" height="335"/>
                                 <color key="backgroundColor" red="0.024369048139494143" green="0.048973080742740316" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qoR-Ky-1vC">
-                                <rect key="frame" x="617" y="20" width="30" height="30"/>
-                                <state key="normal" title="Disc"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qoR-Ky-1vC">
+                                <rect key="frame" x="605" y="20" width="42" height="42"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="42" id="16L-rt-J2D"/>
+                                    <constraint firstAttribute="height" constant="42" id="Qtf-2f-8CF"/>
+                                </constraints>
+                                <state key="normal" image="power_23905"/>
                                 <connections>
                                     <action selector="disconnect:" destination="BYZ-38-t0r" eventType="touchUpInside" id="scM-ca-cYs"/>
                                     <segue destination="RG4-4q-vzq" kind="presentation" modalTransitionStyle="crossDissolve" id="CPK-95-n52"/>
@@ -37,10 +41,14 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="alphabet"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HDU-FP-zrz">
-                                <rect key="frame" x="617" y="334.5" width="30" height="18"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HDU-FP-zrz">
+                                <rect key="frame" x="605" y="310.5" width="42" height="42"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="42" id="5y8-3a-dDo"/>
+                                    <constraint firstAttribute="height" constant="42" id="Zkj-p3-17C"/>
+                                </constraints>
                                 <inset key="contentEdgeInsets" minX="1" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" title="Key"/>
+                                <state key="normal" image="keyboard_23911(1)"/>
                                 <connections>
                                     <action selector="keyboardUpDown:" destination="BYZ-38-t0r" eventType="touchUpInside" id="2az-2W-Hre"/>
                                 </connections>
@@ -126,4 +134,8 @@
             <point key="canvasLocation" x="-647.22638680659679" y="127.2"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="keyboard_23911(1)" width="128" height="128"/>
+        <image name="power_23905" width="128" height="128"/>
+    </resources>
 </document>

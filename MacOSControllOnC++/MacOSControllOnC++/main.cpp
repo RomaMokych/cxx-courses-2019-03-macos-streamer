@@ -26,6 +26,18 @@ void keyTab (const unsigned short &key,const CGEventFlags &flag = 0){
     CFRelease(keyDown);
     CFRelease(keyUp);
 }
+CGEventFlags convertModFlag(const int &flag){
+    switch (flag) {
+        case 1:
+            return kCGEventFlagMaskShift;
+        case 2:
+            return kCGEventFlagMaskAlternate;
+        case 3:
+            return kCGEventFlagMaskShift | kCGEventFlagMaskAlternate;
+        default:
+            return 0;
+    }
+}
 void mouseTab (const CGMouseButton &mouseButton, const bool &doubleClick = false){
     //Create type event
     CGEventType mouseTypeUp;

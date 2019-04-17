@@ -16,8 +16,8 @@ class MainViewController: UIViewController, UITextFieldDelegate {
     @IBAction func connect(_ sender: UIButton) {
         if checkIp(ip: ipTextField.text!){
             let vc = storyboard?.instantiateViewController(withIdentifier: "viewStream")
-            self.present(vc!, animated: true, completion: nil)
             MessageReceiver.ip = ipTextField.text!
+            self.present(vc!, animated: true, completion: nil)
             print("connect")
         } else {
             systemAlert.textColor = UIColor.red
