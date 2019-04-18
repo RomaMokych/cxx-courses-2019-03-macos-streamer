@@ -10,6 +10,7 @@
 		112576FC225358C700C968E9 /* MessageReceiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112576FB225358C600C968E9 /* MessageReceiver.swift */; };
 		112576FE2253618200C968E9 /* ImageConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112576FD2253618200C968E9 /* ImageConverter.swift */; };
 		2217266D2254184F00929D1B /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2217266C2254184F00929D1B /* MainViewController.swift */; };
+		2233C13B226902DD006A89C5 /* ModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2233C13A226902DD006A89C5 /* ModelController.swift */; };
 		224D2DBB224CEDB400DE4194 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224D2DBA224CEDB400DE4194 /* AppDelegate.swift */; };
 		224D2DBD224CEDB400DE4194 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224D2DBC224CEDB400DE4194 /* ViewController.swift */; };
 		224D2DC0224CEDB400DE4194 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 224D2DBE224CEDB400DE4194 /* Main.storyboard */; };
@@ -35,6 +36,7 @@
 		112576FB225358C600C968E9 /* MessageReceiver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageReceiver.swift; sourceTree = "<group>"; };
 		112576FD2253618200C968E9 /* ImageConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageConverter.swift; sourceTree = "<group>"; };
 		2217266C2254184F00929D1B /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		2233C13A226902DD006A89C5 /* ModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelController.swift; sourceTree = "<group>"; };
 		224D2DB7224CEDB400DE4194 /* Controll_IOS_Project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Controll_IOS_Project.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		224D2DBA224CEDB400DE4194 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		224D2DBC224CEDB400DE4194 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -82,6 +84,7 @@
 				112576FD2253618200C968E9 /* ImageConverter.swift */,
 				224D2DBC224CEDB400DE4194 /* ViewController.swift */,
 				2217266C2254184F00929D1B /* MainViewController.swift */,
+				2233C13A226902DD006A89C5 /* ModelController.swift */,
 				224D2DBE224CEDB400DE4194 /* Main.storyboard */,
 				224D2DC1224CEDC000DE4194 /* Assets.xcassets */,
 				224D2DC3224CEDC000DE4194 /* LaunchScreen.storyboard */,
@@ -173,6 +176,7 @@
 				224D2DBD224CEDB400DE4194 /* ViewController.swift in Sources */,
 				224D2DBB224CEDB400DE4194 /* AppDelegate.swift in Sources */,
 				112576FE2253618200C968E9 /* ImageConverter.swift in Sources */,
+				2233C13B226902DD006A89C5 /* ModelController.swift in Sources */,
 				112576FC225358C700C968E9 /* MessageReceiver.swift in Sources */,
 				2217266D2254184F00929D1B /* MainViewController.swift in Sources */,
 			);

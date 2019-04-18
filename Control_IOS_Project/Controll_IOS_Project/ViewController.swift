@@ -9,7 +9,9 @@ import CoreGraphics
 import UIKit
 
 class ViewController: UIViewController, UITextFieldDelegate {
-    
+    var send = true
+    var modelData: ModelData!
+    var receiver: MessageReceiver!
     @IBOutlet weak var videoView: UIView!
     //hide textField
     @IBOutlet weak var keyboardStreamTextField: UITextField!
@@ -22,16 +24,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
     }
     @IBAction func disconnect(_ sender: UIButton) {
-        //disconnect
+        modelData.receiver = receiver
+        dismiss(animated: true, completion: nil)
         print("disconnect")
     }
-    var send = true
-    
-    var receiver = MessageReceiver()
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        receiver = modelData.receiver
         //delegate
         keyboardStreamTextField.delegate = self
         keyboardStreamTextField.addTarget(self,action:#selector(textFieldChangeStream(_ :)), for: .allEditingEvents)
@@ -132,7 +132,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 j+=1;
             }
             
-            //receiver.outputStream.write(buffer, maxLength: 16 + 4 + 1)
+            receiver.outputStream.write(buffer, maxLength: 16 + 4 + 1)
             
             recognizer.setTranslation(CGPoint.zero, in: videoView)
             
@@ -160,7 +160,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             buffer[4] = type;
             buffer[5] = 1
             
-            //receiver.outputStream.write(buffer, maxLength: 6)
+            receiver.outputStream.write(buffer, maxLength: 6)
             
             
         } else if recognizer.state == .changed {
@@ -203,7 +203,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 j+=1;
             }
             
-            //receiver.outputStream.write(buffer, maxLength: 16 + 4 + 1)
+            receiver.outputStream.write(buffer, maxLength: 16 + 4 + 1)
             
             recognizer.setTranslation(CGPoint.zero, in: videoView)
             
@@ -224,7 +224,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             buffer[4] = type;
             buffer[5] = 1
             
-            //receiver.outputStream.write(buffer, maxLength: 6)
+            receiver.outputStream.write(buffer, maxLength: 6)
             
         }
         
@@ -247,7 +247,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             buffer[4] = type;
             buffer[5] = 1
             
-            //receiver.outputStream.write(buffer, maxLength: 6)
+            receiver.outputStream.write(buffer, maxLength: 6)
             
         }
     }
@@ -269,14 +269,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
             buffer[4] = type;
             buffer[5] = 1
             
-            //receiver.outputStream.write(buffer, maxLength: 6)
+            receiver.outputStream.write(buffer, maxLength: 6)
             
         }
     }
     @objc func rightTap(recognize: UITapGestureRecognizer){
         if recognize.state == .ended{
             //code 3
-            print("jusr right tap", recognize.location(in: videoView))
+            print("just right tap")
             
             let type = UInt8(3)
             let len = UInt(1)
@@ -291,7 +291,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             buffer[4] = type;
             buffer[5] = 1
             
-            //receiver.outputStream.write(buffer, maxLength: 6)
+            receiver.outputStream.write(buffer, maxLength: 6)
             
         }
     }
@@ -331,7 +331,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 j+=1;
             }
             
-            //receiver.outputStream.write(buffer, maxLength: 8 + 4 + 1)
+            receiver.outputStream.write(buffer, maxLength: 8 + 4 + 1)
             
             
             if point.y > 0{
@@ -370,7 +370,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             let s = String(symbol).utf8.map{UInt8($0)}[0]
             buffer[5] = s
             
-            //receiver.outputStream.write(buffer, maxLength: 6)
+            receiver.outputStream.write(buffer, maxLength: 6)
             
         } else
         if textField.text!.isEmpty {
@@ -392,7 +392,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             let sID : UInt8 = 51;
             buffer[5] = sID
             
-            //receiver.outputStream.write(buffer, maxLength: 6)
+            receiver.outputStream.write(buffer, maxLength: 6)
             
             textField.text = "/"
         }
@@ -416,7 +416,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let sID : UInt8 = 36
         buffer[5] = sID
         
-        //receiver.outputStream.write(buffer, maxLength: 6)
+        receiver.outputStream.write(buffer, maxLength: 6)
         
         textField.text = "/"                        //clear text
         return false

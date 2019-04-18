@@ -13,7 +13,6 @@ import CFNetwork
 
 @objcMembers class MessageReceiver : NSObject
 {
-    static var ip = "localhost"
     
     var controller : ViewController?
 
@@ -45,7 +44,7 @@ import CFNetwork
         
         // -------INSERT YOUR IP HERE----------
         
-        let ipAddress = MessageReceiver.ip;
+        let ipAddress = "localhost";
         print(ipAddress)
         // ------------------------------------
         
@@ -108,7 +107,10 @@ import CFNetwork
         
     }
     
-    
+    func connect(Ip4: String) -> Bool{
+        //lodic func
+        return true
+    }
     func stopSession() {
         
         inputStream.close()

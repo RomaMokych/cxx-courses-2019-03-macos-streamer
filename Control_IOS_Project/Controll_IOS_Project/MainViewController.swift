@@ -9,20 +9,22 @@
 import UIKit
 
 class MainViewController: UIViewController, UITextFieldDelegate {
-
+    var modelData: ModelData!
     
     @IBOutlet weak var systemAlert: UITextView!
     @IBOutlet weak var ipTextField: UITextField!
     @IBAction func connect(_ sender: UIButton) {
         if checkIp(ip: ipTextField.text!){
-            let vc = storyboard?.instantiateViewController(withIdentifier: "viewStream")
-            MessageReceiver.ip = ipTextField.text!
-            self.present(vc!, animated: true, completion: nil)
-            print("connect")
+            if modelData.receiver.connect(Ip4: ipTextField.text!) {
+                print("connect")
+            performSegue(withIdentifier: "goStreamViewController", sender: self)
+            } else {
+                systemAlert.textColor = UIColor.red
+                systemAlert.text = "Error connecting"
+            }
         } else {
             systemAlert.textColor = UIColor.red
             systemAlert.text = "Wrong ip"
-            print("connect failed, error ip")
         }
     }
     
@@ -34,7 +36,15 @@ class MainViewController: UIViewController, UITextFieldDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardChange(notification:)), name: UIResponder.keyboardWillShowNotification , object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardChange(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let VC = segue.destination as? ViewController{
+            VC.modelData = modelData
+        }
+    }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)   //remove focus keyboard
         return true
@@ -55,7 +65,7 @@ class MainViewController: UIViewController, UITextFieldDelegate {
         guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
             else { return }
         if notification.name == UIResponder.keyboardWillShowNotification{
-            view.frame.origin.y = -keyboardSize.height
+            view.frame.origin.y = -keyboardSize.height/2
         } else if notification.name == UIResponder.keyboardWillHideNotification{
             view.frame.origin.y = 0
         }

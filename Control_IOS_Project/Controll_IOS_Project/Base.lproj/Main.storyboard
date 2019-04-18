@@ -31,7 +31,6 @@
                                 <state key="normal" image="power_23905"/>
                                 <connections>
                                     <action selector="disconnect:" destination="BYZ-38-t0r" eventType="touchUpInside" id="scM-ca-cYs"/>
-                                    <segue destination="RG4-4q-vzq" kind="presentation" modalTransitionStyle="crossDissolve" id="CPK-95-n52"/>
                                 </connections>
                             </button>
                             <textField hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="/" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="b2x-mp-MNq">
@@ -127,6 +126,7 @@
                     <connections>
                         <outlet property="ipTextField" destination="bvg-Jx-FHY" id="k2I-9W-nbg"/>
                         <outlet property="systemAlert" destination="mSp-xp-bBH" id="Yt4-pY-gWS"/>
+                        <segue destination="BYZ-38-t0r" kind="presentation" identifier="goStreamViewController" id="2j3-pb-rwd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Byr-Mi-8JC" userLabel="First Responder" sceneMemberID="firstResponder"/>
