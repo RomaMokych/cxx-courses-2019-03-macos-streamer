@@ -8,6 +8,12 @@
 
 import Foundation
 
-class ModelData{
-    var receiver = MessageReceiver()
+class ModelData
+{
+    var receiver : MessageReceiver?
+    
+    init(mainViewController : MainViewController)
+    {
+        receiver = MessageReceiver(mainViewController: mainViewController)
+    }
 }

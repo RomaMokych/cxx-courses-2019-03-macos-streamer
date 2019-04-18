@@ -26,12 +26,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBAction func disconnect(_ sender: UIButton) {
         modelData.receiver = receiver
         dismiss(animated: true, completion: nil)
-        print("disconnect")
+        print("Disconnected")
+        modelData.receiver?.closeConnection(msg: "You closed connection!")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         receiver = modelData.receiver
+        
         //delegate
         keyboardStreamTextField.delegate = self
         keyboardStreamTextField.addTarget(self,action:#selector(textFieldChangeStream(_ :)), for: .allEditingEvents)
@@ -56,6 +58,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         leftTapGestureRecognizer.require(toFail: leftDoubleTapGestureRecognizer)
         let rightTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(rightTap))
         rightTapGestureRecognizer.numberOfTouchesRequired = 2
+        
         //add Gesture Recognizer
         videoView.addGestureRecognizer(panGestureRecognizer)
         videoView.addGestureRecognizer(panTwoTouchesGestureRecognizer)
@@ -64,14 +67,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
         videoView.addGestureRecognizer(leftDoubleTapGestureRecognizer)
         videoView.addGestureRecognizer(rightTapGestureRecognizer)
         
-        
-        receiver.controller = self
-        receiver.setupNetworkCommunication();
+        receiver.imageViewController = self
         
         videoView.isOpaque = true
         videoView.layer.rasterizationScale = UIScreen.main.scale;
         videoView.layer.shouldRasterize = false
-        
     
     }
     

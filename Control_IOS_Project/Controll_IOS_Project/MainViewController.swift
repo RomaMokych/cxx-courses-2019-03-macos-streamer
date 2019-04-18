@@ -13,20 +13,41 @@ class MainViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var systemAlert: UITextView!
     @IBOutlet weak var ipTextField: UITextField!
+    @IBOutlet var buttonConnect: UIButton!
+    
     @IBAction func connect(_ sender: UIButton) {
-        if checkIp(ip: ipTextField.text!){
-            if modelData.receiver.connect(Ip4: ipTextField.text!) {
-                print("connect")
-            performSegue(withIdentifier: "goStreamViewController", sender: self)
-            } else {
-                systemAlert.textColor = UIColor.red
-                systemAlert.text = "Error connecting"
-            }
+        
+        if checkIp(ip: ipTextField.text!)
+        {
+              print("Connecting to server...")
+            
+              // Asnyc operation, so start it and then do nothing in UI.
+              // 'receiver' takes responsibility to update UI when it finishes
+              buttonConnect.isEnabled = false
+              modelData.receiver!.setupNetworkCommunication(ipAddress: ipTextField.text!)
+            
         } else {
             systemAlert.textColor = UIColor.red
-            systemAlert.text = "Wrong ip"
+            systemAlert.text = "Invalid IP address!"
         }
     }
+    
+    func displayConnectError(msg: String)
+    {
+        print("ERROR")
+        systemAlert.textColor = UIColor.red
+        systemAlert.text = msg
+        buttonConnect.isEnabled = true;
+        ipTextField.becomeFirstResponder()
+    }
+    
+    func switchToRenderView()
+    {
+        print("Successfuly connected!")
+        systemAlert.text = ""
+        performSegue(withIdentifier: "goStreamViewController", sender: self)
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()

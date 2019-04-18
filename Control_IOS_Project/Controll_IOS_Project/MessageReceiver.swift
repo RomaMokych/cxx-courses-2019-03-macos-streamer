@@ -13,43 +13,43 @@ import CFNetwork
 
 @objcMembers class MessageReceiver : NSObject
 {
+    var controller : MainViewController?
+    var imageViewController : ViewController?
     
-    var controller : ViewController?
-
+    let converter = Converter();
+    var connectionTimer : Timer?
+    let timeout = 5.0
+    
+    var buffer: UnsafeMutablePointer<UInt8>?
+    
     var inputStream: InputStream!
     var outputStream: OutputStream!
     
     let maxReadLength = 4096
+    var connected  = false
     
-    // ---------------SCREEN SIZE--------------
-    var BaseWidth = 1920, BaseHeight = 1080;
-    // Please change width to 1280 and height to 720
-    //------------------------------------------
-    
+    var BaseWidth = 1920, BaseHeight = 1080;   // Expected screen size
+
     var BaseBytesCount : Int?;
     var read = 0;
     
-    let converter = Converter();
-    var buffer: UnsafeMutablePointer<UInt8>?
+    init(mainViewController : MainViewController)
+    {
+        controller = mainViewController
+    }
     
     func fromByteArray<T>(value: [UInt8], _: T.Type) -> T
     {
         return value.withUnsafeBytes { $0.baseAddress!.load(as: T.self) }
     }
     
-    func setupNetworkCommunication() {
+    // Just sets up everything to create connection later and manage it in the delegate function
+    func setupNetworkCommunication(ipAddress: String) {
         
         var readStream: Unmanaged<CFReadStream>?
         var writeStream: Unmanaged<CFWriteStream>?
         
-        // -------INSERT YOUR IP HERE----------
-        
-        let ipAddress = "localhost";
-        print(ipAddress)
-        // ------------------------------------
-        
-        
-        
+        print("Connecting to ", ipAddress)
         
         CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault,
                                            ipAddress as CFString,
@@ -60,21 +60,9 @@ import CFNetwork
         inputStream = readStream!.takeRetainedValue()
         outputStream = writeStream!.takeRetainedValue()
 
-        //var socketStream = CFSocketCreate(kCFAllocatorDefault, AF_INET, SOCK_STREAM, 0, 2, nil, nil)
-        
-        
-        
-       // let socketData = CFWriteStreamCopyProperty(self.outputStream!, CFStreamPropertyKey.socketNativeHandle) as! CFData
-        //let handle = CFSocketNativeHandle(CFDataGetBytePtr(socketData)?.pointee)
-        
-       
-        
-       
-        
         inputStream.delegate = self
         
         BaseBytesCount = self.BaseWidth * self.BaseHeight * 4;
-        print("base byte count = ", BaseBytesCount!)
         
         buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: BaseBytesCount!)
         
@@ -83,48 +71,70 @@ import CFNetwork
         
         inputStream.open()
         outputStream.open()
-//
-//        var socketData = CFWriteStreamCopyProperty(self.outputStream!, CFStreamPropertyKey.socketNativeHandle) as! NSData
-//        var socket: CFSocketNativeHandle = 0
-//
-//        let x = MemoryLayout<CFSocketNativeHandle>.size
-//        var one: UInt32 = 1;
-//
-//        socketData.getBytes(&socket, length: x)
-//
-//        setsockopt(socket, IPPROTO_TCP, TCP_NODELAY, &one, socklen_t(x))
         
-//        var socketData = CFWriteStreamCopyProperty(outputStream, CFStreamPropertyKey.socketNativeHandle) as! NSData
-//        var socket: CFSocketNativeHandle = 0
-//        let x = MemoryLayout<CFSocketNativeHandle>.size
-//
-//        socketData.getBytes(&socket, length: x)
-//
-//        var on: UInt32 = 1;
-//        if setsockopt(socket, IPPROTO_TCP, TCP_NODELAY, &on, socklen_t(x)) == -1 {
-//            print("Oh...")
-//        }
+        launchConnectionTimeoutTimer()
         
     }
     
-    func connect(Ip4: String) -> Bool{
-        //lodic func
-        return true
+    func launchConnectionTimeoutTimer()
+    {
+        self.connectionTimer = Timer.scheduledTimer(withTimeInterval: self.timeout, repeats: false) { _ in
+            if !self.connected {
+                self.closeConnection(msg: "Connection error occured!")
+            }
+            self.connectionTimer?.invalidate()
+            self.connectionTimer = nil
+        }
     }
+    
     func stopSession() {
         
         inputStream.close()
         outputStream.close()
         
         UIGraphicsEndImageContext();
-        free(buffer)
+        
+        if buffer != nil{
+            free(buffer)
+            buffer = nil
+        }
     }
     
 }
+
+
 extension MessageReceiver: StreamDelegate {
     
-    func stream(_ aStream: Stream, handle eventCode: Stream.Event) {
+    func closeConnection(msg: String)
+    {
+        stopSession()
+        connected = false
+        imageViewController?.performSegue(withIdentifier: "goToMainViewController", sender: self)
+        controller?.displayConnectError(msg: msg)
+    }
+    
+    func stream(_ aStream: Stream, handle eventCode: Stream.Event)
+    {
     switch eventCode {
+        
+    case Stream.Event.openCompleted:
+        if connected == false
+        {
+            connected = true;
+            print("Connected!")
+            print("Expected image size in bytes : ", BaseBytesCount!)
+            
+            controller?.switchToRenderView();
+        }
+        
+        case Stream.Event.errorOccurred:
+            print("Streaming error occured")
+            closeConnection(msg: "Streaming error occured")
+        
+        case Stream.Event.endEncountered:
+            print("Other side has been disconnected")
+            closeConnection(msg: "Other side has been disconnected")
+        
         case Stream.Event.hasBytesAvailable:
             
             // ------CAN SLOW DOWN SYSTEM------
@@ -133,16 +143,11 @@ extension MessageReceiver: StreamDelegate {
              
             readAvailableBytes(stream: aStream as! InputStream)
 
-        case Stream.Event.endEncountered:
-            print("new message received(end?)")
-            stopSession()
-        case Stream.Event.errorOccurred:
-            print("error occurred")
         case Stream.Event.hasSpaceAvailable:
-            print("has space available")
+            print("Has space available")
+        
         default:
-            print("some other event...")
-        break
+            print("Some other event received")
     }
     }
     
@@ -162,8 +167,9 @@ extension MessageReceiver: StreamDelegate {
                // print((numberOfBytesRead + read))
                // print("READ : " , numberOfBytesRead);
                 
-                controller?.videoView.layer.contents = converter.imageFromARGB32Bitmap(pixels: buffer!, width: BaseWidth, height: BaseHeight);
+                imageViewController?.videoView.layer.contents = converter.imageFromARGB32Bitmap(pixels: buffer!, width: BaseWidth, height: BaseHeight);
                 read = 0;
+                
             }else if ((numberOfBytesRead + read) < BaseBytesCount!){
                 read += numberOfBytesRead;
             }else if( (numberOfBytesRead + read) > BaseBytesCount!){

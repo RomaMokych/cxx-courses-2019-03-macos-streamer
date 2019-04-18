@@ -16,8 +16,9 @@ import UIKit
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        if let VC = window?.rootViewController as? MainViewController{
-            VC.modelData = ModelData()
+        if let mainViewController = window?.rootViewController as? MainViewController
+        {
+            mainViewController.modelData = ModelData(mainViewController: mainViewController)
         }
         return true
     }

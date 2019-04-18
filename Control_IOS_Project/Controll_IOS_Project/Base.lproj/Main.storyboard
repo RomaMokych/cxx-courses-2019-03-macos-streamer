@@ -71,6 +71,7 @@
                     <connections>
                         <outlet property="keyboardStreamTextField" destination="b2x-mp-MNq" id="5JU-Ad-GFW"/>
                         <outlet property="videoView" destination="wHn-PF-J8l" id="ubJ-QI-Iw1"/>
+                        <segue destination="RG4-4q-vzq" kind="presentation" identifier="goToMainViewController" id="iDI-zc-QuC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -124,6 +125,7 @@
                         <viewLayoutGuide key="safeArea" id="W4a-tu-PgT"/>
                     </view>
                     <connections>
+                        <outlet property="buttonConnect" destination="16J-EE-mPf" id="tMR-Vr-nDF"/>
                         <outlet property="ipTextField" destination="bvg-Jx-FHY" id="k2I-9W-nbg"/>
                         <outlet property="systemAlert" destination="mSp-xp-bBH" id="Yt4-pY-gWS"/>
                         <segue destination="BYZ-38-t0r" kind="presentation" identifier="goStreamViewController" id="2j3-pb-rwd"/>
@@ -135,7 +137,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="keyboard_23911(1)" width="128" height="128"/>
-        <image name="power_23905" width="128" height="128"/>
+        <image name="keyboard_23911(1)" width="96" height="96"/>
+        <image name="power_23905" width="96" height="96"/>
     </resources>
 </document>
