@@ -8,20 +8,25 @@ void InputManager::moveMouseTo(const double& x, const double& y)
 
 
 void InputManager::keyTab (const unsigned short &key,const CGEventFlags &flag){
+    
     //Create event
     CGEventRef keyDown = CGEventCreateKeyboardEvent(NULL, CGKeyCode(key), true);
     CGEventRef keyUp = CGEventCreateKeyboardEvent(NULL, CGKeyCode(key), false);
+    
     //Event modification
     CGEventSetFlags(keyDown, flag);
+    
     //Release event
     CGEventPost(kCGHIDEventTap, keyDown);
     CGEventPost(kCGHIDEventTap, keyUp);
+    
     //Free event
     CFRelease(keyDown);
     CFRelease(keyUp);
 }
 
 void InputManager::mouseTab (const CGMouseButton& mouseButton, const bool& doubleClick){
+    
     //Create type event
     CGEventType mouseTypeUp;
     CGEventType mouseTypeDown;
@@ -207,7 +212,6 @@ void InputManager::press_KeyboardChar(const char &c) {
        cout << " press_KeyboardChar\n";
     keyboardChar(c);
 }
-
 void InputManager::press_KeyTab(const char &c) {
            cout << " press_KeyTab\n";
    keyTab(c);

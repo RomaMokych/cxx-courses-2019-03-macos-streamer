@@ -1,8 +1,7 @@
 #ifndef InputManager_hpp
 #define InputManager_hpp
 
-#include <CoreGraphics/CGEvent.h>
-#include <CoreFoundation/CoreFoundation.h>
+#include "GraphicsHeaders.h"
 
 #include <string>
 #include <map>

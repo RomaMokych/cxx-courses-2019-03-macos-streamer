@@ -2,17 +2,17 @@
 #include <chrono>
 #include <memory>
 
-#include "InputManager.hpp"
+#include "InputManager.hpp" // Need to have the top order of include. I should fix it
 
 #include "RegularHeaders.h"
 #include "NetworkHeaders.h"
 
-
-#include "ServerWorker.hpp"
-#include "ScreenGrabber.hpp"
 #include "SRD_Server.hpp"
+#include "ServerWorker.hpp"
 
-void launchConsoleLoop()
+#include "ScreenGrabber.hpp"
+
+void launchConsoleLoop() // Need some logic to communicate with server thread
 {
     int code = 0;
     
@@ -26,24 +26,22 @@ void launchConsoleLoop()
 int main(int argc, const char * argv[]) {
 
     SocketAddress serverAddress("10.100.26.130", 2220);
-
+   // SocketAddress serverAddress("192.168.43.112", 2220);
+    
     shared_ptr<InputManager>  input;
     shared_ptr<ServerWorker>  worker;
     shared_ptr<ScreenGrabber> grabber;
 
     input.reset(new InputManager);
-    input->press_LeftMouseButton(true);
     worker.reset(new ServerWorker(serverAddress, input));
     grabber.reset(new ScreenGrabber(worker));
 
     worker->setGrabber(grabber);
-
-    input->press_LeftMouseButton(false);
     
     SRD_Server remoteDesktopServer(worker);
     remoteDesktopServer.start();
 
-    launchConsoleLoop();
+    // launchConsoleLoop(); // Buggy when setting breakpoints
  
     return 0;
 }

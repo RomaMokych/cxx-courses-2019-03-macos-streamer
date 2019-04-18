@@ -11,7 +11,19 @@ class ScreenGrabber;
 class InputManager;
 
 // Consider using enum class instead
-enum MessageType { MoveMouse = 0, TextMessage };
+enum MessageType {
+    ClickLeftMouseButton = 1,
+    DoubleClickLeftMouseButton,
+    ClickRightMouseButton,
+    HoldLeftMouseButton,
+    MoveHeldMouse,
+    FreeLeftMouseButton,
+    MoveMouseByVector,
+    PressKeyChar,
+    PressKeyTab,
+    PressSpecialKeyTab,
+    Scroll = 11
+};
 
 class ServerWorker : public Poco::Runnable
 {
@@ -23,11 +35,9 @@ public :
     
     void run() override;
     void stop();
-    
     void DestroyClient();
-    StreamSocket& getClient() const { return *client;}
     
-    void sendFrame(UInt8* frame, int width, int height);
+    void sendFrame(UInt8* frame, u_long width, u_long height);
     
 private :
     
@@ -39,7 +49,7 @@ private :
     bool finish, hasBytesToServe;
     
     ServerSocket serverSocket;
-    shared_ptr<InputManager> inManager;
+    shared_ptr<InputManager> inputManager;
     shared_ptr<ScreenGrabber> grabber;
     
     StreamSocket* client;

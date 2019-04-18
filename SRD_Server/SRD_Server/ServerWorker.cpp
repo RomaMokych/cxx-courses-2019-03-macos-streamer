@@ -2,12 +2,11 @@
 #include "ServerWorker.hpp"
 #include "ScreenGrabber.hpp"
 
-
 ServerWorker:: ServerWorker(SocketAddress& address, shared_ptr<InputManager> inputManager) :
                                                         max_messageBuffer_size(1024*128), // 128 Kbytes
                                                         header_size(5),
                                                         serverSocket(address),
-                                                        inManager(inputManager),
+                                                        inputManager(inputManager),
                                                         client(nullptr),
                                                         hasBytesToServe(false),
                                                         max_data_len(1024*64), // 64 Kbytes
@@ -68,7 +67,8 @@ ServerWorker::~ServerWorker()
 bool ServerWorker::AcceptClient()
 {
     cout << "ServerWorker started accepting the client\n";
-     serverSocket.setNoDelay(true);
+    serverSocket.setNoDelay(true);
+    
     while(!finish)
     {
         if(serverSocket.poll(timeout, Socket::SELECT_READ)) // Server is able to accept
@@ -115,9 +115,10 @@ bool ServerWorker::getPackageData(u_long& package_size, int& messageID, const u_
     messageID = messageBuffer[offset + 4];
     
     if(package_size <= 0 || messageID < 0)
+    {
+        cout << "Package size == " << package_size << " , message ID == " << messageID << "\n";
         return false;
-    
-    //cout << "Package size == " << package_size << " , message ID == " << messageID << "\n";
+    }
     
     return true;
 }
@@ -128,61 +129,58 @@ void ServerWorker::processPayload(const u_long& msgID,
                                   const u_long& current_packet_size)
 {
     double x = 0, y = 0;
-    char c;
+    char character;
     
     switch (msgID){
-        case 1:
-            //cout << "Just left tap\n";
-            inManager->press_LeftMouseButton(false);
+        case ClickLeftMouseButton :
+            inputManager->press_LeftMouseButton(false);
             break;
         
-        case 2:
-            inManager->press_LeftMouseButton(true);
+        case DoubleClickLeftMouseButton :
+            inputManager->press_LeftMouseButton(true);
             break;
             
-        case 3:
-            inManager->press_RightMouseButton();
+        case ClickRightMouseButton :
+            inputManager->press_RightMouseButton();
             break;
             
-        case 4:
-            inManager->hold_LeftMouseButton();
+        case HoldLeftMouseButton :
+            inputManager->hold_LeftMouseButton();
             break;
             
-        case 5:
+        case MoveHeldMouse :
             memcpy(&x, &messageBuffer[offset + header_size], 8);
             memcpy(&y, &messageBuffer[offset + header_size + 8], 8);
             
-            inManager->move_MouseDraggedTo(x, y);
+            inputManager->move_MouseDraggedTo(x, y);
             break;
             
-        case 6:
-            inManager->free_LeftMouseButton();
+        case FreeLeftMouseButton :
+            inputManager->free_LeftMouseButton();
             break;
             
-        case 7:
+        case MoveMouseByVector :
             memcpy(&x, &messageBuffer[offset + header_size], 8);
             memcpy(&y, &messageBuffer[offset + header_size + 8], 8);
             
-            inManager->move_MouseTo(x, y);
+            inputManager->move_MouseTo(x, y);
             break;
             
-        case 8:
-            c = messageBuffer[offset + header_size];
+        case PressKeyChar :
+            character = messageBuffer[offset + header_size];
             
-            inManager->press_KeyboardChar(c);
+            inputManager->press_KeyboardChar(character);
             break;
         
-        case 9:
-            inManager->press_KeyTab(36);
+        case PressKeyTab : inputManager->press_KeyTab(36);
             break;
             
-        case 10:
-            inManager->press_KeyTab(51);
+        case PressSpecialKeyTab : inputManager->press_KeyTab(51);
             break;
             
-        case 11:
+        case Scroll :
             memcpy(&y, &messageBuffer[offset + header_size], 8);
-            inManager->scroll(y);
+            inputManager->scroll(y);
             
             break;
 
@@ -195,7 +193,7 @@ void ServerWorker::processPayload(const u_long& msgID,
 //            memcpy(&x, &messageBuffer[offset + header_size], 8);
 //            memcpy(&y, &messageBuffer[offset + header_size + 8], 8);
 //
-//            inManager->move_MouseTo(x,y);
+//            inputManager->move_MouseTo(x,y);
 //
 //            break;
 //        }
@@ -233,31 +231,30 @@ void ServerWorker::ReceiveData()
          
             // Read as big piece of data as possible
             u_long start_pos = received_total + offset;
-           // u_long max_piece_size = messageBuffer.size() - received_total - offset;
-            u_long max_piece_size = (header_size + 16)*2;
+            u_long max_piece_size = messageBuffer.size() - received_total - offset;
             
             received_once = client->receiveBytes(&messageBuffer[0] + start_pos, max_piece_size);
             
             cout << "\nReceived once : " << received_once << "\n";
             
-            // Connection is gracefully closed
-            if(received_once <= 0)
+            if(received_once <= 0)  // Connection is gracefully closed
             {
                 this->DestroyClient();
                 current_packet_size = received_total = received_once = 0;
                 
-                messageBuffer.resize(2048);
+                messageBuffer.resize(max_messageBuffer_size * 0.2);
                 
                 cout << "Connection has been closed by the client\n\n";
                 return;
             }
             
-            // Increment
-            received_total += received_once;
+            received_total += received_once;  // Increment
             hasBytesToServe = true;
             
             while(hasBytesToServe)
             {
+                 cout << "Has bytes to serve\n";
+                
                 if(received_total < header_size) // Read more
                     break;
                 
@@ -274,7 +271,7 @@ void ServerWorker::ReceiveData()
                 {
                     DestroyClient();
                     
-                    messageBuffer.resize(2048);
+                    messageBuffer.resize(max_messageBuffer_size * 0.2);
                     
                     cout << "Unexpected-size package. Abort\n\n";
                     return;
@@ -287,16 +284,14 @@ void ServerWorker::ReceiveData()
                 {
                     cout << "Not enough space for incoming package's data\n";
                 
-                        // There are some unused space before the offset
-                        if(offset > 0)
+                        if(offset > 0) // If there are some unused space before the offset
                         {
                             cout << "There are some unused space before the offset. Let's use it instead of resizing buffer\n\n";
                             
                             // Move everything to the beggining of the buffer and restart
-                            memcpy(&messageBuffer[0], &messageBuffer[0] + offset,
-                                    messageBuffer.size() - offset);
+                            memcpy(&messageBuffer[0], &messageBuffer[0] + offset, messageBuffer.size() - offset);
                             
-                            received_total = messageBuffer.size() - offset;
+                            received_total = space_left + header_size;
                             offset = 0;
                             continue;
                             
@@ -314,8 +309,7 @@ void ServerWorker::ReceiveData()
                     {
                         cout << "Need to read more data\n\n";
                         
-                        // Need to read more data
-                        hasBytesToServe = false;
+                        hasBytesToServe = false;  // Need to read more data
                         break;
                     }
                 
@@ -333,15 +327,16 @@ void ServerWorker::ReceiveData()
                         }
                         else if (amout_of_read_data > current_packet_size)
                         {
-                            u_long left = messageBuffer.size() - header_size - current_packet_size;
+                            u_long left = messageBuffer.size() - header_size - current_packet_size - offset;
                             
                             if(left < header_size)
                             {
                                 cout << "This piece of data even has no header, copy it to the beginning of the buffer\n";
                                 
-                                // If after this package even has no header
+                                // If this package even has no header
                                 memcpy(&messageBuffer[0], &messageBuffer[0] + offset + header_size + current_packet_size, left);
-                                received_total = offset = current_packet_size = 0;
+                                offset = current_packet_size = 0;
+                                received_total = left;
                                 
                                 continue;
                                 
@@ -350,7 +345,7 @@ void ServerWorker::ReceiveData()
                                 cout << "Move to the next package's header without any copying\n\n";
                                 
                                 // Move to the next package's header without any copying
-                                offset = offset + header_size + current_packet_size;
+                                offset += (header_size + current_packet_size);
                                 current_packet_size = 0;
                                 
                                 continue;
@@ -365,7 +360,7 @@ void ServerWorker::ReceiveData()
 }
 
 // Work in progress. Now sends raw image data, but it's extemely inefficient for even local wireless network
-void ServerWorker::sendFrame(UInt8* frame, int width, int height)
+void ServerWorker::sendFrame(UInt8* frame, u_long width, u_long height)
 {
     if(!frame)
         return;

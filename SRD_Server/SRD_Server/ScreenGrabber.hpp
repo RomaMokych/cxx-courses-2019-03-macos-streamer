@@ -29,8 +29,8 @@ private :
     CGDirectDisplayID display;
     
     // Should be set via settings
-    size_t output_width = 1920;
-    size_t output_height = 1080;
+    u_long output_width = 1920;
+    u_long output_height = 1080;
     
     uint32_t pixel_format = 'BGRA';
     
