@@ -25,8 +25,9 @@ void launchConsoleLoop() // Need some logic to communicate with server thread
 
 int main(int argc, const char * argv[]) {
 
-    SocketAddress serverAddress("10.100.26.130", 2220);
-   // SocketAddress serverAddress("192.168.43.112", 2220);
+   // SocketAddress serverAddress("10.100.26.130", 2220); // Mac Mini
+   // SocketAddress serverAddress("192.168.43.112", 2220); // My Android phone in WLAN
+     SocketAddress serverAddress("127.0.0.1", 2220);
     
     shared_ptr<InputManager>  input;
     shared_ptr<ServerWorker>  worker;
@@ -41,7 +42,7 @@ int main(int argc, const char * argv[]) {
     SRD_Server remoteDesktopServer(worker);
     remoteDesktopServer.start();
 
-    // launchConsoleLoop(); // Buggy when setting breakpoints
+    launchConsoleLoop(); // Buggy when setting breakpoints, but controls worker's lifetime
  
     return 0;
 }

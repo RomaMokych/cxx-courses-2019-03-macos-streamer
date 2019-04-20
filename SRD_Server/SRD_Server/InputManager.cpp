@@ -93,7 +93,8 @@ void InputManager::mouseMove(CGEventType event,const double &x,const double &y){
     mouseLocation.y += y;
     //cout << "Modified" << mouseLocation.x << " ; " << mouseLocation.y << "\n";
     
-     CGWarpMouseCursorPosition(CGPointMake(mouseLocation.x, mouseLocation.y));
+    // Hide this duplication. We've used this earlier to handle mouse movement because of incorrect behaviour of events
+    // CGWarpMouseCursorPosition(CGPointMake(mouseLocation.x, mouseLocation.y));
     
     //Free event
     CFRelease(eventLocation);

@@ -216,7 +216,7 @@ void ServerWorker::ReceiveData()
 {
     cout << "ServerWorker started receiving data from the client\n\n";
     
-    u_long offset = 0, dropped = 0;
+    u_long offset = 0;
     u_long received_once = 0, received_total = 0;
     u_long current_packet_size = 0;
     
