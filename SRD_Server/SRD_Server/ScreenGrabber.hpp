@@ -19,7 +19,7 @@ public :
     
 private :
     
-    bool working;
+     bool working, handlerFinished;
     __block int prev_time = 0;
     
     // Temporary only ServerWorker can be the output class

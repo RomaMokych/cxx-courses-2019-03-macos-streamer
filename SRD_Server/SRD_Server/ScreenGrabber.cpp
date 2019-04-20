@@ -3,7 +3,8 @@
 
 ScreenGrabber:: ScreenGrabber(shared_ptr<ServerWorker> serverWorker) :
                                                 output(serverWorker),
-                                                working(false)
+                                                working(false),
+                                                handlerFinished(true)
 {
 }
 
@@ -20,7 +21,13 @@ void ScreenGrabber::beginScreenCapturing()
                                                             IOSurfaceRef frame,                   /* opaque pixel buffer, can be backed by GL, CL, etc.. This may be NULL in some cases. See the docs if you want to keep access to this. */
                                                             CGDisplayStreamUpdateRef ref)
   {
-
+      
+      if(kCGDisplayStreamFrameStatusStopped == status)
+      {
+          handlerFinished = true;
+          return;
+      }
+      
       uint64_t difference = 0;
 
       if (0 != prev_time) {
@@ -61,7 +68,9 @@ bool ScreenGrabber::start()
     cout << "Height : " << output_height << endl;
 
     dispatchQueue = dispatch_queue_create("com.domain.screenstreamermy", DISPATCH_QUEUE_SERIAL);
-
+    
+    handlerFinished = false;
+    
     beginScreenCapturing();
     auto error = CGDisplayStreamStart(streamScreen);
 
@@ -86,5 +95,9 @@ bool ScreenGrabber::stop()
     }
     
     working = false;
+    
+    while(!handlerFinished); // Wait for handler to be done
+    handlerFinished = false;
+    
     return true;
 }
