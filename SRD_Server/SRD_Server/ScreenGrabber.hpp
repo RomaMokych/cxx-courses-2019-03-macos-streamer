@@ -5,6 +5,7 @@
 #include <CoreGraphics/CGDisplayStream.h>
 
 #include "RegularHeaders.h"
+#include "Encoder.hpp"
 
 class ServerWorker;
 
@@ -19,7 +20,7 @@ public :
     
 private :
     
-    bool working;
+    bool working, handlerFinished;
     __block int prev_time = 0;
     
     // Temporary only ServerWorker can be the output class
@@ -35,6 +36,8 @@ private :
     uint32_t pixel_format = 'BGRA';
     
     dispatch_queue_t dispatchQueue;
+    
+    Encoder encoder;
 };
 
 

@@ -36,14 +36,18 @@ void ServerWorker::run()
     
     while(!finish)
     {
-        if(AcceptClient()){
-
-            //grabber.start();
-            
-            ReceiveData();
-            //grabber.stop();
-        }
-        else return;
+        grabber->start();
+//        if(AcceptClient()){
+//
+//            //grabber->start();
+//
+//            ReceiveData();
+//            //grabber->stop();
+//        }
+        
+        grabber->stop();
+        
+        //else return;
     }
 }
 

@@ -20,7 +20,13 @@ void ScreenGrabber::beginScreenCapturing()
                                                             IOSurfaceRef frame,                   /* opaque pixel buffer, can be backed by GL, CL, etc.. This may be NULL in some cases. See the docs if you want to keep access to this. */
                                                             CGDisplayStreamUpdateRef ref)
   {
-
+      
+      if(kCGDisplayStreamFrameStatusStopped == status)
+      {
+           handlerFinished = true;
+           return;
+      }
+      
       uint64_t difference = 0;
 
       if (0 != prev_time) {
@@ -35,7 +41,23 @@ void ScreenGrabber::beginScreenCapturing()
 
           if (NULL != rawFrameBuffer) {
 
-              output->sendFrame(rawFrameBuffer, output_width, output_height);
+             
+              // output->sendFrame(rawFrameBuffer, output_width, output_height);
+              
+              cout << "Initial size of data : " << (output_height*output_width*4) /1024 << " Kbytes\n";
+              
+              auto start = chrono::high_resolution_clock::now();
+              auto result = encoder.encode(rawFrameBuffer, output_height*output_width*4, 1);
+              
+              rawFrameBuffer = result.first;
+              size_t compressedResult = result.second;
+              
+              auto end = chrono::high_resolution_clock::now();
+              auto compressionTime = chrono::duration_cast<chrono::milliseconds>(end-start).count();
+              
+              cout << "Encoder : " << encoder.getLastError() << "\n";
+              cout << "Compressed : " << compressedResult/1024 << " Kbytes\n";
+              cout << "Elapsed : " << compressionTime << " ms\n";
 
           }else{
               cout << "Pixel data is null!\n";
@@ -86,5 +108,9 @@ bool ScreenGrabber::stop()
     }
     
     working = false;
+    
+    while(!handlerFinished); // Wait for handler to be done
+    handlerFinished = false;
+    
     return true;
 }
