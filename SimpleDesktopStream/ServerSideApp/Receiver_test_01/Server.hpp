@@ -12,8 +12,6 @@
 
 #include <chrono>
 #include <iostream>
-//SiTiGi code 03.04.2019
-#include <CoreGraphics/CoreGraphics.h>
 
 using namespace std;
 
@@ -31,25 +29,14 @@ class Server
     
 public:
     
-    Server()
-    {
-        timespan = Timespan(20'000);
-        commandBuffer = new uint8_t[12];
-    }
+    Server(){ timespan = Timespan(20'000); }
     
-    ~Server()
-    {
-        delete[] commandBuffer;
+    void Start(){
+        serverSocket.bind(SocketAddress("localhost", 9999));
+        serverSocket.listen();
     }
-                            
-                            void Start();
     void BeginAccept();
-    void BeginReceive();
     void SendAll(UInt8* frame, int sizeInBytes);
-        
-private:
-    uint8_t* commandBuffer;
-        
 };
 }
 

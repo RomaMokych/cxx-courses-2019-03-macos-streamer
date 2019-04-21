@@ -6,7 +6,9 @@ MainProgram::MainProgram() : server(),
     server.BeginAccept(); // NO MULTITHREADING! Busy waits for any connection (TCP)
     
     grabber.StartStream();
-    server.BeginReceive(); // Program will hang
+    
+    // If we don't wait, MainProgram dies
+    sleep(60*10); // So, wait 10 mins. Just for example.
     
     }
 

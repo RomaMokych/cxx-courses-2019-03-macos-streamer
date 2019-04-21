@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 
-
 @objcMembers class MessageReceiver : NSObject
 {
     var controller : ViewController?
@@ -17,13 +16,9 @@ import UIKit
     var inputStream: InputStream!
     var outputStream: OutputStream!
     
-    let maxReadLength = 4096
+    let maxReadLength = 4900
     
-    // ---------------SCREEN SIZE--------------
     var BaseWidth = 1920, BaseHeight = 1080;
-    // Please change width to 1280 and height to 720
-    //------------------------------------------
-    
     var BaseBytesCount : Int?;
     var read = 0;
     
@@ -36,14 +31,9 @@ import UIKit
         var readStream: Unmanaged<CFReadStream>?
         var writeStream: Unmanaged<CFWriteStream>?
         
-        // -------INSERT YOUR IP HERE----------
-        
-        let ipAddress = String("localhost");
-        
-        // ------------------------------------
         
         CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault,
-                                           ipAddress as CFString,
+                                           "localhost" as CFString,
                                            9999,
                                            &readStream,
                                            &writeStream);
@@ -52,6 +42,8 @@ import UIKit
         outputStream = writeStream!.takeRetainedValue()
         
         inputStream.delegate = self
+      
+        BaseWidth = 1920; BaseHeight = 1080;
         
         BaseBytesCount = self.BaseWidth * self.BaseHeight * 4;
         print("base byte count = ", BaseBytesCount)
@@ -63,6 +55,7 @@ import UIKit
         
         inputStream.open()
         outputStream.open()
+
     }
     
     
@@ -81,11 +74,7 @@ extension MessageReceiver: StreamDelegate {
     func stream(_ aStream: Stream, handle eventCode: Stream.Event) {
     switch eventCode {
         case Stream.Event.hasBytesAvailable:
-            
-            // ------CAN SLOW DOWN SYSTEM------
-             print("new message received")
-             // -------------------------------
-             
+            // print("new message received")
             readAvailableBytes(stream: aStream as! InputStream)
 
         case Stream.Event.endEncountered:
@@ -117,7 +106,7 @@ extension MessageReceiver: StreamDelegate {
                // print((numberOfBytesRead + read))
                // print("READ : " , numberOfBytesRead);
                 
-                controller?.videoView.layer.contents = converter.imageFromARGB32Bitmap(pixels: buffer!, width: BaseWidth, height: BaseHeight);
+                controller?.ImageViewer.layer.contents = converter.imageFromARGB32Bitmap(pixels: buffer!, width: BaseWidth, height: BaseHeight);
                 read = 0;
             }else if ((numberOfBytesRead + read) < BaseBytesCount!){
                 read += numberOfBytesRead;

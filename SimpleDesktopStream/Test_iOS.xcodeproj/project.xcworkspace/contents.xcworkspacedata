@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:/Users/nikita/Documents/TestFolder/cxx-courses-2019-03-macos-streamer/SimpleDesktopStream/Test_iOS.xcodeproj">
+      location = "self:Test_iOS.xcodeproj">
    </FileRef>
 </Workspace>
