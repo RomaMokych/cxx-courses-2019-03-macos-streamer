@@ -1,0 +1,343 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		114C1710225BE28C00E808F2 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 114C170F225BE28C00E808F2 /* main.cpp */; };
+		114C171A225BE4D400E808F2 /* SRD_Server.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 114C1718225BE4D400E808F2 /* SRD_Server.cpp */; };
+		116134CD22646608002F86F7 /* InputManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 116134CB22646607002F86F7 /* InputManager.cpp */; };
+		1184CDD4225C04EC0000B685 /* ScreenGrabber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1184CDD2225C04EC0000B685 /* ScreenGrabber.cpp */; };
+		1184CDD7225C12A40000B685 /* ServerWorker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1184CDD5225C12A40000B685 /* ServerWorker.cpp */; };
+		1184CDEC225C3C4A0000B685 /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1184CDD0225C04730000B685 /* IOSurface.framework */; };
+		1184CDED225C3C4E0000B685 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1184CDCC225C046A0000B685 /* CoreFoundation.framework */; };
+		1184CDEE225C3C560000B685 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1184CDCE225C046F0000B685 /* CoreGraphics.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		114C170A225BE28C00E808F2 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		114C170C225BE28C00E808F2 /* SRD_Server */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SRD_Server; sourceTree = BUILT_PRODUCTS_DIR; };
+		114C170F225BE28C00E808F2 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		114C1716225BE2CE00E808F2 /* RegularHeaders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RegularHeaders.h; sourceTree = "<group>"; };
+		114C1717225BE31600E808F2 /* NetworkHeaders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkHeaders.h; sourceTree = "<group>"; };
+		114C1718225BE4D400E808F2 /* SRD_Server.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SRD_Server.cpp; sourceTree = "<group>"; };
+		114C1719225BE4D400E808F2 /* SRD_Server.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SRD_Server.hpp; sourceTree = "<group>"; };
+		116134CB22646607002F86F7 /* InputManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputManager.cpp; sourceTree = "<group>"; };
+		116134CC22646608002F86F7 /* InputManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InputManager.hpp; sourceTree = "<group>"; };
+		116E2806226BA8A900802730 /* SafeQueue.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SafeQueue.hpp; sourceTree = "<group>"; };
+		1184CDCC225C046A0000B685 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		1184CDCE225C046F0000B685 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		1184CDD0225C04730000B685 /* IOSurface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOSurface.framework; path = System/Library/Frameworks/IOSurface.framework; sourceTree = SDKROOT; };
+		1184CDD2225C04EC0000B685 /* ScreenGrabber.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScreenGrabber.cpp; sourceTree = "<group>"; };
+		1184CDD3225C04EC0000B685 /* ScreenGrabber.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScreenGrabber.hpp; sourceTree = "<group>"; };
+		1184CDD5225C12A40000B685 /* ServerWorker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ServerWorker.cpp; sourceTree = "<group>"; };
+		1184CDD8225C16A50000B685 /* ServerWorker.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ServerWorker.hpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		114C1709225BE28C00E808F2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1184CDEE225C3C560000B685 /* CoreGraphics.framework in Frameworks */,
+				1184CDED225C3C4E0000B685 /* CoreFoundation.framework in Frameworks */,
+				1184CDEC225C3C4A0000B685 /* IOSurface.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		114C1703225BE28C00E808F2 = {
+			isa = PBXGroup;
+			children = (
+				114C170E225BE28C00E808F2 /* SRD_Server */,
+				114C170D225BE28C00E808F2 /* Products */,
+				1184CDCB225C04690000B685 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		114C170D225BE28C00E808F2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				114C170C225BE28C00E808F2 /* SRD_Server */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		114C170E225BE28C00E808F2 /* SRD_Server */ = {
+			isa = PBXGroup;
+			children = (
+				116134CB22646607002F86F7 /* InputManager.cpp */,
+				116134CC22646608002F86F7 /* InputManager.hpp */,
+				114C170F225BE28C00E808F2 /* main.cpp */,
+				114C1717225BE31600E808F2 /* NetworkHeaders.h */,
+				114C1716225BE2CE00E808F2 /* RegularHeaders.h */,
+				114C1718225BE4D400E808F2 /* SRD_Server.cpp */,
+				114C1719225BE4D400E808F2 /* SRD_Server.hpp */,
+				1184CDD2225C04EC0000B685 /* ScreenGrabber.cpp */,
+				1184CDD3225C04EC0000B685 /* ScreenGrabber.hpp */,
+				1184CDD5225C12A40000B685 /* ServerWorker.cpp */,
+				1184CDD8225C16A50000B685 /* ServerWorker.hpp */,
+				116E2806226BA8A900802730 /* SafeQueue.hpp */,
+			);
+			path = SRD_Server;
+			sourceTree = "<group>";
+		};
+		1184CDCB225C04690000B685 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1184CDD0225C04730000B685 /* IOSurface.framework */,
+				1184CDCE225C046F0000B685 /* CoreGraphics.framework */,
+				1184CDCC225C046A0000B685 /* CoreFoundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		114C170B225BE28C00E808F2 /* SRD_Server */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 114C1713225BE28C00E808F2 /* Build configuration list for PBXNativeTarget "SRD_Server" */;
+			buildPhases = (
+				114C1708225BE28C00E808F2 /* Sources */,
+				114C1709225BE28C00E808F2 /* Frameworks */,
+				114C170A225BE28C00E808F2 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SRD_Server;
+			productName = SRD_Server;
+			productReference = 114C170C225BE28C00E808F2 /* SRD_Server */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		114C1704225BE28C00E808F2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1010;
+				ORGANIZATIONNAME = Nikita;
+				TargetAttributes = {
+					114C170B225BE28C00E808F2 = {
+						CreatedOnToolsVersion = 10.1;
+					};
+				};
+			};
+			buildConfigurationList = 114C1707225BE28C00E808F2 /* Build configuration list for PBXProject "SRD_Server" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 114C1703225BE28C00E808F2;
+			productRefGroup = 114C170D225BE28C00E808F2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				114C170B225BE28C00E808F2 /* SRD_Server */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		114C1708225BE28C00E808F2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				114C171A225BE4D400E808F2 /* SRD_Server.cpp in Sources */,
+				1184CDD4225C04EC0000B685 /* ScreenGrabber.cpp in Sources */,
+				1184CDD7225C12A40000B685 /* ServerWorker.cpp in Sources */,
+				114C1710225BE28C00E808F2 /* main.cpp in Sources */,
+				116134CD22646608002F86F7 /* InputManager.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		114C1711225BE28C00E808F2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		114C1712225BE28C00E808F2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		114C1714225BE28C00E808F2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				OTHER_LDFLAGS = (
+					/usr/local/lib/libPocoDatad.a,
+					/usr/local/lib/libPocoRedis.a,
+					/usr/local/lib/libPocoNet.a,
+					/usr/local/lib/libPocoFoundation.a,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		114C1715225BE28C00E808F2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				OTHER_LDFLAGS = (
+					/usr/local/lib/libPocoDatad.a,
+					/usr/local/lib/libPocoRedis.a,
+					/usr/local/lib/libPocoNet.a,
+					/usr/local/lib/libPocoFoundation.a,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		114C1707225BE28C00E808F2 /* Build configuration list for PBXProject "SRD_Server" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				114C1711225BE28C00E808F2 /* Debug */,
+				114C1712225BE28C00E808F2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		114C1713225BE28C00E808F2 /* Build configuration list for PBXNativeTarget "SRD_Server" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				114C1714225BE28C00E808F2 /* Debug */,
+				114C1715225BE28C00E808F2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 114C1704225BE28C00E808F2 /* Project object */;
+}
