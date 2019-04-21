@@ -374,7 +374,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             buffer[4] = type;
             
             var j = 0
-            for i in 5..<
+            for i in 5..<9 {
                 buffer[i] = bytesVirtualKey[j]
                 j += 1
             }
