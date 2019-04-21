@@ -354,26 +354,36 @@ class ViewController: UIViewController, UITextFieldDelegate {
         if (textField.text!.count > 1){
             //code 8 and popLast
             
-            let symbol = textField.text!.popLast()!
             
-            print(symbol)        //transfer to server
-            
+            let virtualKey = modelData.keyboardChar(s: textField.text!.popLast()!)
+            print(virtualKey)        //transfer to server
+            guard virtualKey.0 != nil || virtualKey.1 != nil else{ return }
             let type = UInt8(8)
-            let len = UInt(1)
+            let len = UInt(8)
+            
+            var bytesVirtualKey = toByteArray(value : virtualKey.0)
+            var bytesKeyModificdtor = toByteArray(value : virtualKey.1)
             
             var size_in_bytes = toByteArray(value : len)
             
-            let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: 1 + 4 + 1)
+            let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: 8 + 4 + 1)
             
             for i in 0..<4 {
                 buffer[i] = size_in_bytes[i]
             }
             buffer[4] = type;
             
-            let s = String(symbol).utf8.map{UInt8($0)}[0]
-            buffer[5] = s
-            
-            receiver.outputStream.write(buffer, maxLength: 6)
+            var j = 0
+            for i in 5..<
+                buffer[i] = bytesVirtualKey[j]
+                j += 1
+            }
+            j = 0
+            for i in 9..<13{
+                buffer[i] = bytesKeyModificdtor[j]
+                j += 1
+            }
+            receiver.outputStream.write(buffer, maxLength: 8 + 4 + 1)
             
         } else
         if textField.text!.isEmpty {

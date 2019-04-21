@@ -20,8 +20,7 @@ public :
     void free_LeftMouseButton();
     void move_MouseTo(const double& x, const double& y);
     
-    void press_KeyboardChar(const char& c);
-    void press_KeyTab(const char& c);
+    void press_KeyTab(const int& virtualKey, const int& keyMod = 0);
     
     void scroll(const int& y);
     
@@ -33,6 +32,7 @@ private:
     void mouseMove(CGEventType event,const double &x,const double &y);
     void keyTab (const unsigned short &key,const CGEventFlags &flag = 0);
     void moveMouseTo(const double& x, const double& y);
+    CGEventFlags convertModFlag(const int &flag);
 };
 
 #endif /* InputManager_hpp */

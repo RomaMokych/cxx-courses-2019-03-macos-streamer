@@ -167,15 +167,21 @@ void ServerWorker::processPayload(const u_long& msgID,
             break;
             
         case PressKeyChar :
-            character = messageBuffer[offset + header_size];
+            int virtualKey, keyModification;
+            memcpy(&virtualKey, &messageBuffer[offset + header_size], 4);
+            memcpy(&keyModification, &messageBuffer[offset + header_size + 4], 4);
             
-            inputManager->press_KeyboardChar(character);
+            //character = messageBuffer[offset + header_size];
+            
+            inputManager->press_KeyTab(virtualKey, keyModification);
             break;
         
-        case PressKeyTab : inputManager->press_KeyTab(36);
+        case PressKeyTab:
+            inputManager->press_KeyTab(36);
             break;
             
-        case PressSpecialKeyTab : inputManager->press_KeyTab(51);
+        case PressSpecialKeyTab:
+            inputManager->press_KeyTab(51);
             break;
             
         case Scroll :

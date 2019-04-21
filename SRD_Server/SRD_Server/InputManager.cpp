@@ -8,21 +8,29 @@ void InputManager::moveMouseTo(const double& x, const double& y)
 
 
 void InputManager::keyTab (const unsigned short &key,const CGEventFlags &flag){
-    
     //Create event
     CGEventRef keyDown = CGEventCreateKeyboardEvent(NULL, CGKeyCode(key), true);
     CGEventRef keyUp = CGEventCreateKeyboardEvent(NULL, CGKeyCode(key), false);
-    
     //Event modification
     CGEventSetFlags(keyDown, flag);
-    
     //Release event
     CGEventPost(kCGHIDEventTap, keyDown);
     CGEventPost(kCGHIDEventTap, keyUp);
-    
     //Free event
     CFRelease(keyDown);
     CFRelease(keyUp);
+}
+CGEventFlags InputManager::convertModFlag (const int &flag){
+    switch (flag) {
+        case 1:
+            return kCGEventFlagMaskShift;
+        case 2:
+            return kCGEventFlagMaskAlternate;
+        case 3:
+            return kCGEventFlagMaskShift | kCGEventFlagMaskAlternate;
+        default:
+            return 0;
+    }
 }
 
 void InputManager::mouseTab (const CGMouseButton& mouseButton, const bool& doubleClick){
@@ -105,53 +113,6 @@ void InputManager::mouseMove(CGEventType event,const double &x,const double &y){
     CFRelease(move);
 }
 
-void InputManager::keyboardChar(const char &s){
-    //this is dictionary translation character to keyboard code
-    //map(letter,(vireual key, modification))
-    const std::map<char,std::pair<unsigned short, CGEventFlags>> convertData =
-    {
-        {'q',{12,0}}, {'w',{13,0}}, {'e',{14,0}}, {'r',{15,0}}, {'t',{17,0}},
-        {'y',{16,0}}, {'u',{32,0}}, {'i',{34,0}}, {'o',{31,0}}, {'p',{35,0}},
-        {'a',{0,0}},  {'s',{1,0}},  {'d',{2,0}},  {'f',{3,0}},  {'g',{5,0}},
-        {'h',{4,0}},  {'j',{38,0}}, {'k',{40,0}}, {'l',{37,0}}, {'z',{6,0}},
-        {'x',{7,0}},  {'c',{8,0}},  {'v',{9,0}},  {'b',{11,0}}, {'n',{45,0}},
-        {'m',{46,0}}, {'1',{18,0}}, {'2',{19,0}}, {'3',{20,0}}, {'4',{21,0}},
-        {'5',{23,0}}, {'6',{22,0}}, {'7',{26,0}}, {'8',{28,0}}, {'9',{25,0}},
-        {'0',{29,0}}, {'-',{27,0}}, {'/',{44,0}}, {';',{41,0}}, {' ',{49,0}},
-        {'.',{47,0}}, {',',{43,0}}, {'\'',{39,0}},{'[',{33,0}}, {']',{30,0}},
-        {'=',{24,0}}, {'\\',{42,0}},
-        {'Q',{12,kCGEventFlagMaskShift}}, {'W',{13,kCGEventFlagMaskShift}},
-        {'E',{14,kCGEventFlagMaskShift}}, {'R',{15,kCGEventFlagMaskShift}},
-        {'T',{17,kCGEventFlagMaskShift}}, {'Y',{16,kCGEventFlagMaskShift}},
-        {'U',{32,kCGEventFlagMaskShift}}, {'I',{34,kCGEventFlagMaskShift}},
-        {'O',{31,kCGEventFlagMaskShift}}, {'P',{35,kCGEventFlagMaskShift}},
-        {'A',{0,kCGEventFlagMaskShift}},  {'S',{1,kCGEventFlagMaskShift}},
-        {'D',{2,kCGEventFlagMaskShift}},  {'F',{3,kCGEventFlagMaskShift}},
-        {'G',{5,kCGEventFlagMaskShift}},  {'H',{4,kCGEventFlagMaskShift}},
-        {'J',{38,kCGEventFlagMaskShift}}, {'K',{40,kCGEventFlagMaskShift}},
-        {'L',{37,kCGEventFlagMaskShift}}, {'Z',{6,kCGEventFlagMaskShift}},
-        {'X',{7,kCGEventFlagMaskShift}},  {'C',{8,kCGEventFlagMaskShift}},
-        {'V',{9,kCGEventFlagMaskShift}},  {'B',{11,kCGEventFlagMaskShift}},
-        {'N',{45,kCGEventFlagMaskShift}}, {'M',{46,kCGEventFlagMaskShift}},
-        {':',{41,kCGEventFlagMaskShift}}, {'(',{25,kCGEventFlagMaskShift}},
-        {')',{29,kCGEventFlagMaskShift}}, {'$',{21,kCGEventFlagMaskShift}},
-        {'&',{26,kCGEventFlagMaskShift}}, {'@',{19,kCGEventFlagMaskShift}},
-        {'"',{39,kCGEventFlagMaskShift}}, {'?',{44,kCGEventFlagMaskShift}},
-        {'!',{18,kCGEventFlagMaskShift}}, {'{',{33,kCGEventFlagMaskShift}},
-        {'}',{30,kCGEventFlagMaskShift}}, {'#',{20,kCGEventFlagMaskShift}},
-        {'%',{23,kCGEventFlagMaskShift}}, {'^',{22,kCGEventFlagMaskShift}},
-        {'*',{28,kCGEventFlagMaskShift}}, {'+',{24,kCGEventFlagMaskShift}},
-        {'_',{27,kCGEventFlagMaskShift}}, {'~',{50,kCGEventFlagMaskShift}},
-        {'<',{43,kCGEventFlagMaskShift}}, {'>',{47,kCGEventFlagMaskShift}},
-        {'\¥',{16,kCGEventFlagMaskAlternate}}, {'\£',{20,kCGEventFlagMaskAlternate}},
-        {'\•',{28,kCGEventFlagMaskAlternate}},
-        {'\€',{19,(kCGEventFlagMaskAlternate | kCGEventFlagMaskShift)}}
-    };
-    //find virtual code and tab
-    auto iterPair = convertData.find(s);
-    if(iterPair != convertData.end())
-        keyTab(iterPair->second.first,iterPair->second.second);
-}
 
 void InputManager::scrollMove(const int& wheel){
     //Create event
@@ -209,13 +170,9 @@ void InputManager::move_MouseTo(const double &x, const double &y) {
     mouseMove(kCGEventMouseMoved, x, y);
 }
 
-void InputManager::press_KeyboardChar(const char &c) {
-       cout << " press_KeyboardChar\n";
-    keyboardChar(c);
-}
-void InputManager::press_KeyTab(const char &c) {
+void InputManager::press_KeyTab(const int& virtualKey, const int& keyMod) {
            cout << " press_KeyTab\n";
-   keyTab(c);
+   keyTab(virtualKey, convertModFlag(keyMod));
 }
 
 void InputManager::scroll(const int &y) {
