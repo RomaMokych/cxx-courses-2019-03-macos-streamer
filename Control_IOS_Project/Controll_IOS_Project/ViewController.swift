@@ -28,7 +28,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
         modelData.receiver.closeConnection(msg: "You closed connection!")
 
         print("Disconnected")
-        
     }
     
     override func viewDidLoad() {
@@ -428,13 +427,17 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     //Mark: - Notification
     @objc func frameChange(notification: Notification){
-        if let frame = (notification.userInfo?["frame"]){
+        if let frame = (notification.userInfo?[MessageReceiver.frameInfoKey]){
             videoView.layer.contents = frame
         }
     }
     @objc func connectionInterruption(notification: Notification){
-        modelData.receiver = receiver
-        dismiss(animated: true, completion: nil)
+        guard let connectionStatus = (notification.userInfo?[MessageReceiver.connectionStatusInfoKey] as? Bool)
+            else { return }
+        if !connectionStatus {
+            modelData.receiver = receiver
+            dismiss(animated: true, completion: nil)
+        }
     }
     //Change frame view when call keyboard
     @objc func keyboardChange(notification: Notification){

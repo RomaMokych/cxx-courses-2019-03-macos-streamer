@@ -13,8 +13,13 @@ import CFNetwork
 
 @objcMembers class MessageReceiver : NSObject
 {
+    //Mark: - Notification Name
     static let connectionNotification = Notification.Name("connection")
     static let newFrameNotification = Notification.Name("newFrame")
+    //Mark: - Info Key
+    static let connectionStatusInfoKey = "connectionStatusInfoKey"
+    static let messageAlertInfoKey = "messageAlertInfoKey"
+    static let frameInfoKey = "frameInfoKey"
     
     let converter = Converter();
     var connectionTimer : Timer?
@@ -27,6 +32,7 @@ import CFNetwork
     
     let maxReadLength = 4096
     var connected  = false
+    
     
     var BaseWidth = 1920, BaseHeight = 1080;   // Expected screen size
 
@@ -104,8 +110,9 @@ extension MessageReceiver: StreamDelegate {
     func closeConnection(msg: String)
     {
         stopSession()
+        self.connectionTimer?.invalidate()
         connected = false
-        NotificationCenter.default.post(name: MessageReceiver.connectionNotification, object: nil, userInfo: ["connect": false, "msg": msg])
+        NotificationCenter.default.post(name: MessageReceiver.connectionNotification, object: nil, userInfo: [MessageReceiver.connectionStatusInfoKey: false, MessageReceiver.messageAlertInfoKey: msg])
     }
     
     func stream(_ aStream: Stream, handle eventCode: Stream.Event)
@@ -119,7 +126,7 @@ extension MessageReceiver: StreamDelegate {
             print("Connected!")
             print("Expected image size in bytes : ", BaseBytesCount!)
             
-            NotificationCenter.default.post(name: MessageReceiver.connectionNotification, object: nil, userInfo: ["connect": true])
+            NotificationCenter.default.post(name: MessageReceiver.connectionNotification, object: nil, userInfo: [MessageReceiver.connectionStatusInfoKey: connected])
         }
         
         case Stream.Event.errorOccurred:

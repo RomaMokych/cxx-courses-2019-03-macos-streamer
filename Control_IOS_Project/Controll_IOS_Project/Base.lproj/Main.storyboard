@@ -93,10 +93,10 @@
                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                             </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="mSp-xp-bBH">
-                                <rect key="frame" x="273" y="203" width="122" height="25"/>
+                                <rect key="frame" x="228" y="203" width="212" height="25"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="122" id="MAT-Gw-JtF"/>
+                                    <constraint firstAttribute="width" constant="212" id="MAT-Gw-JtF"/>
                                     <constraint firstAttribute="height" constant="25" id="hhQ-2p-qgg"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -116,7 +116,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="bvg-Jx-FHY" firstAttribute="centerX" secondItem="W4a-tu-PgT" secondAttribute="centerX" id="CPm-nn-CrK"/>
-                            <constraint firstItem="mSp-xp-bBH" firstAttribute="leading" secondItem="bvg-Jx-FHY" secondAttribute="trailing" constant="-121.5" id="E5a-g6-AfW"/>
+                            <constraint firstItem="mSp-xp-bBH" firstAttribute="leading" secondItem="bvg-Jx-FHY" secondAttribute="trailing" constant="-166.5" id="E5a-g6-AfW"/>
                             <constraint firstItem="mSp-xp-bBH" firstAttribute="top" secondItem="bvg-Jx-FHY" secondAttribute="bottom" constant="0.5" id="MQu-TT-8CF"/>
                             <constraint firstItem="16J-EE-mPf" firstAttribute="top" secondItem="bvg-Jx-FHY" secondAttribute="bottom" constant="33.5" id="Q1u-gH-ffu"/>
                             <constraint firstItem="bvg-Jx-FHY" firstAttribute="centerY" secondItem="W4a-tu-PgT" secondAttribute="centerY" id="ijN-py-hG2"/>

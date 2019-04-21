@@ -37,6 +37,7 @@ class MainViewController: UIViewController, UITextFieldDelegate {
         //Listen keyboards events
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardChange(notification:)), name: UIResponder.keyboardWillShowNotification , object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardChange(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        //Listen connection status
         NotificationCenter.default.addObserver(self, selector: #selector(connect(notification:)), name: MessageReceiver.connectionNotification, object: nil)
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -75,22 +76,20 @@ class MainViewController: UIViewController, UITextFieldDelegate {
         }
     }
     @objc func connect(notification: Notification){
-        if let connectStatus = (notification.userInfo?["connect"] as? Bool){
+        if let connectStatus = (notification.userInfo?[MessageReceiver.connectionStatusInfoKey] as? Bool){
             
             if connectStatus {
                 print("Successfuly connected!")
                 systemAlert.text = ""
                 performSegue(withIdentifier: "goStreamViewController", sender: self)
             } else {
-                if let connectMsg = (notification.userInfo?["msg"] as? String){
+                if let connectMsg = (notification.userInfo?[MessageReceiver.messageAlertInfoKey] as? String){
                     modelData.systemAlert = connectMsg
                     systemAlert.textColor = UIColor.red
                     systemAlert.text = connectMsg
                 }
-                buttonConnect.isEnabled = true;
-                ipTextField.becomeFirstResponder()
-    
             }
+            buttonConnect.isEnabled = true;
         }
     }
     deinit {
