@@ -279,11 +279,13 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				OTHER_LDFLAGS = (
-					/Users/macos/Documents/git/poco/lib/Darwin/x86_64/libPocoNetSSL.a,
-					/Users/macos/Documents/git/poco/lib/Darwin/x86_64/libPocoFoundation.a,
-					/Users/macos/Documents/git/poco/lib/Darwin/x86_64/libPocoCryptod.a,
-					/Users/macos/Documents/git/poco/lib/Darwin/x86_64/libPocoUtil.a,
-					/Users/macos/Documents/git/poco/lib/Darwin/x86_64/libPocoNet.a,
+					/usr/local/lib/libPocoDatad.a,
+					/usr/local/lib/libPocoRedis.a,
+					/usr/local/lib/libPocoUtil.a,
+					/usr/local/lib/libPocoNet.a,
+					/usr/local/lib/libPocoCryptod.a,
+					/usr/local/lib/libPocoFoundation.a,
+					/usr/local/lib/libPocoNetSSL.a,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SYSTEM_HEADER_SEARCH_PATHS = /usr/local/include;
@@ -295,11 +297,13 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				OTHER_LDFLAGS = (
-					/Users/macos/Documents/git/poco/lib/Darwin/x86_64/libPocoNetSSL.a,
-					/Users/macos/Documents/git/poco/lib/Darwin/x86_64/libPocoFoundation.a,
-					/Users/macos/Documents/git/poco/lib/Darwin/x86_64/libPocoCryptod.a,
-					/Users/macos/Documents/git/poco/lib/Darwin/x86_64/libPocoUtil.a,
-					/Users/macos/Documents/git/poco/lib/Darwin/x86_64/libPocoNet.a,
+					/usr/local/lib/libPocoDatad.a,
+					/usr/local/lib/libPocoRedis.a,
+					/usr/local/lib/libPocoUtil.a,
+					/usr/local/lib/libPocoNet.a,
+					/usr/local/lib/libPocoCryptod.a,
+					/usr/local/lib/libPocoFoundation.a,
+					/usr/local/lib/libPocoNetSSL.a,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SYSTEM_HEADER_SEARCH_PATHS = /usr/local/include;
