@@ -18,7 +18,7 @@ import UIKit
         // Override point for customization after application launch.
         if let mainViewController = window?.rootViewController as? MainViewController
         {
-            mainViewController.modelData = ModelData(mainViewController: mainViewController)
+            mainViewController.modelData = ModelData()
         }
         return true
     }

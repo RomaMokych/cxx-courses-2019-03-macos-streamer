@@ -16,9 +16,6 @@ import CFNetwork
     static let connectionNotification = Notification.Name("connection")
     static let newFrameNotification = Notification.Name("newFrame")
     
-    var controller : MainViewController?
-    var imageViewController : ViewController?
-    
     let converter = Converter();
     var connectionTimer : Timer?
     let timeout = 5.0
@@ -36,10 +33,6 @@ import CFNetwork
     var BaseBytesCount : Int?;
     var read = 0;
     
-    init(mainViewController : MainViewController)
-    {
-        controller = mainViewController
-    }
     
     func fromByteArray<T>(value: [UInt8], _: T.Type) -> T
     {
@@ -112,8 +105,6 @@ extension MessageReceiver: StreamDelegate {
     {
         stopSession()
         connected = false
-        //imageViewController?.performSegue(withIdentifier: "goToMainViewController", sender: self)
-        //controller?.displayConnectError(msg: msg)
         NotificationCenter.default.post(name: MessageReceiver.connectionNotification, object: nil, userInfo: ["connect": false, "msg": msg])
     }
     
@@ -128,7 +119,6 @@ extension MessageReceiver: StreamDelegate {
             print("Connected!")
             print("Expected image size in bytes : ", BaseBytesCount!)
             
-            //controller?.switchToRenderView();
             NotificationCenter.default.post(name: MessageReceiver.connectionNotification, object: nil, userInfo: ["connect": true])
         }
         
@@ -172,9 +162,8 @@ extension MessageReceiver: StreamDelegate {
                // print((numberOfBytesRead + read))
                // print("READ : " , numberOfBytesRead);
                 
-                imageViewController?.videoView.layer.contents = converter.imageFromARGB32Bitmap(pixels: buffer!, width: BaseWidth, height: BaseHeight);
-                //let frame = converter.imageFromARGB32Bitmap(pixels: buffer!, width: BaseWidth, height: BaseHeight)!
-                //NotificationCenter.default.post(name: MessageReceiver.newFrameNotification, object: nil, userInfo: ["frame": frame])
+                let frame = converter.imageFromARGB32Bitmap(pixels: buffer!, width: BaseWidth, height: BaseHeight)!
+                NotificationCenter.default.post(name: MessageReceiver.newFrameNotification, object: nil, userInfo: ["frame": frame])
                 read = 0;
                 
             }else if ((numberOfBytesRead + read) < BaseBytesCount!){

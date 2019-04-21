@@ -22,32 +22,13 @@ class MainViewController: UIViewController, UITextFieldDelegate {
         {
             print("Connecting to server...")
             
-            // Asnyc operation, so start it and then do nothing in UI.
-            // 'receiver' takes responsibility to update UI when it finishes
             buttonConnect.isEnabled = false
-            modelData.receiver!.setupNetworkCommunication(ipAddress: ipTextField.text!)
+            modelData.receiver.setupNetworkCommunication(ipAddress: ipTextField.text!)
         } else {
             systemAlert.textColor = UIColor.red
             systemAlert.text = "Invalid IP address!"
         }
     }
-    
-    /*func displayConnectError(msg: String)
-    {
-        print("ERROR")
-        systemAlert.textColor = UIColor.red
-        systemAlert.text = msg
-        buttonConnect.isEnabled = true;
-        ipTextField.becomeFirstResponder()
-    }
-    
-    func switchToRenderView()
-    {
-        print("Successfuly connected!")
-        systemAlert.text = ""
-        performSegue(withIdentifier: "goStreamViewController", sender: self)
-    }*/
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -101,7 +82,6 @@ class MainViewController: UIViewController, UITextFieldDelegate {
                 systemAlert.text = ""
                 performSegue(withIdentifier: "goStreamViewController", sender: self)
             } else {
-                print("ERROR")
                 if let connectMsg = (notification.userInfo?["msg"] as? String){
                     modelData.systemAlert = connectMsg
                     systemAlert.textColor = UIColor.red
