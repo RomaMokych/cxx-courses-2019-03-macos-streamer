@@ -13,6 +13,9 @@ import CFNetwork
 
 @objcMembers class MessageReceiver : NSObject
 {
+    static let connectionNotification = Notification.Name("connection")
+    static let newFrameNotification = Notification.Name("newFrame")
+    
     var controller : MainViewController?
     var imageViewController : ViewController?
     
@@ -53,7 +56,7 @@ import CFNetwork
         
         CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault,
                                            ipAddress as CFString,
-                                           2220,
+                                           9999,
                                            &readStream,
                                            &writeStream);
         
@@ -109,8 +112,9 @@ extension MessageReceiver: StreamDelegate {
     {
         stopSession()
         connected = false
-        imageViewController?.performSegue(withIdentifier: "goToMainViewController", sender: self)
-        controller?.displayConnectError(msg: msg)
+        //imageViewController?.performSegue(withIdentifier: "goToMainViewController", sender: self)
+        //controller?.displayConnectError(msg: msg)
+        NotificationCenter.default.post(name: MessageReceiver.connectionNotification, object: nil, userInfo: ["connect": false, "msg": msg])
     }
     
     func stream(_ aStream: Stream, handle eventCode: Stream.Event)
@@ -124,7 +128,8 @@ extension MessageReceiver: StreamDelegate {
             print("Connected!")
             print("Expected image size in bytes : ", BaseBytesCount!)
             
-            controller?.switchToRenderView();
+            //controller?.switchToRenderView();
+            NotificationCenter.default.post(name: MessageReceiver.connectionNotification, object: nil, userInfo: ["connect": true])
         }
         
         case Stream.Event.errorOccurred:
@@ -168,6 +173,8 @@ extension MessageReceiver: StreamDelegate {
                // print("READ : " , numberOfBytesRead);
                 
                 imageViewController?.videoView.layer.contents = converter.imageFromARGB32Bitmap(pixels: buffer!, width: BaseWidth, height: BaseHeight);
+                //let frame = converter.imageFromARGB32Bitmap(pixels: buffer!, width: BaseWidth, height: BaseHeight)!
+                //NotificationCenter.default.post(name: MessageReceiver.newFrameNotification, object: nil, userInfo: ["frame": frame])
                 read = 0;
                 
             }else if ((numberOfBytesRead + read) < BaseBytesCount!){

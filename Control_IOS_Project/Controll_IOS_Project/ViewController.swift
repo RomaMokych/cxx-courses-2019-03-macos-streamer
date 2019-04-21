@@ -25,9 +25,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     @IBAction func disconnect(_ sender: UIButton) {
         modelData.receiver = receiver
+        modelData.receiver?.closeConnection(msg: "You closed connection!")
         dismiss(animated: true, completion: nil)
         print("Disconnected")
-        modelData.receiver?.closeConnection(msg: "You closed connection!")
+        
     }
     
     override func viewDidLoad() {
@@ -43,6 +44,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
         //Listen keyboards events
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardChange(notification:)), name: UIResponder.keyboardWillShowNotification , object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardChange(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        //Listen new frame
+        NotificationCenter.default.addObserver(self, selector: #selector(frameChange(notification:)), name: MessageReceiver.newFrameNotification, object: nil)
+        //Listen status connection
+        NotificationCenter.default.addObserver(self, selector: #selector(connectionInterruption), name: MessageReceiver.connectionNotification, object: nil)
         
         //Create Gesture Recognizer
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(mouseMove))
@@ -423,6 +428,15 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     //Mark: - Notification
+    @objc func frameChange(notification: Notification){
+        if let frame = (notification.userInfo?["frame"]){
+            videoView.layer.contents = frame
+        }
+    }
+    @objc func connectionInterruption(notification: Notification){
+        modelData.receiver = receiver
+        dismiss(animated: true, completion: nil)
+    }
     //Change frame view when call keyboard
     @objc func keyboardChange(notification: Notification){
         guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
@@ -465,6 +479,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     deinit {
         NotificationCenter.default.removeObserver(UIResponder.keyboardWillShowNotification)
         NotificationCenter.default.removeObserver(UIResponder.keyboardWillHideNotification)
+        NotificationCenter.default.removeObserver(MessageReceiver.newFrameNotification)
+        NotificationCenter.default.removeObserver(MessageReceiver.connectionNotification)
     }
 }
 

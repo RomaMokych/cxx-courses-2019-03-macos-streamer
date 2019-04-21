@@ -137,7 +137,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="keyboard_23911(1)" width="96" height="96"/>
-        <image name="power_23905" width="96" height="96"/>
+        <image name="keyboard_23911(1)" width="128" height="128"/>
+        <image name="power_23905" width="128" height="128"/>
     </resources>
 </document>

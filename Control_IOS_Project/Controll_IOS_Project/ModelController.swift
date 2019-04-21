@@ -11,7 +11,8 @@ import Foundation
 class ModelData
 {
     var receiver : MessageReceiver?
-    
+    var systemAlert: String = ""
+
     init(mainViewController : MainViewController)
     {
         receiver = MessageReceiver(mainViewController: mainViewController)

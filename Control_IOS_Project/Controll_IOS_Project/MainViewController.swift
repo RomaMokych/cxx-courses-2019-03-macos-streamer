@@ -6,6 +6,7 @@
 //  Copyright © 2019 MacOS. All rights reserved.
 //
 
+
 import UIKit
 
 class MainViewController: UIViewController, UITextFieldDelegate {
@@ -19,20 +20,19 @@ class MainViewController: UIViewController, UITextFieldDelegate {
         
         if checkIp(ip: ipTextField.text!)
         {
-              print("Connecting to server...")
+            print("Connecting to server...")
             
-              // Asnyc operation, so start it and then do nothing in UI.
-              // 'receiver' takes responsibility to update UI when it finishes
-              buttonConnect.isEnabled = false
-              modelData.receiver!.setupNetworkCommunication(ipAddress: ipTextField.text!)
-            
+            // Asnyc operation, so start it and then do nothing in UI.
+            // 'receiver' takes responsibility to update UI when it finishes
+            buttonConnect.isEnabled = false
+            modelData.receiver!.setupNetworkCommunication(ipAddress: ipTextField.text!)
         } else {
             systemAlert.textColor = UIColor.red
             systemAlert.text = "Invalid IP address!"
         }
     }
     
-    func displayConnectError(msg: String)
+    /*func displayConnectError(msg: String)
     {
         print("ERROR")
         systemAlert.textColor = UIColor.red
@@ -46,7 +46,7 @@ class MainViewController: UIViewController, UITextFieldDelegate {
         print("Successfuly connected!")
         systemAlert.text = ""
         performSegue(withIdentifier: "goStreamViewController", sender: self)
-    }
+    }*/
     
     
     override func viewDidLoad() {
@@ -56,9 +56,11 @@ class MainViewController: UIViewController, UITextFieldDelegate {
         //Listen keyboards events
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardChange(notification:)), name: UIResponder.keyboardWillShowNotification , object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardChange(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(connect(notification:)), name: MessageReceiver.connectionNotification, object: nil)
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        systemAlert.text = modelData.systemAlert
         
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -91,10 +93,31 @@ class MainViewController: UIViewController, UITextFieldDelegate {
             view.frame.origin.y = 0
         }
     }
- 
+    @objc func connect(notification: Notification){
+        if let connectStatus = (notification.userInfo?["connect"] as? Bool){
+            
+            if connectStatus {
+                print("Successfuly connected!")
+                systemAlert.text = ""
+                performSegue(withIdentifier: "goStreamViewController", sender: self)
+            } else {
+                print("ERROR")
+                if let connectMsg = (notification.userInfo?["msg"] as? String){
+                    modelData.systemAlert = connectMsg
+                    systemAlert.textColor = UIColor.red
+                    systemAlert.text = connectMsg
+                }
+                buttonConnect.isEnabled = true;
+                ipTextField.becomeFirstResponder()
+    
+            }
+        }
+    }
     deinit {
         NotificationCenter.default.removeObserver(UIResponder.keyboardWillShowNotification)
         NotificationCenter.default.removeObserver(UIResponder.keyboardWillHideNotification)
+        NotificationCenter.default.removeObserver(MessageReceiver.connectionNotification)
     }
 
 }
+
