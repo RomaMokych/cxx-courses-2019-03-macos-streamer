@@ -290,8 +290,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				HEADER_SEARCH_PATHS = /usr/local/include;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					"/usr/local/opt/libjpeg-turbo/include",
+				);
 				OTHER_LDFLAGS = (
+					"/usr/local/opt/libjpeg-turbo/lib/libturbojpeg.a",
 					/usr/local/lib/libPocoDatad.a,
 					/usr/local/lib/libPocoRedis.a,
 					/usr/local/lib/libPocoNet.a,
@@ -305,8 +309,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				HEADER_SEARCH_PATHS = /usr/local/include;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					"/usr/local/opt/libjpeg-turbo/include",
+				);
 				OTHER_LDFLAGS = (
+					"/usr/local/opt/libjpeg-turbo/lib/libturbojpeg.a",
 					/usr/local/lib/libPocoDatad.a,
 					/usr/local/lib/libPocoRedis.a,
 					/usr/local/lib/libPocoNet.a,

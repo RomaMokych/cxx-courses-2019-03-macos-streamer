@@ -36,6 +36,7 @@ void ServerWorker::run()
     
     while(!finish)
     {
+        grabber->start();
         if(AcceptClient()){
 
             //grabber.start();
@@ -44,6 +45,7 @@ void ServerWorker::run()
             //grabber.stop();
         }
         else return;
+        grabber->start();
     }
 }
 
