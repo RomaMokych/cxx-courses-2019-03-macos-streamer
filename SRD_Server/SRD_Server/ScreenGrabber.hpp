@@ -5,6 +5,8 @@
 #include <CoreGraphics/CGDisplayStream.h>
 
 #include "RegularHeaders.h"
+#include "ServerWorker.hpp"
+#include "JPEG_Encoder.hpp"
 
 class ServerWorker;
 
@@ -12,6 +14,8 @@ class ScreenGrabber
 {
 public :
     ScreenGrabber(shared_ptr<ServerWorker>);
+    ~ScreenGrabber();
+    
     bool start();
     bool stop();
     
@@ -20,7 +24,7 @@ public :
 private :
     
      bool working, handlerFinished;
-    __block int prev_time = 0;
+    __block uint64_t prev_time = 0;
     
     // Temporary only ServerWorker can be the output class
     shared_ptr<ServerWorker> output;
@@ -35,6 +39,8 @@ private :
     uint32_t pixel_format = 'BGRA';
     
     dispatch_queue_t dispatchQueue;
+    
+    ImageEncoder* encoder;
 };
 
 

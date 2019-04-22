@@ -1,17 +1,21 @@
 #include "JPEG_Encoder.hpp"
 
-JPEG_Encoder::JPEG_Encoder()
+JPEG_Encoder::JPEG_Encoder() : pixel_format(0), quality(0)
 {
-    
+    buffer = nullptr;
 }
 
 JPEG_Encoder::~JPEG_Encoder()
 {
-    
+    if(buffer)
+        delete[] buffer;
 }
 
 // Returns buffer that valid only before the next call to this function
-std::pair<u_long, uint8_t*> JPEG_Encoder::encode(uint8_t** rawData, const u_long& width, const u_long& height)
+std::pair<u_long, uint8_t*>
+JPEG_Encoder::encode(uint8_t** rawData,
+                     const u_long& width,
+                     const u_long& height)
 {
     u_long sizeOfCompressed = 0;
     u_long dataSize = width * height * tjPixelSize[pixel_format];

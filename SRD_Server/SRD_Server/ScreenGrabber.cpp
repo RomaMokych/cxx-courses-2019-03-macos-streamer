@@ -1,11 +1,20 @@
+#include "InputManager.hpp"
 #include "ScreenGrabber.hpp"
-#include "SRD_Server.hpp"
 
-ScreenGrabber:: ScreenGrabber(shared_ptr<ServerWorker> serverWorker) :
+
+ScreenGrabber::ScreenGrabber(shared_ptr<ServerWorker> serverWorker) :
                                                 output(serverWorker),
                                                 working(false),
                                                 handlerFinished(true)
 {
+    encoder = new JPEG_Encoder();
+    encoder->setPixelFormat(TJPF_BGRA);
+    encoder->setQuality(90);
+}
+ScreenGrabber::~ScreenGrabber()
+{
+    this->stop();
+    delete encoder;
 }
 
 void ScreenGrabber::beginScreenCapturing()
@@ -32,7 +41,7 @@ void ScreenGrabber::beginScreenCapturing()
 
       if (0 != prev_time) {
           difference = time - prev_time;
-      //  printf("[Grabber]Time to capture the frame : %llu ms.\n", (d / 1'000'000ull));
+          printf("[Grabber]Time to capture the frame : %llu ms.\n", (difference / 1'000'000ull));
       }
       if (kCGDisplayStreamFrameStatusFrameComplete == status && NULL != frame)
       {
@@ -40,9 +49,16 @@ void ScreenGrabber::beginScreenCapturing()
 
           uint8_t* rawFrameBuffer = (uint8_t*)IOSurfaceGetBaseAddress(frame);
 
-          if (NULL != rawFrameBuffer) {
+          if (NULL != rawFrameBuffer && NULL != rawFrameBuffer[0]) {
 
-              output->sendFrame(rawFrameBuffer, output_width, output_height);
+              auto encodedData = encoder->encode(&rawFrameBuffer, output_width, output_height);
+              
+              if(encodedData.second)
+              {
+                  
+                  output->sendData(encodedData.second, encodedData.first);
+                  
+              }
 
           }else{
               cout << "Pixel data is null!\n";

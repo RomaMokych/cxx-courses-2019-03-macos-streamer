@@ -19,8 +19,8 @@ public :
     JPEG_Encoder();
     ~JPEG_Encoder();
     
-    void setQuality(const uint8_t& _quality) { quality = _quality; }
-    void setPixelFormat(const uint8_t& _pixel_format) { pixel_format = _pixel_format; }
+    void setQuality(const uint8_t& _quality) override { quality = _quality; }
+    void setPixelFormat(const uint8_t& _pixel_format) override { pixel_format = _pixel_format; }
     
     std::pair<u_long, uint8_t*> encode(uint8_t** rawData, const u_long& width, const u_long& height) override;
     
