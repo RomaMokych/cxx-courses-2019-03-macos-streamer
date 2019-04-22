@@ -112,19 +112,25 @@
                                     <action selector="connect:" destination="RG4-4q-vzq" eventType="touchUpInside" id="bxJ-it-Xes"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="CZg-dv-Hfo">
+                                <rect key="frame" x="371" y="241" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="CZg-dv-Hfo" firstAttribute="top" secondItem="mSp-xp-bBH" secondAttribute="bottom" constant="13" id="BQ8-vH-LBO"/>
                             <constraint firstItem="bvg-Jx-FHY" firstAttribute="centerX" secondItem="W4a-tu-PgT" secondAttribute="centerX" id="CPm-nn-CrK"/>
                             <constraint firstItem="mSp-xp-bBH" firstAttribute="leading" secondItem="bvg-Jx-FHY" secondAttribute="trailing" constant="-166.5" id="E5a-g6-AfW"/>
                             <constraint firstItem="mSp-xp-bBH" firstAttribute="top" secondItem="bvg-Jx-FHY" secondAttribute="bottom" constant="0.5" id="MQu-TT-8CF"/>
                             <constraint firstItem="16J-EE-mPf" firstAttribute="top" secondItem="bvg-Jx-FHY" secondAttribute="bottom" constant="33.5" id="Q1u-gH-ffu"/>
+                            <constraint firstItem="CZg-dv-Hfo" firstAttribute="leading" secondItem="16J-EE-mPf" secondAttribute="trailing" constant="8" id="gfc-G1-sQS"/>
                             <constraint firstItem="bvg-Jx-FHY" firstAttribute="centerY" secondItem="W4a-tu-PgT" secondAttribute="centerY" id="ijN-py-hG2"/>
                             <constraint firstItem="16J-EE-mPf" firstAttribute="centerX" secondItem="W4a-tu-PgT" secondAttribute="centerX" id="k7E-Tg-bPO"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="W4a-tu-PgT"/>
                     </view>
                     <connections>
+                        <outlet property="activityIndecator" destination="CZg-dv-Hfo" id="pvP-hK-5sS"/>
                         <outlet property="buttonConnect" destination="16J-EE-mPf" id="tMR-Vr-nDF"/>
                         <outlet property="ipTextField" destination="bvg-Jx-FHY" id="k2I-9W-nbg"/>
                         <outlet property="systemAlert" destination="mSp-xp-bBH" id="Yt4-pY-gWS"/>

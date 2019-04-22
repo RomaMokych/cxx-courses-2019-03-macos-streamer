@@ -11,18 +11,17 @@ import UIKit
 
 class MainViewController: UIViewController, UITextFieldDelegate {
     var modelData: ModelData!
-    
     @IBOutlet weak var systemAlert: UITextView!
     @IBOutlet weak var ipTextField: UITextField!
     @IBOutlet var buttonConnect: UIButton!
-    
+    @IBOutlet weak var activityIndecator: UIActivityIndicatorView!
     @IBAction func connect(_ sender: UIButton) {
         
         if checkIp(ip: ipTextField.text!)
         {
             print("Connecting to server...")
-            
-            buttonConnect.isEnabled = false
+            activityIndecator.startAnimating()
+            buttonConnect.isEnabled = true;
             modelData.receiver.setupNetworkCommunication(ipAddress: ipTextField.text!)
         } else {
             systemAlert.textColor = UIColor.red
@@ -89,6 +88,7 @@ class MainViewController: UIViewController, UITextFieldDelegate {
                     systemAlert.text = connectMsg
                 }
             }
+            activityIndecator.stopAnimating()
             buttonConnect.isEnabled = true;
         }
     }
