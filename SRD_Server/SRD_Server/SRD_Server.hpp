@@ -9,7 +9,6 @@
 
 #include "ServerWorker.hpp"
 
-
 class ServerWorker;
 
 class SRD_Server
@@ -19,9 +18,7 @@ public :
     
     bool start();
     bool stop();
-    
-    void sendFrame(UInt8* frame, int width, int height);
-    
+
     ~SRD_Server();
     
 private :

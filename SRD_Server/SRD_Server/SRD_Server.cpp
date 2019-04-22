@@ -35,6 +35,8 @@ bool SRD_Server::stop()
     if(!working) // Nothing to do
         return false;
     
+    cout << "Stopping server...\n";
+    
     serverWorker->stop();
     workerThread->join();
     
@@ -42,6 +44,7 @@ bool SRD_Server::stop()
     
     working = false;
     
+    cout << "Stopped!\n";
     return true;
 }
 

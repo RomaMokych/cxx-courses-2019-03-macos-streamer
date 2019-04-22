@@ -7,9 +7,12 @@
 #include "RegularHeaders.h"
 #include "NetworkHeaders.h"
 
+#include "PackageReceiver.hpp"
+
 class ScreenGrabber;
 class InputManager;
 
+// Move to some another place
 // Consider using enum class instead
 enum MessageType {
     ClickLeftMouseButton = 1,
@@ -35,9 +38,10 @@ public :
     
     void run() override;
     void stop();
-    void DestroyClient();
     
-    void sendFrame(UInt8* frame, u_long width, u_long height);
+    void sendData(UInt8*, const u_long&);
+    
+    void DestroyClient();
     
 private :
     
@@ -46,11 +50,12 @@ private :
                   max_data_len,
                   max_screenFrameMessage_size;
     
-    bool finish, hasBytesToServe;
+    bool finish;
     
     ServerSocket serverSocket;
     shared_ptr<InputManager> inputManager;
     shared_ptr<ScreenGrabber> grabber;
+    PackageReceiver* packageReceiver;
     
     StreamSocket* client;
     Timespan timeout;
@@ -66,7 +71,10 @@ private :
     // Utils
     bool CheckAndResizeBuffer(const u_long& received_total, const u_long& offset);
     bool getPackageData(u_long& package_size, int& messageID, const u_long& offset);
-    void processPayload(const u_long& msgID, const u_long& offset, const u_long& header_size, const u_long& current_packet_size);
+    
+    void processPayload(const u_long& msgID,
+                        const uint8_t* startOfPayload,
+                        const u_long& lengthOfPayload);
     
 };
 #endif /* ServerWorker_hpp */
