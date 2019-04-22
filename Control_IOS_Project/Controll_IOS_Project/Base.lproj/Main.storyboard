@@ -53,7 +53,7 @@
                                 </connections>
                             </button>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="3" translatesAutoresizingMaskIntoConstraints="NO" id="URl-MK-TGw">
-                                <rect key="frame" x="567" y="173" width="118" height="30"/>
+                                <rect key="frame" x="567" y="172.5" width="118" height="31"/>
                                 <connections>
                                     <action selector="changeSensiticitySlider:" destination="BYZ-38-t0r" eventType="valueChanged" id="zse-Lr-sfD"/>
                                 </connections>
@@ -69,9 +69,8 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="qoR-Ky-1vC" secondAttribute="trailing" constant="20" id="Byu-gD-95a"/>
                             <constraint firstItem="HDU-FP-zrz" firstAttribute="leading" secondItem="wHn-PF-J8l" secondAttribute="trailing" constant="8" id="DIL-RX-yYU"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="HDU-FP-zrz" secondAttribute="trailing" constant="20" id="LHm-MI-Ech"/>
-                            <constraint firstItem="URl-MK-TGw" firstAttribute="top" secondItem="qoR-Ky-1vC" secondAttribute="bottom" constant="111" id="OtU-Wo-ERf"/>
-                            <constraint firstItem="HDU-FP-zrz" firstAttribute="top" secondItem="URl-MK-TGw" secondAttribute="bottom" constant="108.5" id="YED-ew-4IL"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="HDU-FP-zrz" secondAttribute="bottom" constant="22.5" id="ezA-FK-WUH"/>
+                            <constraint firstItem="URl-MK-TGw" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="hT2-fa-di2"/>
                             <constraint firstItem="wHn-PF-J8l" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="pTE-uB-lIp"/>
                             <constraint firstItem="qoR-Ky-1vC" firstAttribute="leading" secondItem="wHn-PF-J8l" secondAttribute="trailing" constant="8" id="ySP-Iy-PMa"/>
                             <constraint firstItem="URl-MK-TGw" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" constant="16" id="zXf-ge-SAo"/>
