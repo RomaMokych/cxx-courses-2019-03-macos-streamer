@@ -41,7 +41,6 @@ class MainViewController: UIViewController, UITextFieldDelegate {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        systemAlert.text = modelData.systemAlert
         
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -83,7 +82,6 @@ class MainViewController: UIViewController, UITextFieldDelegate {
                 performSegue(withIdentifier: "goStreamViewController", sender: self)
             } else {
                 if let connectMsg = (notification.userInfo?[MessageReceiver.messageAlertInfoKey] as? String){
-                    modelData.systemAlert = connectMsg
                     systemAlert.textColor = UIColor.red
                     systemAlert.text = connectMsg
                 }

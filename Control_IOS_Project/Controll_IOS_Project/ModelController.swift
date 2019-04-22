@@ -11,7 +11,7 @@ import Foundation
 class ModelData
 {
     var receiver : MessageReceiver = MessageReceiver()
-    var systemAlert: String = ""
+    var sensitivity : Float = 1
 
     //this is dictionary translation character to keyboard code
     //map(letter,(vireual key, modification))

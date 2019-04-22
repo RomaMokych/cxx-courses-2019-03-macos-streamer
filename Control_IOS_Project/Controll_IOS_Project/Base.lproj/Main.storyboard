@@ -34,7 +34,7 @@
                                 </connections>
                             </button>
                             <textField hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="/" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="b2x-mp-MNq">
-                                <rect key="frame" x="617" y="172.5" width="26" height="30"/>
+                                <rect key="frame" x="613" y="172" width="26" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -52,9 +52,16 @@
                                     <action selector="keyboardUpDown:" destination="BYZ-38-t0r" eventType="touchUpInside" id="2az-2W-Hre"/>
                                 </connections>
                             </button>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="3" translatesAutoresizingMaskIntoConstraints="NO" id="URl-MK-TGw">
+                                <rect key="frame" x="567" y="173" width="118" height="30"/>
+                                <connections>
+                                    <action selector="changeSensiticitySlider:" destination="BYZ-38-t0r" eventType="valueChanged" id="zse-Lr-sfD"/>
+                                </connections>
+                            </slider>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="URl-MK-TGw" firstAttribute="leading" secondItem="wHn-PF-J8l" secondAttribute="trailing" constant="-28" id="0Nj-MR-gWl"/>
                             <constraint firstItem="qoR-Ky-1vC" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="55G-bl-1fE"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="wHn-PF-J8l" secondAttribute="bottom" constant="20" id="8Gw-sa-HEi"/>
                             <constraint firstItem="wHn-PF-J8l" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="8t0-ju-GoP"/>
@@ -62,14 +69,18 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="qoR-Ky-1vC" secondAttribute="trailing" constant="20" id="Byu-gD-95a"/>
                             <constraint firstItem="HDU-FP-zrz" firstAttribute="leading" secondItem="wHn-PF-J8l" secondAttribute="trailing" constant="8" id="DIL-RX-yYU"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="HDU-FP-zrz" secondAttribute="trailing" constant="20" id="LHm-MI-Ech"/>
+                            <constraint firstItem="URl-MK-TGw" firstAttribute="top" secondItem="qoR-Ky-1vC" secondAttribute="bottom" constant="111" id="OtU-Wo-ERf"/>
+                            <constraint firstItem="HDU-FP-zrz" firstAttribute="top" secondItem="URl-MK-TGw" secondAttribute="bottom" constant="108.5" id="YED-ew-4IL"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="HDU-FP-zrz" secondAttribute="bottom" constant="22.5" id="ezA-FK-WUH"/>
                             <constraint firstItem="wHn-PF-J8l" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="pTE-uB-lIp"/>
                             <constraint firstItem="qoR-Ky-1vC" firstAttribute="leading" secondItem="wHn-PF-J8l" secondAttribute="trailing" constant="8" id="ySP-Iy-PMa"/>
+                            <constraint firstItem="URl-MK-TGw" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" constant="16" id="zXf-ge-SAo"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
                         <outlet property="keyboardStreamTextField" destination="b2x-mp-MNq" id="5JU-Ad-GFW"/>
+                        <outlet property="sensitivitySlider" destination="URl-MK-TGw" id="vBv-cd-vNE"/>
                         <outlet property="videoView" destination="wHn-PF-J8l" id="ubJ-QI-Iw1"/>
                         <segue destination="RG4-4q-vzq" kind="presentation" identifier="goToMainViewController" id="iDI-zc-QuC"/>
                     </connections>

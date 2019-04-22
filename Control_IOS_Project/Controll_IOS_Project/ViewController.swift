@@ -12,6 +12,16 @@ class ViewController: UIViewController, UITextFieldDelegate {
     var send = true
     var modelData: ModelData!
     var receiver: MessageReceiver!
+    var sensitivity: Float!
+    @IBOutlet weak var sensitivitySlider: UISlider! {
+        didSet{
+            sensitivitySlider.transform = CGAffineTransform(rotationAngle: CGFloat(-Float.pi/2))
+        }
+    }
+    @IBAction func changeSensiticitySlider(_ sender: UISlider) {
+        sensitivity = sender.value
+        print(sensitivity)
+    }
     @IBOutlet weak var videoView: UIView!
     //hide textField
     @IBOutlet weak var keyboardStreamTextField: UITextField!
@@ -24,7 +34,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
     }
     @IBAction func disconnect(_ sender: UIButton) {
-        modelData.receiver = receiver
+        
         modelData.receiver.closeConnection(msg: "You closed connection!")
 
         print("Disconnected")
@@ -33,7 +43,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         receiver = modelData.receiver
-        
+        sensitivity = modelData.sensitivity
+        sensitivitySlider.value = sensitivity
         //delegate
         keyboardStreamTextField.delegate = self
         keyboardStreamTextField.addTarget(self,action:#selector(textFieldChangeStream(_ :)), for: .allEditingEvents)
@@ -107,8 +118,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
             
             print("Moving", point)
             
-            let x : CGFloat = point.x;
-            let y : CGFloat = point.y;
+            let x : CGFloat = point.x * CGFloat(sensitivity);
+            let y : CGFloat = point.y * CGFloat(sensitivity);
             
             var bytesX = toByteArray(value : x)
             var bytesY = toByteArray(value : y)
@@ -178,8 +189,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
             let point = recognizer.translation(in: videoView)//transfer to server
             print("Moving and mouse down", point.x,point.y)
             
-            let x : CGFloat = point.x;
-            let y : CGFloat = point.y;
+            let x : CGFloat = point.x * CGFloat(sensitivity);
+            let y : CGFloat = point.y * CGFloat(sensitivity);
             
             var bytesX = toByteArray(value : x)
             var bytesY = toByteArray(value : y)
@@ -450,6 +461,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             else { return }
         if !connectionStatus {
             modelData.receiver = receiver
+            modelData.sensitivity = sensitivity
             dismiss(animated: true, completion: nil)
         }
     }
