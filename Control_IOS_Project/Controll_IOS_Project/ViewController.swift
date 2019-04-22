@@ -352,6 +352,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
     //Mark: - Text Field
     @objc func textFieldChangeStream(_ textField: UITextField){
         if (textField.text!.count > 1){
+            if textField.text!.count > 2{
+                textField.text! = "/"
+                return
+            }
             //code 8 and popLast
             
             
