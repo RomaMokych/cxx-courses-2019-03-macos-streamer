@@ -23,7 +23,7 @@ public :
     
 private :
     SocketAddress address;
-    shared_ptr<InputManager> inManager;
+    shared_ptr<InputManager> inputManager;
     shared_ptr<ServerWorker> serverWorker;
     
     Thread* workerThread;

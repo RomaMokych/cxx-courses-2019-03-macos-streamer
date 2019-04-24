@@ -21,21 +21,24 @@ public :
     bool getHasBytesToServe() const { return hasBytesToServe; }
     
 private :
+    
+    // Constants
     const u_long max_messageBuffer_size,
                  header_size,
                  max_data_len;
     
+    // Utility variables
     u_long current_packet_size, received_total, offset;
     u_long lastLenght;
+    
+    int received_once;
+    bool hasBytesToServe;
     
     uint8_t* lastStartPos;
     //uint8_t messageID;
     uint messageID;
     
-    int received_once;
-    bool hasBytesToServe;
-    
-    StreamSocket* const client; // Can check for nullptr
+    StreamSocket* client; // Can check for nullptr
     std::vector<uint8_t> messageBuffer;
     
     // Utils

@@ -52,12 +52,16 @@ private :
     
     bool finish;
     
+    //shared_ptr<ServerSocket> serverSocket;
     ServerSocket serverSocket;
     shared_ptr<InputManager> inputManager;
-    shared_ptr<ScreenGrabber> grabber;
+    shared_ptr<ScreenGrabber> screenGrabber;
+    
+    //shared_ptr<StreamSocket> client;
+    StreamSocket* client;
+    
     PackageReceiver* packageReceiver;
     
-    StreamSocket* client;
     Timespan timeout;
     
     std::vector<UInt8> messageBuffer;
