@@ -8,13 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		114C1710225BE28C00E808F2 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 114C170F225BE28C00E808F2 /* main.cpp */; };
-		114C171A225BE4D400E808F2 /* SRD_Server.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 114C1718225BE4D400E808F2 /* SRD_Server.cpp */; };
-		116134CD22646608002F86F7 /* InputManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 116134CB22646607002F86F7 /* InputManager.cpp */; };
-		1184CDD4225C04EC0000B685 /* ScreenGrabber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1184CDD2225C04EC0000B685 /* ScreenGrabber.cpp */; };
-		1184CDD7225C12A40000B685 /* ServerWorker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1184CDD5225C12A40000B685 /* ServerWorker.cpp */; };
 		1184CDEC225C3C4A0000B685 /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1184CDD0225C04730000B685 /* IOSurface.framework */; };
 		1184CDED225C3C4E0000B685 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1184CDCC225C046A0000B685 /* CoreFoundation.framework */; };
 		1184CDEE225C3C560000B685 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1184CDCE225C046F0000B685 /* CoreGraphics.framework */; };
+		4E6773B422703BBB00988981 /* SRD_Server.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E6773AD22703BBB00988981 /* SRD_Server.cpp */; };
+		4E6773B522703BBB00988981 /* ScreenGrabber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E6773AE22703BBB00988981 /* ScreenGrabber.cpp */; };
+		4E6773B622703BBB00988981 /* InputManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E6773AF22703BBB00988981 /* InputManager.cpp */; };
+		4E6773B722703BBB00988981 /* JPEG_Encoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E6773B022703BBB00988981 /* JPEG_Encoder.cpp */; };
+		4E6773B822703BBB00988981 /* DataPackage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E6773B122703BBB00988981 /* DataPackage.cpp */; };
+		4E6773B922703BBB00988981 /* ServerWorker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E6773B222703BBB00988981 /* ServerWorker.cpp */; };
+		4E6773BA22703BBB00988981 /* PackageReceiver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E6773B322703BBB00988981 /* PackageReceiver.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -32,20 +35,28 @@
 /* Begin PBXFileReference section */
 		114C170C225BE28C00E808F2 /* SRD_Server */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SRD_Server; sourceTree = BUILT_PRODUCTS_DIR; };
 		114C170F225BE28C00E808F2 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		114C1716225BE2CE00E808F2 /* RegularHeaders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RegularHeaders.h; sourceTree = "<group>"; };
-		114C1717225BE31600E808F2 /* NetworkHeaders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkHeaders.h; sourceTree = "<group>"; };
-		114C1718225BE4D400E808F2 /* SRD_Server.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SRD_Server.cpp; sourceTree = "<group>"; };
-		114C1719225BE4D400E808F2 /* SRD_Server.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SRD_Server.hpp; sourceTree = "<group>"; };
-		116134CB22646607002F86F7 /* InputManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputManager.cpp; sourceTree = "<group>"; };
-		116134CC22646608002F86F7 /* InputManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InputManager.hpp; sourceTree = "<group>"; };
-		116E2806226BA8A900802730 /* SafeQueue.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SafeQueue.hpp; sourceTree = "<group>"; };
 		1184CDCC225C046A0000B685 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		1184CDCE225C046F0000B685 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		1184CDD0225C04730000B685 /* IOSurface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOSurface.framework; path = System/Library/Frameworks/IOSurface.framework; sourceTree = SDKROOT; };
-		1184CDD2225C04EC0000B685 /* ScreenGrabber.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScreenGrabber.cpp; sourceTree = "<group>"; };
-		1184CDD3225C04EC0000B685 /* ScreenGrabber.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScreenGrabber.hpp; sourceTree = "<group>"; };
-		1184CDD5225C12A40000B685 /* ServerWorker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ServerWorker.cpp; sourceTree = "<group>"; };
-		1184CDD8225C16A50000B685 /* ServerWorker.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ServerWorker.hpp; sourceTree = "<group>"; };
+		4E6773A022703BB600988981 /* SafeQueue.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SafeQueue.hpp; sourceTree = "<group>"; };
+		4E6773A122703BB600988981 /* DataPackage.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DataPackage.hpp; sourceTree = "<group>"; };
+		4E6773A222703BB600988981 /* ServerWorker.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ServerWorker.hpp; sourceTree = "<group>"; };
+		4E6773A322703BB600988981 /* PackageReceiver.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PackageReceiver.hpp; sourceTree = "<group>"; };
+		4E6773A422703BB600988981 /* GraphicsHeaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphicsHeaders.h; sourceTree = "<group>"; };
+		4E6773A522703BB600988981 /* ImageEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageEncoder.h; sourceTree = "<group>"; };
+		4E6773A622703BB600988981 /* InputManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InputManager.hpp; sourceTree = "<group>"; };
+		4E6773A722703BB600988981 /* NetworkHeaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkHeaders.h; sourceTree = "<group>"; };
+		4E6773A822703BB600988981 /* JPEG_Encoder.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = JPEG_Encoder.hpp; sourceTree = "<group>"; };
+		4E6773A922703BB600988981 /* SRD_Server.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SRD_Server.hpp; sourceTree = "<group>"; };
+		4E6773AA22703BB600988981 /* RegularHeaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegularHeaders.h; sourceTree = "<group>"; };
+		4E6773AB22703BB600988981 /* ScreenGrabber.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ScreenGrabber.hpp; sourceTree = "<group>"; };
+		4E6773AD22703BBB00988981 /* SRD_Server.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SRD_Server.cpp; sourceTree = "<group>"; };
+		4E6773AE22703BBB00988981 /* ScreenGrabber.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScreenGrabber.cpp; sourceTree = "<group>"; };
+		4E6773AF22703BBB00988981 /* InputManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputManager.cpp; sourceTree = "<group>"; };
+		4E6773B022703BBB00988981 /* JPEG_Encoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JPEG_Encoder.cpp; sourceTree = "<group>"; };
+		4E6773B122703BBB00988981 /* DataPackage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataPackage.cpp; sourceTree = "<group>"; };
+		4E6773B222703BBB00988981 /* ServerWorker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ServerWorker.cpp; sourceTree = "<group>"; };
+		4E6773B322703BBB00988981 /* PackageReceiver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PackageReceiver.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,18 +93,9 @@
 		114C170E225BE28C00E808F2 /* SRD_Server */ = {
 			isa = PBXGroup;
 			children = (
-				116134CB22646607002F86F7 /* InputManager.cpp */,
-				116134CC22646608002F86F7 /* InputManager.hpp */,
+				4E67739F22703BB600988981 /* include */,
 				114C170F225BE28C00E808F2 /* main.cpp */,
-				114C1717225BE31600E808F2 /* NetworkHeaders.h */,
-				114C1716225BE2CE00E808F2 /* RegularHeaders.h */,
-				114C1718225BE4D400E808F2 /* SRD_Server.cpp */,
-				114C1719225BE4D400E808F2 /* SRD_Server.hpp */,
-				1184CDD2225C04EC0000B685 /* ScreenGrabber.cpp */,
-				1184CDD3225C04EC0000B685 /* ScreenGrabber.hpp */,
-				1184CDD5225C12A40000B685 /* ServerWorker.cpp */,
-				1184CDD8225C16A50000B685 /* ServerWorker.hpp */,
-				116E2806226BA8A900802730 /* SafeQueue.hpp */,
+				4E6773AC22703BBB00988981 /* src */,
 			);
 			path = SRD_Server;
 			sourceTree = "<group>";
@@ -107,6 +109,40 @@
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
+		};
+		4E67739F22703BB600988981 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				4E6773A022703BB600988981 /* SafeQueue.hpp */,
+				4E6773A122703BB600988981 /* DataPackage.hpp */,
+				4E6773A222703BB600988981 /* ServerWorker.hpp */,
+				4E6773A322703BB600988981 /* PackageReceiver.hpp */,
+				4E6773A422703BB600988981 /* GraphicsHeaders.h */,
+				4E6773A522703BB600988981 /* ImageEncoder.h */,
+				4E6773A622703BB600988981 /* InputManager.hpp */,
+				4E6773A722703BB600988981 /* NetworkHeaders.h */,
+				4E6773A822703BB600988981 /* JPEG_Encoder.hpp */,
+				4E6773A922703BB600988981 /* SRD_Server.hpp */,
+				4E6773AA22703BB600988981 /* RegularHeaders.h */,
+				4E6773AB22703BB600988981 /* ScreenGrabber.hpp */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		4E6773AC22703BBB00988981 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				4E6773AD22703BBB00988981 /* SRD_Server.cpp */,
+				4E6773AE22703BBB00988981 /* ScreenGrabber.cpp */,
+				4E6773AF22703BBB00988981 /* InputManager.cpp */,
+				4E6773B022703BBB00988981 /* JPEG_Encoder.cpp */,
+				4E6773B122703BBB00988981 /* DataPackage.cpp */,
+				4E6773B222703BBB00988981 /* ServerWorker.cpp */,
+				4E6773B322703BBB00988981 /* PackageReceiver.cpp */,
+			);
+			name = src;
+			path = SRD_Server/src;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -164,11 +200,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				114C171A225BE4D400E808F2 /* SRD_Server.cpp in Sources */,
-				1184CDD4225C04EC0000B685 /* ScreenGrabber.cpp in Sources */,
-				1184CDD7225C12A40000B685 /* ServerWorker.cpp in Sources */,
+				4E6773B422703BBB00988981 /* SRD_Server.cpp in Sources */,
+				4E6773B622703BBB00988981 /* InputManager.cpp in Sources */,
+				4E6773B722703BBB00988981 /* JPEG_Encoder.cpp in Sources */,
 				114C1710225BE28C00E808F2 /* main.cpp in Sources */,
-				116134CD22646608002F86F7 /* InputManager.cpp in Sources */,
+				4E6773B922703BBB00988981 /* ServerWorker.cpp in Sources */,
+				4E6773BA22703BBB00988981 /* PackageReceiver.cpp in Sources */,
+				4E6773B822703BBB00988981 /* DataPackage.cpp in Sources */,
+				4E6773B522703BBB00988981 /* ScreenGrabber.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,12 +329,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				HEADER_SEARCH_PATHS = /usr/local/include;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					"/usr/local/opt/libjpeg-turbo/include",
+				);
 				OTHER_LDFLAGS = (
 					/usr/local/lib/libPocoDatad.a,
 					/usr/local/lib/libPocoRedis.a,
 					/usr/local/lib/libPocoNet.a,
 					/usr/local/lib/libPocoFoundation.a,
+					"/usr/local/opt/libjpeg-turbo/lib/libturbojpeg.a",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -305,12 +348,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				HEADER_SEARCH_PATHS = /usr/local/include;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					"/usr/local/opt/libjpeg-turbo/include",
+				);
 				OTHER_LDFLAGS = (
 					/usr/local/lib/libPocoDatad.a,
 					/usr/local/lib/libPocoRedis.a,
 					/usr/local/lib/libPocoNet.a,
 					/usr/local/lib/libPocoFoundation.a,
+					"/usr/local/opt/libjpeg-turbo/lib/libturbojpeg.a",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
